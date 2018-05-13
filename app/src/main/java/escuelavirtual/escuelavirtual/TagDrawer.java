@@ -6,13 +6,13 @@ import java.util.Map;
 
 public class TagDrawer{
 
-    public static Tag drawTag(Map<Integer, Tag> tagsAdded, Tag tag){
+    public static TagView drawTag(Map<Integer, TagView> tagsAdded, TagView tagView){
         // Put tag into the layout of image
-        int size = 2 * tag.getCentralPositionOfTag();
+        int size = 2 * tagView.getCentralPositionOfTag();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);
-        params.leftMargin = tag.getLeftMargin();
-        params.topMargin = tag.getTopMargin();
-        ViewsController.getBaseImageLayout().addView(tag, params);
+        params.leftMargin = tagView.getLeftMargin();
+        params.topMargin = tagView.getTopMargin();
+        ViewsController.getBaseImageLayout().addView(tagView, params);
 
         Integer maxIndex = 1;
         for(Integer numberOfTag : tagsAdded.keySet()){
@@ -35,24 +35,24 @@ public class TagDrawer{
             nextNumberToUse++;
         }
 
-        tagsAdded.put(nextNumberToUse, tag);
-        tag.setNumberOfTag(nextNumberToUse);
-        tag.selectThisTag();
+        tagsAdded.put(nextNumberToUse, tagView);
+        tagView.setNumberOfTag(nextNumberToUse);
+        tagView.selectThisTag();
 
-        return tag;
+        return tagView;
     }
 
-    public static void reDrawTags(Map<Integer, Tag> tagsAdded){
+    public static void reDrawTags(Map<Integer, TagView> tagsAdded){
         if(!tagsAdded.isEmpty()){
             ViewsController.getBaseImageLayout().removeAllViews();
             ViewsController.getBaseImageLayout().addView(ViewsController.getBaseImage());
 
-            for(Tag tag : tagsAdded.values()){
-                int size = 2 * tag.getCentralPositionOfTag();
+            for(TagView tagView : tagsAdded.values()){
+                int size = 2 * tagView.getCentralPositionOfTag();
                 RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);
-                params.leftMargin = tag.getLeftMargin();
-                params.topMargin = tag.getTopMargin();
-                ViewsController.getBaseImageLayout().addView(tag, params);
+                params.leftMargin = tagView.getLeftMargin();
+                params.topMargin = tagView.getTopMargin();
+                ViewsController.getBaseImageLayout().addView(tagView, params);
             }
         }else{
             if(ViewsController.getBaseImageLayout() != null){
