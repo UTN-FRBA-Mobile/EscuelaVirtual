@@ -22,7 +22,7 @@ import java.util.Map;
 public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
-    public Map<Integer, Tag> tagsAdded;
+    public Map<Integer, TagView> tagsAdded;
 
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
@@ -35,6 +35,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        // TODO: completar con las tags persistidas
         tagsAdded = new HashMap<>();
 
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
@@ -79,12 +80,15 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
 
                     // Create a tag
-                    final Tag tag = new Tag(ViewsController.getBaseImage().getContext(), centralPositionOfTag, touchX, touchY);
+                    Integer leftMargin = touchX - centralPositionOfTag;
+                    Integer topMargin = touchY - centralPositionOfTag;
+                    Tag tag = new Tag(centralPositionOfTag, leftMargin, topMargin);
+                    final TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
 
                     // Draw a tag
                     RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
                     ViewsController.setBaseImageLayout(baseImageLayout);
-                    TagDrawer.drawTag(tagsAdded, tag);
+                    TagDrawer.drawTag(tagsAdded, tagView);
 
                     // Set pipe/focus into comment box
                     ViewsController.getCommentBox().setEnabled(true);
@@ -105,8 +109,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     ViewsController.getAddCommentButton().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View button) {
-                            Tag tagToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
-                            tagToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
+                            TagView tagViewToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
+                            tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
                             ViewsController.turnOffCommentBox();
                         }
                     });
