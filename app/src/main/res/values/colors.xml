@@ -3,4 +3,14 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorYellow">#F3FBA7</color>
+    <color name="colorGreyCommentSection">#C8C9C9</color>
+    <color name="colorGreyAppBackground">#E7E7E7</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorGreen">#009688</color>
+    <color name="colorGama1">#E7E7E7</color>
+    <color name="colorGama2">#C70039</color>
+    <color name="colorGama3">#900C3F</color>
+    <color name="colorGama4">#581845</color>
 </resources>
