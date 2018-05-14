@@ -4,42 +4,46 @@
     android:id="@+id/toolbar_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorGama3">
+    android:background="@color/colorGreen3">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="end"
-        android:background="@color/colorGama3">
+        android:background="@color/colorGreen3">
 
         <Button
             android:id="@+id/edit_comment_id"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@android:drawable/ic_menu_edit"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/delete_comment_id"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@android:drawable/ic_menu_delete"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/save_id"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@android:drawable/ic_menu_save"
-            android:layout_marginEnd="20dp"/>
+            android:layout_marginEnd="20dp"
+            android:visibility="invisible"/>
 
         <Button
             android:id="@+id/info_id"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:background="@android:drawable/ic_menu_info_details"
-            android:layout_marginEnd="10dp"/>
+            android:layout_marginEnd="10dp"
+            android:visibility="invisible"/>
 
     </LinearLayout>
 

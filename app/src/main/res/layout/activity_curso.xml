@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="escuelavirtual.escuelavirtual.MainActivity"
     android:orientation="vertical"
-    android:gravity="start|left"
+    android:gravity="center|top"
+    tools:context="escuelavirtual.escuelavirtual.CursoActivity"
     android:background="@color/colorGreen1">
 
     <include layout="@layout/toolbar" />
@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:text="@string/curso_title"/>
+        android:text="Ejercicios"
+        android:gravity="start"/>
 
     <View
         android:id="@+id/divider"
@@ -24,15 +25,21 @@
         android:layout_height="2dp"
         android:background="?android:attr/listDivider" />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|end">
+        <ProgressBar android:id="@+id/progressBar"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="340dp"
         android:layout_weight="1" />
 
-<!--    <Button
-        android:id="@+id/go_to_comments_page_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ir a la pantalla de comentarios"/>-->
 </LinearLayout>

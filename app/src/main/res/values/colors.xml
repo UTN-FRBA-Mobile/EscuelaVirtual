@@ -13,4 +13,8 @@
     <color name="colorGama2">#C70039</color>
     <color name="colorGama3">#900C3F</color>
     <color name="colorGama4">#581845</color>
+
+    <color name="colorGreen1">#009664</color>
+    <color name="colorGreen2">#008357</color>
+    <color name="colorGreen3">#006443</color>
 </resources>

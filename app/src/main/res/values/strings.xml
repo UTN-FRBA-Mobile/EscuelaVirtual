@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">EscuelaVirtual</string>
-    <string name="title_activity_login">Escuela Virtual - Login</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -19,4 +18,29 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+
+    <!-- Titulos -->
+    <string name="title_activity_login">Escuela Virtual - Login</string>
+    <string name="curso_title">Cursos</string>
+    <string name="ejercicio_title">Ejercicios</string>
+
+    <!--Testeo para RecyclerView - Hardcodeo de nombres-->
+    <string name="curso_1">Curso 1</string>
+    <string name="curso_2">Curso 2</string>
+    <string name="curso_3">Curso 3</string>
+    <string name="curso_4">Curso 4</string>
+    <string name="curso_5">Curso 5</string>
+    <string name="curso_6">Curso 6</string>
+    <string name="curso_7">Curso 7</string>
+    <string name="curso_8">Curso 8</string>
+    <string name="curso_9">Curso 9</string>
+    <string name="ejercicio_1">Ejercicio 1</string>
+    <string name="ejercicio_2">Ejercicio 2</string>
+    <string name="ejercicio_3">Ejercicio 3</string>
+    <string name="ejercicio_4">Ejercicio 4</string>
+    <string name="ejercicio_5">Ejercicio 5</string>
+    <string name="ejercicio_6">Ejercicio 6</string>
+    <string name="ejercicio_7">Ejercicio 7</string>
+    <string name="ejercicio_8">Ejercicio 8</string>
+    <string name="ejercicio_9">Ejercicio 9</string>
 </resources>

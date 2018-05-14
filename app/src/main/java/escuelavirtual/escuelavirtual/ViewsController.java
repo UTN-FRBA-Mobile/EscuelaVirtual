@@ -24,6 +24,8 @@ public class ViewsController{
     private static Button addCommentButton;
     private static Button editCommentButton;
     private static Button deleteCommentButton;
+    private static Button saveButton;
+    private static Button infoDetailButton;
     private static InputMethodManager keyboard;
     private static RelativeLayout baseImageLayout;
     private static LinearLayout commentSection;
@@ -103,6 +105,22 @@ public class ViewsController{
 
     public static void setAddCommentButton(Button addCommentButton) {
         ViewsController.addCommentButton = addCommentButton;
+    }
+
+    public static Button getSaveButton() {
+        return saveButton;
+    }
+
+    public static void setSaveButton(Button saveButton) {
+        ViewsController.saveButton = saveButton;
+    }
+
+    public static Button getInfoDetailButton() {
+        return infoDetailButton;
+    }
+
+    public static void setInfoDetailButton(Button infoDetailButton) {
+        ViewsController.infoDetailButton = infoDetailButton;
     }
 
     public static InputMethodManager getKeyboard() {

@@ -84,6 +84,16 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         ViewsController.getDeleteCommentButton().setVisibility(View.INVISIBLE);
         ViewsController.getDeleteCommentButton().setEnabled(false);
 
+        // Button to save changes
+        ViewsController.setSaveButton((Button) findViewById(R.id.save_id));
+        ViewsController.getSaveButton().setVisibility(View.VISIBLE);
+        ViewsController.getSaveButton().setEnabled(false);
+
+        // Button to Info Details
+        ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
+        ViewsController.getInfoDetailButton().setVisibility(View.VISIBLE);
+        ViewsController.getInfoDetailButton().setEnabled(false);
+
         // Comment section
         ViewsController.setCommentSection((LinearLayout)findViewById(R.id.comment_section_id));
 
@@ -182,7 +192,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, CursoActivity.class));
         return true;
     }
 
