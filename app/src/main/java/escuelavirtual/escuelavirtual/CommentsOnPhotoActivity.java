@@ -86,7 +86,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         // Button to save changes
         ViewsController.setSaveButton((Button) findViewById(R.id.save_id));
         ViewsController.getSaveButton().setVisibility(View.VISIBLE);
-        ViewsController.getSaveButton().setEnabled(false);
+        ViewsController.getSaveButton().setEnabled(true);
 
         // Button to Info Details
         ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
@@ -199,13 +199,13 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     //Eric
     public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
-        mAPIService.saveTag("LALALALA")//centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
+        mAPIService.saveTag("eric")//centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
 
                         if(response.isSuccessful()) {
-                            Toast.makeText(CommentsOnPhotoActivity.this, response.body().toString(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(CommentsOnPhotoActivity.this, response.body(),Toast.LENGTH_LONG).show();
                         }
                     }
 
