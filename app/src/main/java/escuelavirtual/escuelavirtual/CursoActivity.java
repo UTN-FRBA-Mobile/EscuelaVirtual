@@ -18,7 +18,7 @@ public class CursoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso);
 
-        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_id);
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

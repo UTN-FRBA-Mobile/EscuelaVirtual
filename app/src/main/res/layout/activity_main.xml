@@ -9,7 +9,7 @@
     android:gravity="start|left"
     android:background="@color/colorGreen1">
 
-    <include layout="@layout/toolbar" />
+    <include layout="@layout/toolbar_global" />
 
     <TextView
         android:layout_width="wrap_content"
