@@ -200,19 +200,19 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     //Eric
     public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
-        mAPIService.saveTag(centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
-                .enqueue(new Callback<Tag>() {
+        mAPIService.saveTag("LALALALA")//centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
+                .enqueue(new Callback<String>() {
                     @Override
-                    public void onResponse(Call<Tag> call, Response<Tag> response) {
+                    public void onResponse(Call<String> call, Response<String> response) {
 
                         if(response.isSuccessful()) {
-                            Toast.makeText(CommentsOnPhotoActivity.this, "Success",Toast.LENGTH_LONG).show();
+                            Toast.makeText(CommentsOnPhotoActivity.this, response.body().toString(),Toast.LENGTH_LONG).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Tag> call, Throwable t) {
-                        Toast.makeText(CommentsOnPhotoActivity.this, "Failure",Toast.LENGTH_LONG).show();
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
     }
