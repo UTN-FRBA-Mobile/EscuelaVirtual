@@ -15,14 +15,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import escuelavirtual.escuelavirtual.data.Tag;
+import escuelavirtual.escuelavirtual.data.remote.APIService;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
     public Map<Integer, TagView> tagsAdded;
+    private APIService mAPIService;
+
 
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
@@ -30,6 +40,18 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_on_photo);
+
+
+        mAPIService = ApiUtils.getAPIService();
+        Button persistir = (Button) findViewById(R.id.save_id);
+        persistir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                    sendTag(1, 1,1,1,"hola");
+
+            }
+        });
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_id);
         setSupportActionBar(myToolbar);
@@ -163,4 +185,28 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         return true;
     }
+
+
+
+    //Eric
+    public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
+        mAPIService.saveTag(centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
+                .enqueue(new Callback<Tag>() {
+                    @Override
+                    public void onResponse(Call<Tag> call, Response<Tag> response) {
+
+                        if(response.isSuccessful()) {
+                            Toast.makeText(CommentsOnPhotoActivity.this, "Success",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Tag> call, Throwable t) {
+                        Toast.makeText(CommentsOnPhotoActivity.this, "Failure",Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+
+
 }

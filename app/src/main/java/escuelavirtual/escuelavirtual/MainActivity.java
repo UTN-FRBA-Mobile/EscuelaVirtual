@@ -8,10 +8,12 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         Button goToCommentsPageButton = (Button) findViewById(R.id.go_to_comments_page_id);
         goToCommentsPageButton.setOnClickListener(new View.OnClickListener() {

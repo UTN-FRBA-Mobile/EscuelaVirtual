@@ -8,6 +8,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import escuelavirtual.escuelavirtual.data.Tag;
+import escuelavirtual.escuelavirtual.data.remote.APIService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewsController{
     private static EditText commentBox;
@@ -20,6 +27,7 @@ public class ViewsController{
     private static InputMethodManager keyboard;
     private static RelativeLayout baseImageLayout;
     private static LinearLayout commentSection;
+
 
     public static LinearLayout getCommentSection() {
         return commentSection;
@@ -126,5 +134,9 @@ public class ViewsController{
         }catch (Exception e){
             // Do nothing, because doesn't exist views to turn off
         }
+
+
+
     }
+
 }

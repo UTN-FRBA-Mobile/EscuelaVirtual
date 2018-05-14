@@ -1,10 +1,23 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.data;
+
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Tag{
+    @SerializedName("centralPositionOfTag")
+    @Expose
     private int centralPositionOfTag;
+    @SerializedName("leftMargin")
+    @Expose
     private int leftMargin;
+    @SerializedName("topMargin")
+    @Expose
     private int topMargin;
+    @SerializedName("numberOfTag")
+    @Expose
     private int numberOfTag;
+    @SerializedName("comment")
+    @Expose
     private String comment;
 
     public Tag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
@@ -46,4 +59,6 @@ public class Tag{
     public String getComment() {
         return comment;
     }
+
+
 }

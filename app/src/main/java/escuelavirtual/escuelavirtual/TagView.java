@@ -6,8 +6,17 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
+
+import escuelavirtual.escuelavirtual.data.Tag;
+import escuelavirtual.escuelavirtual.data.remote.APIService;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TagView extends View {
     private Tag tag;
