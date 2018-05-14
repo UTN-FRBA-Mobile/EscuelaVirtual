@@ -42,7 +42,7 @@ public class TagDrawer{
         return tagView;
     }
 
-    public static void reDrawTags(Map<Integer, TagView> tagsAdded){
+    public static void reDrawTags(Map<Integer, TagView> tagsAdded, Boolean fromImageClicking){
         if(!tagsAdded.isEmpty()){
             ViewsController.getBaseImageLayout().removeAllViews();
             ViewsController.getBaseImageLayout().addView(ViewsController.getBaseImage());
@@ -55,7 +55,7 @@ public class TagDrawer{
                 ViewsController.getBaseImageLayout().addView(tagView, params);
             }
         }else{
-            if(ViewsController.getBaseImageLayout() != null){
+            if(ViewsController.getBaseImageLayout() != null && !fromImageClicking){
                 ViewsController.getBaseImageLayout().removeAllViews();
                 ViewsController.getBaseImageLayout().addView(ViewsController.getBaseImage());
             }

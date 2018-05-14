@@ -41,7 +41,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_on_photo);
 
-
         mAPIService = ApiUtils.getAPIService();
         Button persistir = (Button) findViewById(R.id.save_id);
         persistir.setOnClickListener(new View.OnClickListener() {
@@ -162,7 +161,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                         public void onClick(View button) {
                             ViewsController.turnOffCommentBox();
                             tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
-                            TagDrawer.reDrawTags(tagsAdded);
+                            TagDrawer.reDrawTags(tagsAdded, false);
                         }
                     });
                 }
@@ -174,7 +173,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     case MotionEvent.ACTION_DOWN:
                         // Do this to allow clearing comment section if image is touched
                         ViewsController.turnOffCommentBox();
-                        TagDrawer.reDrawTags(tagsAdded);
+                        TagDrawer.reDrawTags(tagsAdded, true);
 
                         touchX = (int) event.getX();
                         touchY = (int) event.getY();
