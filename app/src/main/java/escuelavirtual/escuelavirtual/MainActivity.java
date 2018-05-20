@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ModelAdapterCurso(cursos));
     }
 
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        startActivity(intent);
+    }
+
     public void gotoCurso(View view){
 
         Intent intent = new Intent(this, CursoActivity.class);
