@@ -14,7 +14,10 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity"
+            android:label="Escuela Virtual">
+
+        </activity>
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login">
@@ -24,7 +27,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrationActivity"></activity>
+        <activity android:name=".RegistrationActivity"
+            android:label="Registración"
+            android:parentActivityName=".LoginActivity" >
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
+        </activity>
         <activity android:name=".CursoActivity" android:label="Ejercicio"/>
         <activity android:name=".CommentsOnPhotoActivity"></activity>
     </application>
