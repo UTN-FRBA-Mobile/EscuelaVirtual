@@ -6,15 +6,21 @@
     <string name="prompt_password">Contraseña</string>
     <string name="prompt_repeat_password">Repetir Contraseña</string>
     <string name="prompt_name">Nombre</string>
+
     <string name="prompt_register">¿No tenés cuenta? <u>Registrate</u></string>
     <string name="action_sign_in">Ingresar</string>
     <string name="action_sign_in_short">Login</string>
     <string name="action_register">Crear Cuenta</string>
+
     <string name="error_invalid_email">Esta dirección de email es inválida</string>
     <string name="error_invalid_password">Contraseña Inválida</string>
     <string name="error_incorrect_password">Contraseña Incorrecta</string>
     <string name="error_field_required">Campo Requerido</string>
     <string name="error_aut">Autenticación Fallida</string>
+    <string name="error_weak_password">La contraseña debe tener al menos 6 caracteres</string>
+    <string name="error_user_exists">El mail ya se encuentra en uso</string>
+    <string name="error_distinct_password">Las 2 contraseñas no coinciden</string>
+
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>

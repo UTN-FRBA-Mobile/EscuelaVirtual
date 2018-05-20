@@ -113,8 +113,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         if(currentUser != null) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+        }else {
+            showProgress(false);
         }
-        showProgress(false);
     }
 
     private void populateAutoComplete() {

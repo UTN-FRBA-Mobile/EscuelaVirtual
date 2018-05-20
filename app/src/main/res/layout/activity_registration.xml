@@ -25,6 +25,7 @@
                 android:ems="10"
                 android:inputType="textEmailAddress"
                 android:hint="@string/prompt_email"
+                android:imeOptions="actionNext"
             />
 
         </android.support.design.widget.TextInputLayout>
@@ -65,22 +66,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <AutoCompleteTextView
+            <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_name"
                 android:maxLines="1"
                 android:singleLine="true"
+                android:imeOptions="actionDone"
                 />
 
         </android.support.design.widget.TextInputLayout>
 
-        <Switch
-            android:id="@+id/switch1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Switch" />
+        <RadioGroup
+            android:id="@+id/perfilRadioGroup"
+            android:layout_width="300dp"
+            android:layout_height="97dp">
+
+            <RadioButton
+                android:id="@+id/radioAlumno"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Alumno" />
+
+            <RadioButton
+                android:id="@+id/radioProfesor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Profesor"
+                />
+
+            <TextView
+                android:id="@+id/perfilError"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:focusableInTouchMode="true"
+                android:textColor="@color/colorAccent"/>
+        </RadioGroup>
 
         <Button
             android:id="@+id/button2"
