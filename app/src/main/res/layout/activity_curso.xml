@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,37 +10,60 @@
     tools:context="escuelavirtual.escuelavirtual.CursoActivity"
     android:background="@color/colorGreen1">
 
-    <include layout="@layout/toolbar_global" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="start"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        android:text="Ejercicios"
-        android:gravity="start"/>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider" />
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center|end">
-        <ProgressBar android:id="@+id/progressBar"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:visibility="gone" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center|top"
+        android:background="@color/colorGreen1">
+
+        <include layout="@layout/toolbar_global" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+            android:text="Ejercicios"
+            android:gravity="start"/>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center|end">
+            <ProgressBar android:id="@+id/progressBar"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="340dp"
+            android:layout_weight="1" />
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="340dp"
-        android:layout_weight="1" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fAButtonAddEjercicio"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:clickable="true"
+        android:longClickable="false"
+        app:backgroundTint="@color/colorGreen3"
+        app:elevation="0dp"
+        app:srcCompat="@android:drawable/ic_input_add" />
 
-</LinearLayout>
+</FrameLayout>

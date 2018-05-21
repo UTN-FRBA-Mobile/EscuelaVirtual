@@ -88,6 +88,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
+//     /TODO: Completo login - para agilizar las pruebas *recordar quitar*
+        mEmailView.setText("e@v.com");
+        mPasswordView.setText("123456");
+//     \End
+
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override

@@ -24,7 +24,7 @@ public class CursoActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-//     /Testeo de RecyclerView - Carga de items
+//     /TODO: Carga de items - Reemplazar con datos persistidos
         List<Ejercicio> ejecicios = new ArrayList<>();
         ejecicios.add(new Ejercicio(R.string.ejercicio_1));
         ejecicios.add(new Ejercicio(R.string.ejercicio_2));

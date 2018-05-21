@@ -34,8 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
-//     /Testeo de RecyclerView - Carga de items
-
+//     /TODO: Carga de items - Reemplazar con datos persistidos
         List<Ejercicio> ejecicios = new ArrayList<>();
         ejecicios.add(new Ejercicio(R.string.ejercicio_1));
 
@@ -49,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         cursos.add(new Curso(R.string.curso_7, ejecicios));
         cursos.add(new Curso(R.string.curso_8, ejecicios));
         cursos.add(new Curso(R.string.curso_9, ejecicios));
-
 //     \End
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -123,12 +121,4 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-/*        Button goToCommentsPageButton = (Button) findViewById(R.id.go_to_comments_page_id);
-        goToCommentsPageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View button) {
-                Intent intent = new Intent(button.getContext(), CommentsOnPhotoActivity.class);
-                startActivity(intent);
-            }
-        });*/
 }
