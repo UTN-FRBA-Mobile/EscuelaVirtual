@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
 
 //     /TODO: Carga de items - Reemplazar con datos persistidos
         List<Ejercicio> ejecicios = new ArrayList<>();
@@ -118,6 +118,12 @@ public class MainActivity extends AppCompatActivity {
     public void gotoCurso(View view){
 
         Intent intent = new Intent(this, CursoActivity.class);
+        startActivity(intent);
+    }
+
+    public void gotoAddCurso(View view){
+
+        Intent intent = new Intent(this, CursoAddActivity.class);
         startActivity(intent);
     }
 

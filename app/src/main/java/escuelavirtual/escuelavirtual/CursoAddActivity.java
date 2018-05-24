@@ -3,48 +3,29 @@ package escuelavirtual.escuelavirtual;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.ArrayList;
-import java.util.List;
+public class CursoAddActivity extends AppCompatActivity {
 
-public class CursoActivity extends AppCompatActivity {
+    private EditText etCursoName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curso);
+        setContentView(R.layout.activity_curso_add);
+
+        etCursoName = (EditText) findViewById(R.id.et_curso_name_id);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-
-//     /TODO: Carga de items - Reemplazar con datos persistidos
-        List<Ejercicio> ejecicios = new ArrayList<>();
-        ejecicios.add(new Ejercicio(R.string.ejercicio_1));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_2));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_3));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_4));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_5));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_6));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_7));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_8));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_9));
-//     \End
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejecicios));
     }
 
     @Override
@@ -96,10 +77,5 @@ public class CursoActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         startActivity(new Intent(this, MainActivity.class));
         return true;
-    }
-
-    public void gotoEjercicio(View button) {
-        Intent intent = new Intent(button.getContext(), CommentsOnPhotoActivity.class);
-        startActivity(intent);
     }
 }

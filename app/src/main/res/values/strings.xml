@@ -21,15 +21,15 @@
     <string name="error_user_exists">El mail ya se encuentra en uso</string>
     <string name="error_distinct_password">Las 2 contraseñas no coinciden</string>
 
-    <string name="permission_rationale">"Contacts permissions are needed for providing email
-        completions."
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."
     </string>
     <string name="logout">Cerrar Sesión</string>
 
     <!-- Titulos -->
     <string name="title_activity_login">Escuela Virtual - Login</string>
-    <string name="curso_title">Cursos</string>
-    <string name="ejercicio_title">Ejercicios</string>
+    <string name="bar_main_title">Escuela Virtual</string>
+    <string name="bar_curso_title">Curso XX</string>
+    <string name="bar_curso_add_title">Agregar Curso</string>
 
     <!--Testeo para RecyclerView - Hardcodeo de nombres-->
     <string name="curso_1">Curso 1</string>

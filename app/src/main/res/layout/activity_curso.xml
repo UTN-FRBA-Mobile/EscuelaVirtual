@@ -21,7 +21,7 @@
 
         <include layout="@layout/toolbar_global" />
 
-        <TextView
+<!--        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -44,7 +44,7 @@
                 android:layout_height="16dp"
                 android:visibility="gone" />
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerView"
