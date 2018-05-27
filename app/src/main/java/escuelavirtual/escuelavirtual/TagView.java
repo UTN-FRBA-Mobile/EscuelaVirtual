@@ -94,6 +94,14 @@ public class TagView extends View {
         return this.tag.getCentralPositionOfTag();
     }
 
+    public String getComment() {
+        return this.tag.getComment();
+    }
+
+    public int getNumberOfTag() {
+        return this.tag.getNumberOfTag();
+    }
+
     public int getLeftMargin() {
         return this.tag.getLeftMargin();
     }

@@ -19,6 +19,9 @@ public class Tag{
     @SerializedName("comment")
     @Expose
     private String comment;
+    @SerializedName("foto")
+    @Expose
+    private String foto;
 
     public Tag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
         this.centralPositionOfTag = centralPositionOfTag;
