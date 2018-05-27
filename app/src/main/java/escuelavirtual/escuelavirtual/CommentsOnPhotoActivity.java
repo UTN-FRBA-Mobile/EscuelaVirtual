@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import escuelavirtual.escuelavirtual.data.Tag;
@@ -40,14 +41,23 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comments_on_photo);
-
         mAPIService = ApiUtils.getAPIService();
+
+        //foto_test en algun momento va a tener que ser el nombre de la imagen
+       // getCommentsTag("foto_test");
+
+
         Button persistir = (Button) findViewById(R.id.save_id);
         persistir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                    sendTag(1, 1,1,1,"hola");
+                Iterator<Integer> tags = tagsAdded.keySet().iterator();
+                while(tags.hasNext()){
+                    Integer key = tags.next();
+                    TagView tag = tagsAdded.get(key);
+                    sendTag(tag.getCentralPositionOfTag(),tag.getLeftMargin(),tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),"foto_test");
+                }
 
             }
         });
@@ -189,6 +199,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         });
     }
 
+
+
     @Override
     public boolean onSupportNavigateUp() {
         startActivity(new Intent(this, CursoActivity.class));
@@ -198,24 +210,49 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
 
     //Eric
-    public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment) {
-        mAPIService.saveTag("eric")//centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment)
+    public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment, String foto) {
+        mAPIService.saveTag(centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment,foto)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
-
                         if(response.isSuccessful()) {
-                            Toast.makeText(CommentsOnPhotoActivity.this, response.body(),Toast.LENGTH_LONG).show();
+                            Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                        Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
+    private void getCommentsTag(String foto) {
+        mAPIService.getTag(foto)
+                .enqueue(new Callback<Tag>() {
+                    @Override
+                    public void onResponse(Call<Tag> call, Response<Tag> response) {
+                        if(response.isSuccessful()) {
 
+
+
+                            Iterator<Integer> tags = tagsAdded.keySet().iterator();
+                            while(tags.hasNext()){
+                                Integer key = tags.next();
+                                TagView tag = tagsAdded.get(key);
+                                RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
+                                ViewsController.setBaseImageLayout(baseImageLayout);
+                                TagDrawer.drawTag(tagsAdded, tag);
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Tag> call, Throwable t) {
+                        Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
 
 }
