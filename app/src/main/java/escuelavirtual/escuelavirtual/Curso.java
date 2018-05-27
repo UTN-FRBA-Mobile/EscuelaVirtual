@@ -4,19 +4,15 @@ import java.util.List;
 
 public class Curso {
 
-    private int textId;
+    private String name;
     private List<Ejercicio> ejecicioList;
 
-    public Curso(int textId, List<Ejercicio> ejecicioList) {
-        this.textId = textId;
+    public Curso(String name, List<Ejercicio> ejecicioList) {
+        this.name = name;
         this.ejecicioList = ejecicioList;
     }
 
-    public int getTextId() {
-        return textId;
-    }
+    public String getName() { return name; }
 
-    public List<Ejercicio> getEjercicioList() {
-        return ejecicioList;
-    }
+    public List<Ejercicio> getEjercicioList() { return ejecicioList; }
 }

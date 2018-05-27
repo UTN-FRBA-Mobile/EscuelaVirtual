@@ -32,15 +32,6 @@
     <string name="bar_curso_add_title">Agregar Curso</string>
 
     <!--Testeo para RecyclerView - Hardcodeo de nombres-->
-    <string name="curso_1">Curso 1</string>
-    <string name="curso_2">Curso 2</string>
-    <string name="curso_3">Curso 3</string>
-    <string name="curso_4">Curso 4</string>
-    <string name="curso_5">Curso 5</string>
-    <string name="curso_6">Curso 6</string>
-    <string name="curso_7">Curso 7</string>
-    <string name="curso_8">Curso 8</string>
-    <string name="curso_9">Curso 9</string>
     <string name="ejercicio_1">Ejercicio 1</string>
     <string name="ejercicio_2">Ejercicio 2</string>
     <string name="ejercicio_3">Ejercicio 3</string>

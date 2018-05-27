@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,5 +78,67 @@ public class CursoAddActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         startActivity(new Intent(this, MainActivity.class));
         return true;
+    }
+
+    public void confirm_AddCurso(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(
+                "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
+                etCursoName.getText()));
+        alertDialogBuilder.setPositiveButton("Sí",
+                  new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        addCursoConfirm();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+    }
+
+    private void addCursoConfirm() {
+        //TODO: Persistir nuevo curso
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void cancel_AddCurso(View view) {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(
+                "¿Desea cancelar la creación del curso?",
+                etCursoName.getText()));
+        alertDialogBuilder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        addCursoCanceled();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void addCursoCanceled() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 }

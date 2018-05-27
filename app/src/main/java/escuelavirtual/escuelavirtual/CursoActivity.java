@@ -31,20 +31,20 @@ public class CursoActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 
 //     /TODO: Carga de items - Reemplazar con datos persistidos
-        List<Ejercicio> ejecicios = new ArrayList<>();
-        ejecicios.add(new Ejercicio(R.string.ejercicio_1));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_2));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_3));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_4));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_5));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_6));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_7));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_8));
-        ejecicios.add(new Ejercicio(R.string.ejercicio_9));
+        List<Ejercicio> ejercicios = new ArrayList<>();
+        ejercicios.add(new Ejercicio(R.string.ejercicio_1));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_2));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_3));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_4));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_5));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_6));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_7));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_8));
+        ejercicios.add(new Ejercicio(R.string.ejercicio_9));
 //     \End
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejecicios));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
     }
 
     @Override

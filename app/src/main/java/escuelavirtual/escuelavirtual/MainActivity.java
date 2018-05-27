@@ -14,6 +14,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import android.widget.Button;
 import android.widget.Toast;
@@ -35,20 +36,25 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
 
 //     /TODO: Carga de items - Reemplazar con datos persistidos
-        List<Ejercicio> ejecicios = new ArrayList<>();
-        ejecicios.add(new Ejercicio(R.string.ejercicio_1));
+        List<Ejercicio> ejercicios = new ArrayList<>();
+        ejercicios.add(new Ejercicio(R.string.ejercicio_1));
 
         List<Curso> cursos = new ArrayList<>();
-        cursos.add(new Curso(R.string.curso_1, ejecicios));
-        cursos.add(new Curso(R.string.curso_2, ejecicios));
-        cursos.add(new Curso(R.string.curso_3, ejecicios));
-        cursos.add(new Curso(R.string.curso_4, ejecicios));
-        cursos.add(new Curso(R.string.curso_5, ejecicios));
-        cursos.add(new Curso(R.string.curso_6, ejecicios));
-        cursos.add(new Curso(R.string.curso_7, ejecicios));
-        cursos.add(new Curso(R.string.curso_8, ejecicios));
-        cursos.add(new Curso(R.string.curso_9, ejecicios));
+        cursos.add(new Curso("Curso 1", ejercicios));
+        cursos.add(new Curso("Curso 2", ejercicios));
+        cursos.add(new Curso("Curso 3", ejercicios));
+        cursos.add(new Curso("Curso 4", ejercicios));
+        cursos.add(new Curso("Curso 5", ejercicios));
+        cursos.add(new Curso("Curso 6", ejercicios));
+        cursos.add(new Curso("Curso 7", ejercicios));
+        cursos.add(new Curso("Curso 8", ejercicios));
+        cursos.add(new Curso("Curso 9", ejercicios));
 //     \End
+
+        if(getIntent().getExtras() != null) {
+            cursos.add(new Curso(getIntent().getExtras().getString("newCurso"),
+                    new ArrayList<Ejercicio>()));
+        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterCurso(cursos));
