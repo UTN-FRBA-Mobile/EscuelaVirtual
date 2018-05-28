@@ -1,11 +1,16 @@
 package escuelavirtual.escuelavirtual;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.JsonReader;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -17,8 +22,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import escuelavirtual.escuelavirtual.data.Tag;
@@ -32,8 +42,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
     public Map<Integer, TagView> tagsAdded;
+    public Map<Integer, TagView> tagsGuardar;
     private APIService mAPIService;
-
 
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
@@ -44,20 +54,34 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         mAPIService = ApiUtils.getAPIService();
 
         //foto_test en algun momento va a tener que ser el nombre de la imagen
-       // getCommentsTag("foto_test");
+        //getCommentsTag("foto_test");
 
 
         Button persistir = (Button) findViewById(R.id.save_id);
         persistir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-                Iterator<Integer> tags = tagsAdded.keySet().iterator();
-                while(tags.hasNext()){
-                    Integer key = tags.next();
-                    TagView tag = tagsAdded.get(key);
-                    sendTag(tag.getCentralPositionOfTag(),tag.getLeftMargin(),tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),"foto_test");
+                if (networkInfo != null && networkInfo.isConnected()) {
+                    Iterator<Integer> tags = tagsAdded.keySet().iterator();
+                    while(tags.hasNext()){
+                        Integer key = tags.next();
+                        TagView tag = tagsAdded.get(key);
+                        sendTag(key, tag,"foto_test");
+                    }
+
+                    if(tagsGuardar.size() == 0){
+                        Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(CommentsOnPhotoActivity.this, "No dispone de conexión a internet",Toast.LENGTH_SHORT).show();
                 }
+
+
 
             }
         });
@@ -68,6 +92,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
         // TODO: completar con las tags persistidas
         tagsAdded = new HashMap<>();
+        tagsGuardar = new HashMap<>();
 
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
@@ -129,7 +154,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     // Draw a tag
                     RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
                     ViewsController.setBaseImageLayout(baseImageLayout);
-                    TagDrawer.drawTag(tagsAdded, tagView);
+                    TagDrawer.drawTag(tagsAdded,tagsGuardar, tagView);
 
                     // Set pipe/focus into comment box
                     ViewsController.getCommentBox().setEnabled(true);
@@ -171,6 +196,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                         public void onClick(View button) {
                             ViewsController.turnOffCommentBox();
                             tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
+                            tagsGuardar.remove(ViewsController.getNumberOverTagAsInteger());
                             TagDrawer.reDrawTags(tagsAdded, false);
                         }
                     });
@@ -210,18 +236,20 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
 
     //Eric
-    public void sendTag(int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag, String comment, String foto) {
-        mAPIService.saveTag(centralPositionOfTag, leftMargin, topMargin,numberOfTag,comment,foto)
+    public void sendTag(final Integer key, final TagView tag, String foto) {
+        tagsGuardar.remove(key);
+        mAPIService.saveTag(tag.getCentralPositionOfTag(), tag.getLeftMargin(), tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),foto)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
+                        tagsGuardar.put(key,tag);
                         Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -229,12 +257,30 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     private void getCommentsTag(String foto) {
         mAPIService.getTag(foto)
-                .enqueue(new Callback<Tag>() {
+               .enqueue(new Callback<List<Tag>>() {
                     @Override
-                    public void onResponse(Call<Tag> call, Response<Tag> response) {
+                    public void onResponse(Call<List<Tag>> call, retrofit2.Response<List<Tag>> response) {
                         if(response.isSuccessful()) {
 
+                            try {
+                               //JSONArray jarray = new JSONArray(json);
+                                //JSONObject jsonDatos = jarray.getJSONObject(0);
+                                //JSONObject jsonObj = new JSONObject(response.body());
+                                Toast.makeText(CommentsOnPhotoActivity.this, response.body().get(0).getComment(),Toast.LENGTH_SHORT).show();
+                                Log.d("ALGO", response.body().get(0).getComment());
 
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            /*JSONArray jsonArray = jsonjObject.getJSONArray("results");
+                            for (int i = 0; i < jsonArray.length(); i++)
+                            {
+                                try {
+                                    JSONObject jsonObjectHijo = jsonArray.getJSONObject(i);
+                                } catch (JSONException e) {
+                                    Log.e("Parser JSON", e.toString());
+                                }
+                            }*/
 
                             Iterator<Integer> tags = tagsAdded.keySet().iterator();
                             while(tags.hasNext()){
@@ -242,14 +288,14 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                                 TagView tag = tagsAdded.get(key);
                                 RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
                                 ViewsController.setBaseImageLayout(baseImageLayout);
-                                TagDrawer.drawTag(tagsAdded, tag);
+                                //TagDrawer.drawTag(tagsAdded, tag);
                             }
 
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<Tag> call, Throwable t) {
+                    public void onFailure(Call<List<Tag>> call, Throwable t) {
                         Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });

@@ -6,7 +6,7 @@ import java.util.Map;
 
 public class TagDrawer{
 
-    public static TagView drawTag(Map<Integer, TagView> tagsAdded, TagView tagView){
+    public static TagView drawTag(Map<Integer, TagView> tagsAdded, Map<Integer, TagView> tagsGuardar, TagView tagView){
         // Put tag into the layout of image
         int size = 2 * tagView.getCentralPositionOfTag();
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);
@@ -36,6 +36,7 @@ public class TagDrawer{
         }
 
         tagsAdded.put(nextNumberToUse, tagView);
+        tagsGuardar.put(nextNumberToUse, tagView);
         tagView.setNumberOfTag(nextNumberToUse);
         tagView.selectThisTag();
 

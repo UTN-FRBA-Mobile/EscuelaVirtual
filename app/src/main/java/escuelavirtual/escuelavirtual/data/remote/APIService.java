@@ -1,4 +1,9 @@
 package escuelavirtual.escuelavirtual.data.remote;
+import org.json.JSONObject;
+
+import java.io.Serializable;
+import java.util.List;
+
 import escuelavirtual.escuelavirtual.data.Tag;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -18,10 +23,7 @@ public interface APIService {
                       @Field("numberOfTag") int numberOfTag,
                       @Field("comment") String comment,
                       @Field("foto") String foto);
-   // Call<String> saveTag(@Field("message") String esUnString);
 
-
-    @GET("/get_items/{id}")
-    @FormUrlEncoded
-    Call<Tag> getTag(@Query("foto") String foto);
+    @GET("/get_items")
+    Call<List<Tag>> getTag(@Query("foto") String foto);
 }
