@@ -67,6 +67,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
+            android:onClick="confirm_AddCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="?android:attr/textCheckMark" />
@@ -80,6 +81,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
+            android:onClick="cancel_AddCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />

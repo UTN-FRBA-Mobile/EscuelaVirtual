@@ -40,7 +40,7 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
         }
 
         public void bind(Curso curso) {
-            textView.setText(curso.getTextId());
+            textView.setText(curso.getName());
         }
     }
 }
