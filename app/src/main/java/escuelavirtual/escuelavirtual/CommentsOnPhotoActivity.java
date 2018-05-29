@@ -26,10 +26,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
@@ -54,7 +57,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         mAPIService = ApiUtils.getAPIService();
 
         //foto_test en algun momento va a tener que ser el nombre de la imagen
-        //getCommentsTag("foto_test");
+        getCommentsTag("foto_test");
 
 
         Button persistir = (Button) findViewById(R.id.save_id);
@@ -65,18 +68,13 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
                 if (networkInfo != null && networkInfo.isConnected()) {
-                    Iterator<Integer> tags = tagsAdded.keySet().iterator();
-                    while(tags.hasNext()){
-                        Integer key = tags.next();
-                        TagView tag = tagsAdded.get(key);
-                        sendTag(key, tag,"foto_test");
-                    }
+                        Integer _final = tagsGuardar.size();
+                        for (Integer key : tagsGuardar.keySet()) {
+                            _final--;
+                            TagView tag = tagsGuardar.get(key);
+                            sendTag(key, tag, "foto_test", 0 == _final);
+                        }
 
-                    if(tagsGuardar.size() == 0){
-                        Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
-                    }else{
-                        Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                    }
                 } else {
                     Toast.makeText(CommentsOnPhotoActivity.this, "No dispone de conexión a internet",Toast.LENGTH_SHORT).show();
                 }
@@ -236,20 +234,23 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
 
     //Eric
-    public void sendTag(final Integer key, final TagView tag, String foto) {
-        tagsGuardar.remove(key);
+    public void sendTag(final Integer key, final TagView tag, String foto, final boolean _final) {
         mAPIService.saveTag(tag.getCentralPositionOfTag(), tag.getLeftMargin(), tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),foto)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            //Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                            tagsGuardar.remove(key);
+                            if(tagsGuardar.size() == 0 && _final){
+                                Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                            }else{
+                                if(_final) Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
-                        tagsGuardar.put(key,tag);
                         Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -259,44 +260,27 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         mAPIService.getTag(foto)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
-                    public void onResponse(Call<List<Tag>> call, retrofit2.Response<List<Tag>> response) {
+                    public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                         if(response.isSuccessful()) {
 
-                            try {
-                               //JSONArray jarray = new JSONArray(json);
-                                //JSONObject jsonDatos = jarray.getJSONObject(0);
-                                //JSONObject jsonObj = new JSONObject(response.body());
-                                Toast.makeText(CommentsOnPhotoActivity.this, response.body().get(0).getComment(),Toast.LENGTH_SHORT).show();
-                                Log.d("ALGO", response.body().get(0).getComment());
-
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
-                            /*JSONArray jsonArray = jsonjObject.getJSONArray("results");
-                            for (int i = 0; i < jsonArray.length(); i++)
-                            {
-                                try {
-                                    JSONObject jsonObjectHijo = jsonArray.getJSONObject(i);
-                                } catch (JSONException e) {
-                                    Log.e("Parser JSON", e.toString());
-                                }
-                            }*/
-
-                            Iterator<Integer> tags = tagsAdded.keySet().iterator();
-                            while(tags.hasNext()){
-                                Integer key = tags.next();
-                                TagView tag = tagsAdded.get(key);
+                            List<Tag> lista = response.body();
+                            for (Tag tag : lista) {
+                                final TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
                                 RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
                                 ViewsController.setBaseImageLayout(baseImageLayout);
-                                //TagDrawer.drawTag(tagsAdded, tag);
+                                TagDrawer.drawTag(tagsAdded,tagsGuardar, tagView);
                             }
+
+                            ViewsController.turnOffCommentBox();
+                            tagsGuardar = new HashMap<>();
+
 
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Tag>> call, Throwable t) {
-                        Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
     }

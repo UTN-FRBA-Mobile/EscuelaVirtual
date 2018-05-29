@@ -24,6 +24,7 @@ public interface APIService {
                       @Field("comment") String comment,
                       @Field("foto") String foto);
 
-    @GET("/get_items")
+    @GET("/get_tag")
     Call<List<Tag>> getTag(@Query("foto") String foto);
+
 }
