@@ -10,6 +10,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Map;
+
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
 import retrofit2.Call;
@@ -152,9 +154,75 @@ public class ViewsController{
         }catch (Exception e){
             // Do nothing, because doesn't exist views to turn off
         }
-
-
-
     }
 
+    public static void disableAndHideButton(String action){
+        Button button = getButtonFrom(action);
+        button.setVisibility(View.INVISIBLE);
+        button.setEnabled(false);
+    }
+
+    public static void enableAndShowButton(String action){
+        Button button = getButtonFrom(action);
+        button.setVisibility(View.VISIBLE);
+        button.setEnabled(true);
+    }
+
+    private static Button getButtonFrom(String action){
+        Button button;
+        switch (action){
+            case "add":
+                button = getAddCommentButton();
+                break;
+            case "edit":
+                button = getEditCommentButton();
+                break;
+            case "delete":
+                button = getDeleteCommentButton();
+                break;
+            default:
+                button = getSaveButton();
+                break;
+        }
+        return button;
+    }
+
+    public static void setAddButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+        getAddCommentButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                TagView tagViewToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
+                tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
+
+                tagViewToUpdate = tagsGuardar.get(ViewsController.getNumberOverTagAsInteger());
+                tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
+
+                ViewsController.turnOffCommentBox();
+            }
+        });
+    }
+
+    public static void setEditButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+        getEditCommentButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                ViewsController.getCommentBox().setEnabled(true);
+                ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+                ViewsController.getCommentBox().requestFocus();
+                ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+    }
+
+    public static void setDeleteButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+        getDeleteCommentButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View button) {
+                ViewsController.turnOffCommentBox();
+                tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
+                tagsGuardar.remove(ViewsController.getNumberOverTagAsInteger());
+                TagDrawer.reDrawTags(tagsAdded, false);
+            }
+        });
+    }
 }

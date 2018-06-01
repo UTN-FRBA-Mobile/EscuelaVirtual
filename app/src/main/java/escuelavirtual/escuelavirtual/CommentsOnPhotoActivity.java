@@ -56,10 +56,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_comments_on_photo);
         mAPIService = ApiUtils.getAPIService();
 
-        //foto_test en algun momento va a tener que ser el nombre de la imagen
-        getCommentsTag("foto_test");
-
-
         Button persistir = (Button) findViewById(R.id.save_id);
         persistir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,9 +74,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(CommentsOnPhotoActivity.this, "No dispone de conexión a internet",Toast.LENGTH_SHORT).show();
                 }
-
-
-
             }
         });
 
@@ -88,9 +81,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // TODO: completar con las tags persistidas
-        tagsAdded = new HashMap<>();
-        tagsGuardar = new HashMap<>();
+        //foto_test en algun momento va a tener que ser el nombre de la imagen
+        getCommentsTag("foto_test");
 
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
@@ -101,27 +93,18 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
         ViewsController.setNumberOverTag((TextView)findViewById(R.id.tag_number_id));
 
-        // Button to add comment of comment box
         ViewsController.setAddCommentButton((Button) findViewById(R.id.apply_comment_id));
-        ViewsController.getAddCommentButton().setVisibility(View.INVISIBLE);
-        ViewsController.getAddCommentButton().setEnabled(false);
+        ViewsController.disableAndHideButton("add");
 
-        // Button to edit comment of comment box
         ViewsController.setEditCommentButton((Button) findViewById(R.id.edit_comment_id));
-        ViewsController.getEditCommentButton().setVisibility(View.INVISIBLE);
-        ViewsController.getEditCommentButton().setEnabled(false);
+        ViewsController.disableAndHideButton("edit");
 
-        // Button to delete comment of comment box
         ViewsController.setDeleteCommentButton((Button) findViewById(R.id.delete_comment_id));
-        ViewsController.getDeleteCommentButton().setVisibility(View.INVISIBLE);
-        ViewsController.getDeleteCommentButton().setEnabled(false);
+        ViewsController.disableAndHideButton("delete");
 
-        // Button to save changes
         ViewsController.setSaveButton((Button) findViewById(R.id.save_id));
-        ViewsController.getSaveButton().setVisibility(View.VISIBLE);
-        ViewsController.getSaveButton().setEnabled(true);
-
-        // Button to Info Details
+        ViewsController.enableAndShowButton("save");
+        
         ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
         ViewsController.getInfoDetailButton().setVisibility(View.VISIBLE);
         ViewsController.getInfoDetailButton().setEnabled(false);
@@ -170,34 +153,9 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
                     ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
 
-                    ViewsController.getAddCommentButton().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View button) {
-                            TagView tagViewToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
-                            tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
-                            ViewsController.turnOffCommentBox();
-                        }
-                    });
-
-                    ViewsController.getEditCommentButton().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View button) {
-                            ViewsController.getCommentBox().setEnabled(true);
-                            ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
-                            ViewsController.getCommentBox().requestFocus();
-                            ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
-                        }
-                    });
-
-                    ViewsController.getDeleteCommentButton().setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View button) {
-                            ViewsController.turnOffCommentBox();
-                            tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
-                            tagsGuardar.remove(ViewsController.getNumberOverTagAsInteger());
-                            TagDrawer.reDrawTags(tagsAdded, false);
-                        }
-                    });
+                    ViewsController.setAddButtonClickListener(tagsAdded, tagsGuardar);
+                    ViewsController.setEditButtonClickListener(tagsAdded, tagsGuardar);
+                    ViewsController.setDeleteButtonClickListener(tagsAdded, tagsGuardar);
                 }
             };
 
@@ -223,15 +181,11 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         });
     }
 
-
-
     @Override
     public boolean onSupportNavigateUp() {
         startActivity(new Intent(this, CursoActivity.class));
         return true;
     }
-
-
 
     //Eric
     public void sendTag(final Integer key, final TagView tag, String foto, final boolean _final) {
@@ -257,24 +211,29 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     }
 
     private void getCommentsTag(String foto) {
+        tagsAdded = new HashMap<>();
+        tagsGuardar = new HashMap<>();
         mAPIService.getTag(foto)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                         if(response.isSuccessful()) {
-
                             List<Tag> lista = response.body();
                             for (Tag tag : lista) {
-                                final TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
-                                RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
-                                ViewsController.setBaseImageLayout(baseImageLayout);
-                                TagDrawer.drawTag(tagsAdded,tagsGuardar, tagView);
+                                TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
+                                tagsAdded.put(tag.getNumberOfTag(), tagView);
+                                tagsGuardar.put(tag.getNumberOfTag(), tagView);
                             }
 
+                            ViewsController.setBaseImageLayout((RelativeLayout) findViewById(R.id.tags_layout_id));
                             ViewsController.turnOffCommentBox();
-                            tagsGuardar = new HashMap<>();
+                            TagDrawer.reDrawTags(tagsAdded, false);
 
+                            ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
 
+                            ViewsController.setAddButtonClickListener(tagsAdded, tagsGuardar);
+                            ViewsController.setEditButtonClickListener(tagsAdded, tagsGuardar);
+                            ViewsController.setDeleteButtonClickListener(tagsAdded, tagsGuardar);
                         }
                     }
 
