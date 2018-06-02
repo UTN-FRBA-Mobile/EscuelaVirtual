@@ -121,4 +121,8 @@ public class TagView extends View {
     public void setNumberOfTag(Integer numberOfTag) {
         this.tag.setNumberOfTag(numberOfTag);
     }
+
+    public Tag getTag() {
+        return this.tag;
+    }
 }

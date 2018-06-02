@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.TagView;
 import escuelavirtual.escuelavirtual.data.Tag;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -11,6 +12,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -29,7 +31,7 @@ public interface APIService {
     @GET("/get_tag")
     Call<List<Tag>> getTag(@Query("foto") String foto);
 
-    @DELETE("/delete_tag/{foto}/{tag}")
-    Call<Tag> deletePost(@Path("foto") String foto,
-                         @Path("tag") int tag);
+
+    @HTTP(method = "DELETE", path = "/delete_tag", hasBody = true)
+    Call<Tag> deleteTag(@Body Tag tag);
 }

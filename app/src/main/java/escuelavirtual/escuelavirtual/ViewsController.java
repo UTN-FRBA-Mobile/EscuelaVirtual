@@ -217,7 +217,20 @@ public class ViewsController{
             public void onClick(View button) {
                 ViewsController.turnOffCommentBox();
                 TagView tagRemovido = tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
-                apiService.deletePost(tagRemovido.getFoto(),tagRemovido.getNumberOfTag());
+                apiService.deleteTag(tagRemovido.getTag())
+                        .enqueue(new Callback<Tag>() {
+                            @Override
+                            public void onResponse(Call<Tag> call, Response<Tag> response) {
+                                if(response.isSuccessful()) {
+                                 //Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<Tag> call, Throwable t) {
+                                //Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        });
                 TagDrawer.reDrawTags(tagsAdded, false);
             }
         });
