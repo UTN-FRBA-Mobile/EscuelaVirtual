@@ -187,22 +187,19 @@ public class ViewsController{
         return button;
     }
 
-    public static void setAddButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+    public static void setAddButtonClickListener(final Map<Integer, TagView> tagsAdded){
         getAddCommentButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 TagView tagViewToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
                 tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
-
-                tagViewToUpdate = tagsGuardar.get(ViewsController.getNumberOverTagAsInteger());
                 tagViewToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
-
                 ViewsController.turnOffCommentBox();
             }
         });
     }
 
-    public static void setEditButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+    public static void setEditButtonClickListener(final Map<Integer, TagView> tagsAdded){
         getEditCommentButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
@@ -214,13 +211,13 @@ public class ViewsController{
         });
     }
 
-    public static void setDeleteButtonClickListener(final Map<Integer, TagView> tagsAdded, final Map<Integer, TagView> tagsGuardar){
+    public static void setDeleteButtonClickListener(final Map<Integer, TagView> tagsAdded, final APIService apiService){
         getDeleteCommentButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View button) {
                 ViewsController.turnOffCommentBox();
-                tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
-                tagsGuardar.remove(ViewsController.getNumberOverTagAsInteger());
+                TagView tagRemovido = tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
+                apiService.deletePost(tagRemovido.getFoto(),tagRemovido.getNumberOfTag());
                 TagDrawer.reDrawTags(tagsAdded, false);
             }
         });

@@ -102,6 +102,10 @@ public class TagView extends View {
         return this.tag.getNumberOfTag();
     }
 
+    public String getFoto() {
+        return this.tag.getFoto();
+    }
+
     public int getLeftMargin() {
         return this.tag.getLeftMargin();
     }

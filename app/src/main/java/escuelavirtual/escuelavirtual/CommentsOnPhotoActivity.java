@@ -45,8 +45,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
     public Map<Integer, TagView> tagsAdded;
-    public Map<Integer, TagView> tagsGuardar;
-    private APIService mAPIService;
+    public APIService mAPIService;
 
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
@@ -64,10 +63,10 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                 NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
                 if (networkInfo != null && networkInfo.isConnected()) {
-                        Integer _final = tagsGuardar.size();
-                        for (Integer key : tagsGuardar.keySet()) {
+                        Integer _final = tagsAdded.size();
+                        for (Integer key : tagsAdded.keySet()) {
                             _final--;
-                            TagView tag = tagsGuardar.get(key);
+                            TagView tag = tagsAdded.get(key);
                             sendTag(key, tag, "foto_test", 0 == _final);
                         }
 
@@ -135,7 +134,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     // Draw a tag
                     RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
                     ViewsController.setBaseImageLayout(baseImageLayout);
-                    TagDrawer.drawTag(tagsAdded,tagsGuardar, tagView);
+                    TagDrawer.drawTag(tagsAdded, tagView);
 
                     // Set pipe/focus into comment box
                     ViewsController.getCommentBox().setEnabled(true);
@@ -153,9 +152,9 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
                     ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
 
-                    ViewsController.setAddButtonClickListener(tagsAdded, tagsGuardar);
-                    ViewsController.setEditButtonClickListener(tagsAdded, tagsGuardar);
-                    ViewsController.setDeleteButtonClickListener(tagsAdded, tagsGuardar);
+                    ViewsController.setAddButtonClickListener(tagsAdded);
+                    ViewsController.setEditButtonClickListener(tagsAdded);
+                    ViewsController.setDeleteButtonClickListener(tagsAdded, mAPIService);
                 }
             };
 
@@ -194,8 +193,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            tagsGuardar.remove(key);
-                            if(tagsGuardar.size() == 0 && _final){
+
+                            if(_final){
                                 Toast.makeText(CommentsOnPhotoActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
                             }else{
                                 if(_final) Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
@@ -212,7 +211,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     private void getCommentsTag(String foto) {
         tagsAdded = new HashMap<>();
-        tagsGuardar = new HashMap<>();
         mAPIService.getTag(foto)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
@@ -222,7 +220,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                             for (Tag tag : lista) {
                                 TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
                                 tagsAdded.put(tag.getNumberOfTag(), tagView);
-                                tagsGuardar.put(tag.getNumberOfTag(), tagView);
                             }
 
                             ViewsController.setBaseImageLayout((RelativeLayout) findViewById(R.id.tags_layout_id));
@@ -231,9 +228,9 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
                             ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
 
-                            ViewsController.setAddButtonClickListener(tagsAdded, tagsGuardar);
-                            ViewsController.setEditButtonClickListener(tagsAdded, tagsGuardar);
-                            ViewsController.setDeleteButtonClickListener(tagsAdded, tagsGuardar);
+                            ViewsController.setAddButtonClickListener(tagsAdded);
+                            ViewsController.setEditButtonClickListener(tagsAdded);
+                            ViewsController.setDeleteButtonClickListener(tagsAdded, mAPIService);
                         }
                     }
 

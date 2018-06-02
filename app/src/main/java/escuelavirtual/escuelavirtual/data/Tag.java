@@ -63,5 +63,8 @@ public class Tag{
         return comment;
     }
 
+    public String getFoto() {
+        return foto;
+    }
 
 }
