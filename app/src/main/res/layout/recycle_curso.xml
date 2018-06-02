@@ -1,18 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/text_view"
+    <TextView
+        android:id="@+id/tv_curso_id"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/colorGreen2"
+        android:clickable="true"
+        android:fontFamily="sans-serif"
+        android:gravity="center|start"
+        android:includeFontPadding="false"
         android:onClick="gotoCurso"
-        android:text="@+id/text_view" />
+        android:paddingLeft="16dp"
+        android:text="@+id/tv_curso_id"
+        android:textSize="18sp" />
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="112dp"
+        android:gravity="center|end">
+
+        <ImageButton
+            android:id="@+id/ibtn_edit_curso_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorGreen2"
+            android:onClick="trytoEditCurso"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageButton
+            android:id="@+id/ibtn_delete_curso_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/colorGreen2"
+            android:onClick="trytoDeleteCurso"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
+
+</RelativeLayout>

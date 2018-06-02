@@ -32,12 +32,13 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
+        getSupportActionBar();
 
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
 
 //     /TODO: Carga de items - Reemplazar con datos persistidos
         List<Ejercicio> ejercicios = new ArrayList<>();
-        ejercicios.add(new Ejercicio(R.string.ejercicio_1));
+        ejercicios.add(new Ejercicio("Ejercicio 1"));
 
         List<Curso> cursos = new ArrayList<>();
         cursos.add(new Curso("Curso 1", ejercicios));
@@ -50,11 +51,6 @@ public class MainActivity extends AppCompatActivity {
         cursos.add(new Curso("Curso 8", ejercicios));
         cursos.add(new Curso("Curso 9", ejercicios));
 //     \End
-
-        if(getIntent().getExtras() != null) {
-            cursos.add(new Curso(getIntent().getExtras().getString("newCurso"),
-                    new ArrayList<Ejercicio>()));
-        }
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterCurso(cursos));
@@ -78,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_curso, menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -86,7 +83,9 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_logout:
-                confirm_logout();
+                {confirm_logout(); return false;}
+            case R.id.menu_add_curso_id:
+                {gotoAddCurso(); return false;}
             default:
                 return false;
         }
@@ -122,15 +121,44 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCurso(View view){
-
         Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);
     }
 
-    public void gotoAddCurso(View view){
-
+    public void gotoAddCurso(){
         Intent intent = new Intent(this, CursoAddActivity.class);
         startActivity(intent);
     }
 
+    public void trytoDeleteCurso (View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(
+                "¿Desea cerrar este curso?%n%n" +
+                "Los subscriptos a este canal seran notificados automaticamente del cierre del mismo"));
+        //TODO: Eliminar el curso de la lista
+        alertDialogBuilder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void trytoEditCurso (View view){
+        //TODO: Pasar el nombre del curso al EditText
+        Intent intent = new Intent(this, CursoEditActivity.class);
+        startActivity(intent);
+    }
 }

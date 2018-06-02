@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorGreen1"
     android:orientation="vertical"
-    tools:context="escuelavirtual.escuelavirtual.CursoAddActivity">
+    tools:context="escuelavirtual.escuelavirtual.CursoEditActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -99,7 +99,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
-            android:onClick="confirm_AddCurso"
+            android:onClick="confirm_EditCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="?android:attr/textCheckMark" />
@@ -113,7 +113,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
-            android:onClick="cancel_AddCurso"
+            android:onClick="cancel_EditCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />

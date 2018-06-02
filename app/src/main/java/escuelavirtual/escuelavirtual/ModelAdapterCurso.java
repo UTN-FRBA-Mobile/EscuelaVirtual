@@ -36,7 +36,7 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
 
         public ModelViewHolder(View itemView) {
             super(itemView);
-            this.textView = (TextView) itemView.findViewById(R.id.text_view);
+            this.textView = (TextView) itemView.findViewById(R.id.tv_curso_id);
         }
 
         public void bind(Curso curso) {

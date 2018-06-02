@@ -36,11 +36,11 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
 
         public ModelViewHolder(View itemView) {
             super(itemView);
-            this.textView = (TextView) itemView.findViewById(R.id.text_view);
+            this.textView = (TextView) itemView.findViewById(R.id.tv_curso_id);
         }
 
         public void bind(Ejercicio ejer) {
-            textView.setText(ejer.getTextId());
+            textView.setText(ejer.getName());
         }
     }
 }

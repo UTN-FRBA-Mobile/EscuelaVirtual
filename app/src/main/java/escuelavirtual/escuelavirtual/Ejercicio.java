@@ -2,13 +2,13 @@ package escuelavirtual.escuelavirtual;
 
 public class Ejercicio {
 
-    private int textId;
+    private String name;
 
-    public Ejercicio(int textId) {
-        this.textId = textId;
+    public Ejercicio(String name) {
+        this.name = name;
     }
 
-    public int getTextId() {
-        return textId;
+    public String getName() {
+        return name;
     }
 }

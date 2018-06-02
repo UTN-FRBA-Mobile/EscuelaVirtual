@@ -32,15 +32,15 @@ public class CursoActivity extends AppCompatActivity {
 
 //     /TODO: Carga de items - Reemplazar con datos persistidos
         List<Ejercicio> ejercicios = new ArrayList<>();
-        ejercicios.add(new Ejercicio(R.string.ejercicio_1));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_2));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_3));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_4));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_5));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_6));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_7));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_8));
-        ejercicios.add(new Ejercicio(R.string.ejercicio_9));
+        ejercicios.add(new Ejercicio("Ejercicio 1"));
+        ejercicios.add(new Ejercicio("Ejercicio 2"));
+        ejercicios.add(new Ejercicio("Ejercicio 3"));
+        ejercicios.add(new Ejercicio("Ejercicio 4"));
+        ejercicios.add(new Ejercicio("Ejercicio 5"));
+        ejercicios.add(new Ejercicio("Ejercicio 6"));
+        ejercicios.add(new Ejercicio("Ejercicio 7"));
+        ejercicios.add(new Ejercicio("Ejercicio 8"));
+        ejercicios.add(new Ejercicio("Ejercicio 9"));
 //     \End
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

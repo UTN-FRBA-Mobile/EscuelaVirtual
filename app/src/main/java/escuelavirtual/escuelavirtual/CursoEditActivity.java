@@ -13,7 +13,7 @@ import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class CursoAddActivity extends AppCompatActivity {
+public class CursoEditActivity extends AppCompatActivity{
 
     private EditText etCursoName;
     private EditText etCursoCode;
@@ -21,8 +21,9 @@ public class CursoAddActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curso_add);
+        setContentView(R.layout.activity_curso_edit);
 
+        //TODO: Cargar el Nombre y Codigo del curso
         etCursoName = (EditText) findViewById(R.id.et_curso_name_id);
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
 
@@ -82,48 +83,48 @@ public class CursoAddActivity extends AppCompatActivity {
         return true;
     }
 
-    public void confirm_AddCurso(View view) {
+    public void confirm_EditCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
-                "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
-                etCursoName.getText()));
+                "¿Confirma estas modificaciónes?"));
+
         alertDialogBuilder.setPositiveButton("Sí",
-                  new DialogInterface.OnClickListener() {
+                new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        addCursoConfirm();
+                        editCursoConfirm();
                     }
                 });
 
         alertDialogBuilder.setNegativeButton("No",
                 new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
 
     }
 
-    private void addCursoConfirm() {
-        //TODO: Persistir nuevo curso (nombre y codigo)
+    private void editCursoConfirm() {
+        //TODO: Persistir cambios en curso (nombre y codigo)
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
 
-    public void cancel_AddCurso(View view) {
+    public void cancel_EditCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
-                "¿Desea cancelar la creación del curso?"));
+                "¿Desea cancelar la edición del curso?"));
 
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        addCursoCanceled();
+                        editCursoCanceled();
                     }
                 });
 
@@ -139,7 +140,7 @@ public class CursoAddActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void addCursoCanceled() {
+    private void editCursoCanceled() {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

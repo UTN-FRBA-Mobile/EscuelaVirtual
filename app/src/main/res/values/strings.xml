@@ -30,15 +30,6 @@
     <string name="bar_main_title">Escuela Virtual</string>
     <string name="bar_curso_title">Curso XX</string>
     <string name="bar_curso_add_title">Agregar Curso</string>
+    <string name="bar_curso_edit_title">Editar Curso</string>
 
-    <!--Testeo para RecyclerView - Hardcodeo de nombres-->
-    <string name="ejercicio_1">Ejercicio 1</string>
-    <string name="ejercicio_2">Ejercicio 2</string>
-    <string name="ejercicio_3">Ejercicio 3</string>
-    <string name="ejercicio_4">Ejercicio 4</string>
-    <string name="ejercicio_5">Ejercicio 5</string>
-    <string name="ejercicio_6">Ejercicio 6</string>
-    <string name="ejercicio_7">Ejercicio 7</string>
-    <string name="ejercicio_8">Ejercicio 8</string>
-    <string name="ejercicio_9">Ejercicio 9</string>
 </resources>

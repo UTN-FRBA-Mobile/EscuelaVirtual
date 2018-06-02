@@ -36,6 +36,8 @@
 
         <activity android:name=".CursoAddActivity" android:label="@string/bar_curso_add_title"/>
 
+        <activity android:name=".CursoEditActivity" android:label="@string/bar_curso_edit_title"/>
+
         <activity android:name=".CommentsOnPhotoActivity" />
     </application>
 
