@@ -5,10 +5,12 @@ import java.util.List;
 public class Curso {
 
     private String name;
+    private String descripcion;
     private List<Ejercicio> ejecicioList;
 
-    public Curso(String name, List<Ejercicio> ejecicioList) {
+    public Curso(String name, String descripcion, List<Ejercicio> ejecicioList) {
         this.name = name;
+        this.descripcion = descripcion;
         this.ejecicioList = ejecicioList;
     }
 

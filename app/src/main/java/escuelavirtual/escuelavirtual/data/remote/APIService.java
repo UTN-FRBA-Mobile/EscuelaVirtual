@@ -37,16 +37,15 @@ public interface APIService {
     @HTTP(method = "DELETE", path = "/delete_tag", hasBody = true)
     Call<Tag> deleteTag(@Body Tag tag);
 
-    @POST("/guardar_curso")
+    @POST("/guardar_cursos")
     @FormUrlEncoded
-    Call<CursoPersistible> guardarCurso(@Field("curso") String curso,
+    Call<String> guardarCurso(@Field("curso") String curso,
                                    @Field("descripcion") String descripcion,
                                    @Field("ejecicioList") List<Ejercicio> ejecicioList,
-                                   @Field("docente") int docente);
+                                   @Field("docente") String docente);
 
-    @GET("/get_curso/{curso}")
-    Call<CursoPersistible> getCurso(@Path("curso") String curso,
-                                    @Query("docente") String docente);
+    @GET("/get_cursos")
+    Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
 
     @HTTP(method = "DELETE", path = "/delete_curso", hasBody = true)

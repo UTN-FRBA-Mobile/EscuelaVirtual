@@ -10,8 +10,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CursoAddActivity extends AppCompatActivity {
 
@@ -110,6 +117,21 @@ public class CursoAddActivity extends AppCompatActivity {
 
     private void addCursoConfirm() {
         //TODO: Persistir nuevo curso (nombre y codigo)
+        ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(),etCursoName.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
+        .enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if(response.isSuccessful()) {
+                    Toast.makeText(CursoAddActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
