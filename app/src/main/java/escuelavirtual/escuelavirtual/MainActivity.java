@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -156,12 +157,14 @@ public class MainActivity extends AppCompatActivity {
         alertDialogBuilder.setMessage(String.format(
                 "¿Desea cerrar este curso?%n%n" +
                 "Los subscriptos a este canal seran notificados automaticamente del cierre del mismo"));
-        //TODO: Eliminar el curso de la lista
+
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        eliminarCurso(new CursoPersistible("ERIC","ERIC2",null,FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        //TODO Refrescar pantalla para que desaparezca el curso eliminado
                     }
                 });
 
@@ -177,8 +180,28 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
+    private void eliminarCurso(CursoPersistible cursoPersistible) {
+        ApiUtils.getAPIService().deleteCurso(cursoPersistible)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "El curso ha sido eliminado.",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
     public void trytoEditCurso (View view){
         //TODO: Pasar el nombre del curso al EditText (y codigo)
+
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);
     }

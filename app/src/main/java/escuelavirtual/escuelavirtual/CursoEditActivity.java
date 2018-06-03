@@ -10,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CursoEditActivity extends AppCompatActivity{
 
@@ -110,7 +116,8 @@ public class CursoEditActivity extends AppCompatActivity{
     }
 
     private void editCursoConfirm() {
-        //TODO: Persistir cambios en curso (nombre y codigo)
+        //TODO: Persistir nuevo curso (nombre y codigo)
+
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }

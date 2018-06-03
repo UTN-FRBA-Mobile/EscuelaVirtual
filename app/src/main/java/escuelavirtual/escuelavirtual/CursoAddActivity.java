@@ -123,17 +123,19 @@ public class CursoAddActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(CursoAddActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
+                    startActivity(intent);
                 }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
     }
 
     public void cancel_AddCurso(View view) {

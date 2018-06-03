@@ -48,7 +48,6 @@ public interface APIService {
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
 
-    @HTTP(method = "DELETE", path = "/delete_curso", hasBody = true)
-    Call<CursoPersistible> deleteCurso(@Body CursoPersistible cursoPersistible);
-
+    @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
+    Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);
 }
