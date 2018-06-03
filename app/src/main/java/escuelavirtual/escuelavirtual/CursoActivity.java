@@ -49,6 +49,7 @@ public class CursoActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_ejercicio, menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;
     }
@@ -57,7 +58,9 @@ public class CursoActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_logout:
-                confirm_logout();
+            {confirm_logout(); return false;}
+            case R.id.menu_add_ejercicio_id:
+            {gotoAddEjercicio(); return false;}
             default:
                 return false;
         }
@@ -101,5 +104,44 @@ public class CursoActivity extends AppCompatActivity {
     public void gotoEjercicio(View button) {
         Intent intent = new Intent(button.getContext(), CommentsOnPhotoActivity.class);
         startActivity(intent);
+    }
+
+    public void gotoAddEjercicio() {
+        //TODO: Agregar actividad EjercicioAdd
+/*        Intent intent = new Intent(button.getContext(), XXX);
+        startActivity(intent);*/
+
+    }
+
+    public void trytoDeleteEjercicio (View view){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(
+                "¿Desea eliminar este ejercicio?%n%n" +
+                "Los usuarios con respuestas en este ejercicio seran notificados automaticamente de la eliminación del mismo"));
+        //TODO: Eliminar el ejercicio de la lista
+        alertDialogBuilder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    public void trytoEditEjercicio (View view){
+        //TODO: Agregar actividad EjercicioEdit y pasar el nombre del ejercicio al EditText
+/*        Intent intent = new Intent(this, XXX);
+        startActivity(intent);*/
     }
 }

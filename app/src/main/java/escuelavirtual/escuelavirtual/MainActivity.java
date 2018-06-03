@@ -24,7 +24,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCurso(View view){
+        //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
         Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);
     }
@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trytoEditCurso (View view){
-        //TODO: Pasar el nombre del curso al EditText
+        //TODO: Pasar el nombre del curso al EditText (y codigo)
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);
     }
