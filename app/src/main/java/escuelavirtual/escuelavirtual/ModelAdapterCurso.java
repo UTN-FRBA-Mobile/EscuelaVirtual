@@ -1,10 +1,12 @@
 package escuelavirtual.escuelavirtual;
 
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import java.util.List;
 
 public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.ModelViewHolder>{
@@ -33,14 +35,17 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
     public class ModelViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
+        private AppCompatImageButton deleteButton;
 
         public ModelViewHolder(View itemView) {
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_curso_id);
+            this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.ibtn_delete_curso_id);
         }
 
         public void bind(Curso curso) {
             textView.setText(curso.getName());
+            this.deleteButton.setTag(curso.getName());
         }
     }
 }

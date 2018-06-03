@@ -1,30 +1,24 @@
 package escuelavirtual.escuelavirtual;
 
 import android.app.AlertDialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
-import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -152,7 +146,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void trytoDeleteCurso (View view){
+    public void trytoDeleteCurso (View deleteButton){
+        final Curso courseToDelete = this.findCourseToDelete(deleteButton);
+        // TODO: borrar este Toast
+        Toast.makeText(MainActivity.this, "Curso: "+courseToDelete.getName()+" descripción: "+courseToDelete.getDescripcion(),Toast.LENGTH_SHORT).show();
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
                 "¿Desea cerrar este curso?%n%n" +
@@ -178,6 +176,15 @@ public class MainActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private Curso findCourseToDelete(View view){
+        for(int i = 0; i < this.cursos.size(); i++){
+            if(this.cursos.get(i).getName() == view.getTag()){
+                return this.cursos.get(i);
+            }
+        }
+        return null;
     }
 
     private void eliminarCurso(CursoPersistible cursoPersistible) {
