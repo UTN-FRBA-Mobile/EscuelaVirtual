@@ -4,7 +4,9 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.TagView;
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.Tag;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -34,4 +36,20 @@ public interface APIService {
 
     @HTTP(method = "DELETE", path = "/delete_tag", hasBody = true)
     Call<Tag> deleteTag(@Body Tag tag);
+
+    @POST("/guardar_curso")
+    @FormUrlEncoded
+    Call<CursoPersistible> guardarCurso(@Field("curso") String curso,
+                                   @Field("descripcion") String descripcion,
+                                   @Field("ejecicioList") List<Ejercicio> ejecicioList,
+                                   @Field("docente") int docente);
+
+    @GET("/get_curso/{curso}")
+    Call<CursoPersistible> getCurso(@Path("curso") String curso,
+                                    @Query("docente") String docente);
+
+
+    @HTTP(method = "DELETE", path = "/delete_curso", hasBody = true)
+    Call<CursoPersistible> deleteCurso(@Body CursoPersistible cursoPersistible);
+
 }
