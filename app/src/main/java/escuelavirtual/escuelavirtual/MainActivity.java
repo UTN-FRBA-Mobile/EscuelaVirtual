@@ -195,6 +195,7 @@ public class MainActivity extends AppCompatActivity {
         // TODO: borrar este Toast
         Toast.makeText(MainActivity.this, "Curso: "+courseToEdit.getName()+" descripción: "+courseToEdit.getDescripcion(),Toast.LENGTH_SHORT).show();
 
+        CursoEditActivity.setCourse(courseToEdit);
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);
     }

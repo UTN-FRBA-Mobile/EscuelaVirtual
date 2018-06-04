@@ -18,6 +18,16 @@ public class CursoEditActivity extends AppCompatActivity{
     private EditText etCursoName;
     private EditText etCursoCode;
 
+    private static Curso course;
+
+    public static Curso getCourse() {
+        return course;
+    }
+
+    public static void setCourse(Curso course) {
+        CursoEditActivity.course = course;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +36,9 @@ public class CursoEditActivity extends AppCompatActivity{
         //TODO: Cargar el Nombre y Codigo del curso
         etCursoName = (EditText) findViewById(R.id.et_curso_name_id);
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
+
+        etCursoCode.setText(getCourse().getName());
+        etCursoName.setText(getCourse().getDescripcion());
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
