@@ -49,6 +49,7 @@ public class TemasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+        temas = new ArrayList<String>();
         selectedTema = "";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temas);
@@ -80,7 +81,7 @@ public class TemasActivity extends AppCompatActivity {
                 }
         });
 
-        temas = getTemas();
+        getTemas();
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTemas);
         recyclerView.setLayoutManager(new LinearLayoutManager(TemasActivity.this, LinearLayoutManager.VERTICAL, false));
@@ -129,8 +130,8 @@ public class TemasActivity extends AppCompatActivity {
      * Pasamanos, obtiene temas desde el servicio
      * @return Lista de temas (Strings)
      */
-    private List<String> getTemas() {
-        return getTemasFromService(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    private void getTemas() {
+        getTemasFromService(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     /**
@@ -164,7 +165,6 @@ public class TemasActivity extends AppCompatActivity {
      * Actualiza lista de temas. Generica para todas las acciones que involucren servicios
      */
     private void updateListaTemas() {
-        temas = getTemas();
         mAdapter.notifyDataSetChanged();
         closeTema();
     }
@@ -206,10 +206,8 @@ public class TemasActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             //Toast.makeText(TemasActivity.this, "El tema ha sido eliminado.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(TemasActivity.this, "Tema eliminado: " + tema, Toast.LENGTH_SHORT).show();
+                            temas.remove(tema);
                             updateListaTemas();
-                            //MOCK
-                            //temas.remove(tema);
-
                         }
                     }
 
@@ -232,7 +230,7 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void persistirAddTema(String uid,final String tema) {
-
+        temas.add(tema);
         ApiUtils.getAPIService().guardarTemas(tema,uid)
                 .enqueue(new Callback<String>() {
                     @Override
@@ -252,7 +250,7 @@ public class TemasActivity extends AppCompatActivity {
 
     }
 
-    private List<String> getTemasFromService(String uid) {
+    private void getTemasFromService(String uid) {
         ApiUtils.getAPIService().getTema(uid)
                 .enqueue(new Callback<List<TemaPersistible>>() {
                     @Override
@@ -264,6 +262,7 @@ public class TemasActivity extends AppCompatActivity {
                                 temas.add(tema.getTema());
                             }
 
+                            updateListaTemas();
                         }
                     }
 
@@ -273,7 +272,6 @@ public class TemasActivity extends AppCompatActivity {
 
                     }
                 });
-        return temas;
     }
 
 
