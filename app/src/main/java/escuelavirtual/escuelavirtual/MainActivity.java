@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar();
 
 
-        //TODO: Carga de items - Reemplazar con datos persistidos
         cargarCursos();
 
     }
@@ -136,8 +135,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void trytoDeleteCurso (View deleteButton){
         final Curso courseToDelete = this.findCourseToDelete(deleteButton);
-        // TODO: borrar este Toast
-        Toast.makeText(MainActivity.this, "Curso: "+courseToDelete.getName()+" descripción: "+courseToDelete.getDescripcion(),Toast.LENGTH_SHORT).show();
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
@@ -149,8 +146,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarCurso(new CursoPersistible("ERIC","ERIC2",null,FirebaseAuth.getInstance().getCurrentUser().getUid()));
-                        //TODO Refrescar pantalla para que desaparezca el curso eliminado
+                        eliminarCurso(new CursoPersistible(courseToDelete.getName(),courseToDelete.getDescripcion(),null,FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 });
 

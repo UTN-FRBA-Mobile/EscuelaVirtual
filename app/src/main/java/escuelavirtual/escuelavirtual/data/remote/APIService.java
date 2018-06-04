@@ -5,6 +5,7 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.Tag;
+import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -35,9 +36,9 @@ public interface APIService {
     @POST("/guardar_cursos")
     @FormUrlEncoded
     Call<String> guardarCurso(@Field("curso") String curso,
-                                   @Field("descripcion") String descripcion,
-                                   @Field("ejecicioList") List<Ejercicio> ejecicioList,
-                                   @Field("docente") String docente);
+                              @Field("descripcion") String descripcion,
+                              @Field("ejecicioList") List<Ejercicio> ejecicioList,
+                              @Field("docente") String docente);
 
     @GET("/get_cursos")
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
@@ -45,4 +46,18 @@ public interface APIService {
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
     Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);
+
+    @POST("/post_temas")
+    @FormUrlEncoded
+    Call<String> guardarTemas(@Field("tema") String tema,
+                              @Field("docente") String doocente);
+
+    @GET("/get_temas")
+    Call<List<TemaPersistible>> getTema(@Query("docente") String docente);
+
+
+    @HTTP(method = "DELETE", path = "/delete_temas", hasBody = true)
+    Call<String> deleteTema(@Body TemaPersistible temaPersistible);
+
+
 }

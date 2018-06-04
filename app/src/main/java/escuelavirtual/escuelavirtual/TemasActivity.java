@@ -22,6 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
+import escuelavirtual.escuelavirtual.data.TemaPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static android.view.View.GONE;
 import static android.view.View.INVISIBLE;
 import static android.view.View.VISIBLE;
@@ -132,8 +139,6 @@ public class TemasActivity extends AppCompatActivity {
      */
     private void add_tema(String tema) {
         persistirAddTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
-        Toast.makeText(this, "Tema agregado: " + tema, Toast.LENGTH_SHORT).show();
-        updateListaTemas();
     }
 
     /**
@@ -153,8 +158,6 @@ public class TemasActivity extends AppCompatActivity {
      */
     private void delete_tema(String tema){
         persistirDeleteTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
-        Toast.makeText(this, "Tema eliminado: " + tema, Toast.LENGTH_SHORT).show();
-        updateListaTemas();
     }
 
     /**
@@ -194,11 +197,29 @@ public class TemasActivity extends AppCompatActivity {
      * FUNCIONES DE PERSISTENCIA (SERVICIO)
      */
 
-    private void persistirDeleteTema(String uid, String tema) {
-        //TODO: Persistir Borrar Tema
+    private void persistirDeleteTema(String uid,final String tema) {
 
-        //MOCK
-        temas.remove(tema);
+        ApiUtils.getAPIService().deleteTema(new TemaPersistible(tema,uid))
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            //Toast.makeText(TemasActivity.this, "El tema ha sido eliminado.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TemasActivity.this, "Tema eliminado: " + tema, Toast.LENGTH_SHORT).show();
+                            updateListaTemas();
+                            //MOCK
+                            //temas.remove(tema);
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(TemasActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
 
     }
 
@@ -210,27 +231,49 @@ public class TemasActivity extends AppCompatActivity {
         temas.set(temaEditado, nuevo);
     }
 
-    private void persistirAddTema(String uid, String tema) {
-        //TODO: Persistir Creacion de tema
+    private void persistirAddTema(String uid,final String tema) {
 
-        //MOCK
-        temas.add(tema);
+        ApiUtils.getAPIService().guardarTemas(tema,uid)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            //Toast.makeText(TemasActivity.this, "Se ha guardado el tema exitosamente.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(TemasActivity.this, "Tema agregado: " + tema, Toast.LENGTH_SHORT).show();
+                            updateListaTemas();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(TemasActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     private List<String> getTemasFromService(String uid) {
-        //TODO: Get temas from Service
+        ApiUtils.getAPIService().getTema(uid)
+                .enqueue(new Callback<List<TemaPersistible>>() {
+                    @Override
+                    public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
+                        if(response.isSuccessful()) {
+                            List<TemaPersistible> lista = response.body();
+                            for (TemaPersistible tema : lista) {
 
-        //MOCK
-        List<String> init_temas = new ArrayList<String>();
-        if(temas == null || temas.size() == 0) {
-            init_temas.add("Tema 1");
-            init_temas.add("Tema 2");
-            init_temas.add("Tema 3");
-        }else{
-            init_temas = temas;
-        }
+                                temas.add(tema.getTema());
+                            }
 
-        return init_temas;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<TemaPersistible>> call, Throwable t) {
+                        Toast.makeText(TemasActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+        return temas;
     }
 
 
