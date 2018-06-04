@@ -191,11 +191,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trytoEditCurso (View button){
-        Curso courseToEdit = this.findCourseToDelete(button);
-        // TODO: borrar este Toast
-        Toast.makeText(MainActivity.this, "Curso: "+courseToEdit.getName()+" descripción: "+courseToEdit.getDescripcion(),Toast.LENGTH_SHORT).show();
-
-        CursoEditActivity.setCourse(courseToEdit);
+        CursoEditActivity.setCourse(this.findCourseToDelete(button));
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);
     }
