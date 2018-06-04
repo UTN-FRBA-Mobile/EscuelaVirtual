@@ -30,6 +30,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
+
 public class MainActivity extends AppCompatActivity {
     final List<Curso> cursos = new ArrayList<>();
 
@@ -111,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
             case R.id.action_logout:
-                {confirm_logout(); return false;}
+                {confirm_logout(this); return false;}
             case R.id.menu_add_curso_id:
                 {gotoAddCurso(); return false;}
             case R.id.action_temas:
@@ -121,34 +123,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void confirm_logout() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("¿Cerrar Sesión?");
-                alertDialogBuilder.setPositiveButton("Sí",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                logout();
-                            }
-                        });
 
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
 
-    }
 
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
+
 
     public void gotoCurso(View view){
         //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
