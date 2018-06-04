@@ -1,22 +1,17 @@
 package escuelavirtual.escuelavirtual.data.remote;
-import org.json.JSONObject;
 
-import java.io.Serializable;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Ejercicio;
-import escuelavirtual.escuelavirtual.TagView;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.Tag;
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface APIService {

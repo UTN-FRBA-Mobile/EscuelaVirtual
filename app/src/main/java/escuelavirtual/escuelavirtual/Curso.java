@@ -16,5 +16,7 @@ public class Curso {
 
     public String getName() { return name; }
 
+    public String getDescripcion() { return descripcion; }
+
     public List<Ejercicio> getEjercicioList() { return ejecicioList; }
 }
