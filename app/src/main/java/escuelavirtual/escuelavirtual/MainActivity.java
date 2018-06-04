@@ -206,8 +206,10 @@ public class MainActivity extends AppCompatActivity {
                 });
     }
 
-    public void trytoEditCurso (View view){
-        //TODO: Pasar el nombre del curso al EditText (y codigo)
+    public void trytoEditCurso (View button){
+        Curso courseToEdit = this.findCourseToDelete(button);
+        // TODO: borrar este Toast
+        Toast.makeText(MainActivity.this, "Curso: "+courseToEdit.getName()+" descripción: "+courseToEdit.getDescripcion(),Toast.LENGTH_SHORT).show();
 
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);

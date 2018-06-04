@@ -36,16 +36,19 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
 
         private TextView textView;
         private AppCompatImageButton deleteButton;
+        private AppCompatImageButton editButton;
 
         public ModelViewHolder(View itemView) {
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_curso_id);
             this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.ibtn_delete_curso_id);
+            this.editButton = (AppCompatImageButton) itemView.findViewById(R.id.ibtn_edit_curso_id);
         }
 
         public void bind(Curso curso) {
             textView.setText(curso.getName());
             this.deleteButton.setTag(curso.getName());
+            this.editButton.setTag(curso.getName());
         }
     }
 }
