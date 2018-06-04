@@ -59,5 +59,18 @@ public interface APIService {
     @HTTP(method = "DELETE", path = "/delete_temas", hasBody = true)
     Call<String> deleteTema(@Body TemaPersistible temaPersistible);
 
+    @POST("/update_temas")
+    @FormUrlEncoded
+    Call<String> updateTemas(@Field("viejo") String viejo,
+                              @Field("tema") String tema,
+                              @Field("docente") String docente);
 
+    @POST("/update_cursos")
+    @FormUrlEncoded
+    Call<String> updateCursos(@Field("codViejo") String codViejo,
+                              @Field("codNuevo") String codNuevo,
+                              @Field("descViejo") String descViejo,
+                              @Field("descNuevo") String descNuevo,
+                              @Field("docente") String docente
+                              );
 }

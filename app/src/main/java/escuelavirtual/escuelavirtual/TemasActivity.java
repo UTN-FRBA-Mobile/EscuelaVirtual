@@ -149,8 +149,6 @@ public class TemasActivity extends AppCompatActivity {
      */
     private void update_tema(String viejo, String nuevo){
         persistirUpdateTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),viejo,nuevo);
-        Toast.makeText(this, "Tema actualizado: " + nuevo, Toast.LENGTH_SHORT).show();
-        updateListaTemas();
     }
 
     /**
@@ -221,16 +219,29 @@ public class TemasActivity extends AppCompatActivity {
 
     }
 
-    private void persistirUpdateTema(String uid, String viejo, String nuevo) {
-        //TODO: Persistir Actualizacion de tema
+    private void persistirUpdateTema(String uid,final String viejo,final String nuevo) {
 
-        //MOCK
-        Integer temaEditado = temas.indexOf(viejo);
-        temas.set(temaEditado, nuevo);
+        ApiUtils.getAPIService().updateTemas(viejo,nuevo,uid)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(TemasActivity.this, "Tema actualizado: " + nuevo, Toast.LENGTH_SHORT).show();
+                            Integer temaEditado = temas.indexOf(viejo);
+                            temas.set(temaEditado, nuevo);
+                            updateListaTemas();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(TemasActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 
     private void persistirAddTema(String uid,final String tema) {
-        temas.add(tema);
         ApiUtils.getAPIService().guardarTemas(tema,uid)
                 .enqueue(new Callback<String>() {
                     @Override
@@ -238,6 +249,7 @@ public class TemasActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             //Toast.makeText(TemasActivity.this, "Se ha guardado el tema exitosamente.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(TemasActivity.this, "Tema agregado: " + tema, Toast.LENGTH_SHORT).show();
+                            temas.add(tema);
                             updateListaTemas();
                         }
                     }

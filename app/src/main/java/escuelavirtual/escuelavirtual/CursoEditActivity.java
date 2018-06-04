@@ -10,8 +10,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CursoEditActivity extends AppCompatActivity{
 
@@ -123,10 +129,23 @@ public class CursoEditActivity extends AppCompatActivity{
     }
 
     private void editCursoConfirm() {
-        //TODO: Persistir nuevo curso (nombre y codigo)
+        ApiUtils.getAPIService().updateCursos(course.getName(),etCursoCode.getText().toString(),course.getDescripcion(),etCursoName.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(CursoEditActivity.this, "El curso ha sido editado.",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CursoEditActivity.this, MainActivity.class);
+                            startActivity(intent);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(CursoEditActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     public void cancel_EditCurso(View view) {
