@@ -60,7 +60,7 @@ public class CursoActivity extends AppCompatActivity {
             case R.id.action_logout:
             {confirm_logout(); return false;}
             case R.id.menu_add_ejercicio_id:
-            {gotoAddEjercicio(); return false;}
+            {addEjercicio(); return false;}
             default:
                 return false;
         }
@@ -106,11 +106,9 @@ public class CursoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void gotoAddEjercicio() {
-        //TODO: Agregar actividad EjercicioAdd
-/*        Intent intent = new Intent(button.getContext(), XXX);
-        startActivity(intent);*/
-
+    public void addEjercicio() {
+        Intent intent = new Intent(this, EjercicioAddActivity.class);
+        startActivity(intent);
     }
 
     public void trytoDeleteEjercicio (View view){

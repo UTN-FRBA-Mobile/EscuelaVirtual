@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGreen1"
+    android:orientation="vertical"
+    android:gravity="top">
+
+    <include layout="@layout/toolbar_global"></include>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="top"
+        android:weightSum="100"
+        android:background="@color/colorWhite">
+
+        <ImageView
+            android:id="@+id/photo_id"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="70"
+            android:layout_margin="10dp"
+            android:padding="10dp"
+            android:background="@color/colorGreyCommentSection"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="30"
+            android:background="@color/colorWhite"
+            android:orientation="horizontal"
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/take_photo_id"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/photo_camera_icon"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

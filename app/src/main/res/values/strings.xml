@@ -26,11 +26,12 @@
     <string name="logout">Cerrar Sesión</string>
 
     <!-- Titulos -->
-    <string name="title_activity_login">Escuela Virtual - Login</string>
-    <string name="bar_main_title">Escuela Virtual</string>
-    <string name="bar_curso_title">Curso XX</string>
-    <string name="bar_curso_add_title">Agregar Curso</string>
-    <string name="bar_curso_edit_title">Editar Curso</string>
+    <string name="title_activity_login">EV - Login</string>
+    <string name="bar_main_title">EV - Cursos</string>
+    <string name="bar_curso_title">EV - Ejercicios</string>
+    <string name="bar_curso_add_title">EV - Agregar curso</string>
+    <string name="bar_curso_edit_title">EV - Editar curso</string>
+    <string name="bar_ejercicio_add_title">EV - Agregar ejercicio</string>
 
 
 
