@@ -14,31 +14,49 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".MainActivity" android:label="@string/bar_main_title" />
-
-        <activity android:name=".LoginActivity" android:label="@string/title_activity_login">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/bar_main_title" />
+        <activity
+            android:name=".LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".RegistrationActivity"
+            android:label="Registración"
+            android:parentActivityName=".LoginActivity">
 
-        <activity android:name=".RegistrationActivity" android:label="Registración"
-            android:parentActivityName=".LoginActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-
-        <activity android:name=".CursoActivity" android:label="@string/bar_curso_title"/>
-
-        <activity android:name=".CursoAddActivity" android:label="@string/bar_curso_add_title"/>
-
-        <activity android:name=".CursoEditActivity" android:label="@string/bar_curso_edit_title"/>
-
+        <activity
+            android:name=".CursoActivity"
+            android:label="@string/bar_curso_title" />
+        <activity
+            android:name=".CursoAddActivity"
+            android:label="@string/bar_curso_add_title" />
+        <activity
+            android:name=".CursoEditActivity"
+            android:label="@string/bar_curso_edit_title" />
         <activity android:name=".CommentsOnPhotoActivity" />
+        <activity
+            android:name=".TemasActivity"
+            android:label="@string/title_activity_temas"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".MainActivity">
+
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

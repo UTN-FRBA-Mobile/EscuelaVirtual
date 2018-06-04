@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_add_tema_id"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="Agregar Tema"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/menu_filtrar_tema_id"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="Filtrar Tema"
+        app:showAsAction="ifRoom"/>
+</menu>

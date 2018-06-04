@@ -32,4 +32,10 @@
     <string name="bar_curso_add_title">Agregar Curso</string>
     <string name="bar_curso_edit_title">Editar Curso</string>
 
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="temas">Temas</string>
+    <string name="title_activity_temas">Temas</string>
+
 </resources>

@@ -100,6 +100,13 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.action_temas).setVisible(true);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
@@ -107,6 +114,8 @@ public class MainActivity extends AppCompatActivity {
                 {confirm_logout(); return false;}
             case R.id.menu_add_curso_id:
                 {gotoAddCurso(); return false;}
+            case R.id.action_temas:
+                {gotoTemas(); return false;}
             default:
                 return false;
         }
@@ -203,6 +212,11 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Pasar el nombre del curso al EditText (y codigo)
 
         Intent intent = new Intent(this, CursoEditActivity.class);
+        startActivity(intent);
+    }
+
+    private void gotoTemas() {
+        Intent intent = new Intent(this, TemasActivity.class);
         startActivity(intent);
     }
 }

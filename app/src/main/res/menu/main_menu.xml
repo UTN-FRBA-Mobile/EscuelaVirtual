@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <item
+        android:id="@+id/action_temas"
+        android:visible="false"
+        android:title="@string/temas"
+        app:showAsAction="never" />
+
     <item android:id="@+id/action_logout"
         android:title="@string/logout"
         app:showAsAction="never"/>
