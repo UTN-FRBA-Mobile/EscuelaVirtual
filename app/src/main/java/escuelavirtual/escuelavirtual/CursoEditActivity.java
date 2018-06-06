@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -44,7 +45,7 @@ public class CursoEditActivity extends AppCompatActivity{
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
 
         etCursoCode.setText(getCourse().getName());
-        etCursoName.setText(getCourse().getDescripcion());
+        etCursoName.setText(FirebaseInstanceId.getInstance().getToken());
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
