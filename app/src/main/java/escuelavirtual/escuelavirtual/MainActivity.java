@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
@@ -39,6 +40,13 @@ public class MainActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar();
+
+        /*ApiUtils.getAPIService().guardarTemas(FirebaseInstanceId.getInstance().getToken(),"HASTA ACÁ").enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) { }
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) { }});
+*/
 
         cargarCursos();
 

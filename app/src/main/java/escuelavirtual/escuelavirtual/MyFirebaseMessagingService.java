@@ -19,7 +19,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Toast.makeText(MyFirebaseMessagingService.this, "asdasdasdasda",Toast.LENGTH_SHORT).show();
 
         String notificationTitle = null, notificationBody = null;
 
