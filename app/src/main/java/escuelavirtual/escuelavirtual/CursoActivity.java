@@ -102,7 +102,7 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void gotoEjercicio(View button) {
-        Intent intent = new Intent(button.getContext(), CommentsOnPhotoActivity.class);
+        Intent intent = new Intent(button.getContext(), EjercicioActivity.class);
         startActivity(intent);
     }
 

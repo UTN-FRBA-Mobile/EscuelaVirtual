@@ -34,9 +34,9 @@
     <string name="bar_ejercicio_add_title">EV - Agregar ejercicio</string>
 
 
-
     <!-- TODO: Remove or change this placeholder text -->
     <string name="temas">Temas</string>
     <string name="title_activity_temas">Temas</string>
+    <string name="title_activity_ejercicio">Ejercicio</string>
 
 </resources>
