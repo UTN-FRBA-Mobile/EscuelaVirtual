@@ -115,7 +115,6 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
-        //TODO: Persistir nuevo curso (nombre y codigo)
         ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(),etCursoName.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override

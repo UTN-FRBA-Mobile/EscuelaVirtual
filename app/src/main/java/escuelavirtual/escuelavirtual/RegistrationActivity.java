@@ -19,6 +19,15 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.io.IOException;
+
+import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class RegistrationActivity extends AppCompatActivity {
 
@@ -59,13 +68,13 @@ public class RegistrationActivity extends AppCompatActivity {
         if(validarRegistro()){
             email = mEmailView.getText().toString();
             String password = mPasswordView.getText().toString();
-            mAuth.createUserWithEmailAndPassword(email, password)
+            //String uid =
+                    mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                guardarUsuario(mAuth.getCurrentUser().getUid());
                                 updateUI(true);
                             } else {
                                 try {
@@ -92,7 +101,22 @@ public class RegistrationActivity extends AppCompatActivity {
     private void guardarUsuario(String uid) {
         String nombre = mNombreView.getText().toString();
         int perfil = mPerfilRadioGroup.getCheckedRadioButtonId();
+        //1 alumno, 0 docente
+        perfil = (perfil == 2131230868)?1:0;
+        ApiUtils.getAPIService().guardarUsuario(nombre, perfil, uid, FirebaseInstanceId.getInstance().getToken())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(RegistrationActivity.this, "Usuario Registrado.",Toast.LENGTH_SHORT).show();
+                        }
+                    }
 
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(RegistrationActivity.this, "Falló la registración del usuario",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -143,6 +167,7 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void updateUI(boolean successfulReg) {
         if(successfulReg){
+            guardarUsuario(mAuth.getCurrentUser().getUid());
             Intent returnIntent = new Intent();
             returnIntent.putExtra("email",email);
             setResult(Activity.RESULT_OK,returnIntent);

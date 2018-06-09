@@ -18,6 +18,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -37,6 +38,12 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -108,20 +115,41 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     @Override
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser currentUser) {
 
         if(currentUser != null) {
-            Intent intent = new Intent(this, MainActivity.class);
-            startActivity(intent);
+            obtenerUsuario(currentUser);
         }else {
             showProgress(false);
         }
     }
+
+    private void obtenerUsuario(FirebaseUser currentUser) {
+        ApiUtils.getAPIService().getUsuario(currentUser.getUid().toString())
+                .enqueue(new Callback<UsuarioPersistible>() {
+                    @Override
+                    public void onResponse(Call<UsuarioPersistible> call, Response<UsuarioPersistible> response) {
+                        if(response.isSuccessful()) {
+                            UsuarioPersistible usuario = response.body();
+                            //TODO Aca esta el usuario, preguntar si es alumno o profesor y hacer magia (1 alumno, 0 docente)
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<UsuarioPersistible> call, Throwable t) {
+                        Toast.makeText(LoginActivity.this, "Falló el Login del usuario.",Toast.LENGTH_SHORT).show();
+                        showProgress(false);
+                        Log.d("ERIC",t.getMessage().toString());
+
+                    }
+                });
+        }
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {
@@ -228,6 +256,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             // Log.d(TAG, "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             // Log.w(TAG, "signInWithEmail:failure", task.getException());

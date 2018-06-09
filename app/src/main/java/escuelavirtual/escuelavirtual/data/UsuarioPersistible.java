@@ -10,11 +10,18 @@ public class UsuarioPersistible {
     @SerializedName("perfil")
     @Expose
     private int perfil;
+    @SerializedName("uid")
+    @Expose
+    private String uid;
+    @SerializedName("token")
+    @Expose
+    private String token;
 
-
-    public UsuarioPersistible(String nombre, int perfil) {
+    public UsuarioPersistible(String nombre, int perfil, String uid, String token) {
         this.nombre = nombre;
         this.perfil = perfil;
+        this.uid = uid;
+        this.token = token;
     }
 
 
@@ -24,5 +31,13 @@ public class UsuarioPersistible {
 
     public int getPerfil() {
         return perfil;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public String getToken() {
+        return token;
     }
 }

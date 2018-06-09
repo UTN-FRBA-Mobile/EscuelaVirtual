@@ -6,6 +6,7 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
+import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.Field;
@@ -73,4 +74,16 @@ public interface APIService {
                               @Field("descNuevo") String descNuevo,
                               @Field("docente") String docente
                               );
+
+    @POST("/post_usuario")
+    @FormUrlEncoded
+    Call<String> guardarUsuario(@Field("nombre") String nombre,
+                                @Field("perfil") int perfil,
+                                @Field("uid") String uid,
+                                @Field("token") String token);
+
+    @GET("/gat_usuario")
+    Call<UsuarioPersistible> getUsuario(@Query("uid") String uid);
+
+
 }

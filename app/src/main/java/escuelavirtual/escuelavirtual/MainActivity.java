@@ -41,13 +41,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar();
 
-        /*ApiUtils.getAPIService().guardarTemas(FirebaseInstanceId.getInstance().getToken(),"HASTA ACÁ").enqueue(new Callback<String>() {
-                    @Override
-                    public void onResponse(Call<String> call, Response<String> response) { }
-                    @Override
-                    public void onFailure(Call<String> call, Throwable t) { }});
-*/
-
         cargarCursos();
 
     }
