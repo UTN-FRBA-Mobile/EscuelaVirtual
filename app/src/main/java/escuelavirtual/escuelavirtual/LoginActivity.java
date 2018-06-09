@@ -136,8 +136,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             //TODO Aca esta el usuario, preguntar si es alumno o profesor y hacer magia (1 alumno, 0 docente)
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
-
-
                         }
                     }
 
@@ -145,8 +143,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onFailure(Call<UsuarioPersistible> call, Throwable t) {
                         Toast.makeText(LoginActivity.this, "Falló el Login del usuario.",Toast.LENGTH_SHORT).show();
                         showProgress(false);
-                        Log.d("ERIC",t.getMessage().toString());
-
                     }
                 });
         }
