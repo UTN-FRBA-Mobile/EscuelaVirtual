@@ -92,7 +92,8 @@ public class RegistrationActivity extends AppCompatActivity {
     private void guardarUsuario(String uid) {
         String nombre = mNombreView.getText().toString();
         int perfil = mPerfilRadioGroup.getCheckedRadioButtonId();
-        //TODO: Persistir Usuario
+
+
     }
 
     private boolean validarRegistro() {
