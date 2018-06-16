@@ -15,7 +15,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".docente.MainActivity"
+            android:label="@string/bar_main_title" />
+        <activity
+            android:name=".alumno.MainActivity"
             android:label="@string/bar_main_title" />
         <activity
             android:name=".LoginActivity"
@@ -37,28 +40,31 @@
                 android:value=".LoginActivity" />
         </activity>
         <activity
-            android:name=".CursoActivity"
+            android:name=".docente.CursoActivity"
             android:label="@string/bar_curso_title" />
         <activity
-            android:name=".CursoAddActivity"
+            android:name=".docente.CursoAddActivity"
             android:label="@string/bar_curso_add_title" />
         <activity
-            android:name=".CursoEditActivity"
-            android:label="@string/bar_curso_edit_title" />
-        <activity android:name=".CommentsOnPhotoActivity" />
+            android:name=".alumno.CursoAddActivity"
+            android:label="@string/bar_curso_add_title" />
         <activity
-            android:name=".EjercicioAddActivity"
+            android:name=".docente.CursoEditActivity"
+            android:label="@string/bar_curso_edit_title" />
+        <activity android:name=".docente.CommentsOnPhotoActivity" />
+        <activity
+            android:name=".docente.EjercicioAddActivity"
             android:label="@string/bar_ejercicio_add_title" />
         <activity
-            android:name=".TemasActivity"
+            android:name=".docente.TemasActivity"
             android:label="@string/title_activity_temas"
-            android:parentActivityName=".MainActivity"
+            android:parentActivityName=".docente.MainActivity"
             android:theme="@style/AppTheme">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".docente.MainActivity" />
         </activity>
 
         <service android:name=".MyFirebaseMessagingService">
@@ -74,15 +80,15 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".EjercicioActivity"
+        <activity android:name=".docente.EjercicioActivity"
             android:label="@string/title_activity_ejercicio"
-            android:parentActivityName=".CursoActivity"
+            android:parentActivityName=".docente.CursoActivity"
             android:theme="@style/AppTheme">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".CursoActivity" />
+                android:value=".docente.CursoActivity" />
         </activity>
     </application>
 

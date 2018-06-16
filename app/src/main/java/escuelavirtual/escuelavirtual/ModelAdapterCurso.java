@@ -1,5 +1,6 @@
 package escuelavirtual.escuelavirtual;
 
+import android.content.Context;
 import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.ModelViewHolder>{
 
     private List<Curso> items;
+    private boolean docente;
 
-    public ModelAdapterCurso(List<Curso> items) {
+    public ModelAdapterCurso(List<Curso> items, Context parent) {
         this.items = items;
+        this.docente = (parent.getClass().getName().contains("docente"));
     }
 
     @Override
@@ -43,6 +46,7 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
             this.textView = (TextView) itemView.findViewById(R.id.tv_curso_id);
             this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.ibtn_delete_curso_id);
             this.editButton = (AppCompatImageButton) itemView.findViewById(R.id.ibtn_edit_curso_id);
+            this.editButton.setVisibility(docente?View.VISIBLE:View.GONE);
         }
 
         public void bind(Curso curso) {

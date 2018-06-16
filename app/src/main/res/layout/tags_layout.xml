@@ -8,7 +8,7 @@
     android:layout_marginRight="10dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/rounded_text_image"
-    tools:context=".MainActivity">
+    tools:context=".docente.MainActivity">
 
     <ImageView
         android:id="@+id/base_image_id"

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorGreen1"
     android:orientation="vertical"
-    tools:context="escuelavirtual.escuelavirtual.docente.CursoEditActivity">
+    tools:context="escuelavirtual.escuelavirtual.alumno.CursoAddActivity">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
@@ -19,18 +19,18 @@
         <include layout="@layout/toolbar_global" />
 
         <TextView
-            android:id="@+id/tv_curso_name_id"
+            android:id="@+id/tv_docente_name_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:singleLine="false"
-            android:text="Nombre del Curso"
+            android:text="Nombre del Docente"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <EditText
-            android:id="@+id/et_curso_name_id"
+            android:id="@+id/et_docente_name_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -39,7 +39,7 @@
             android:layout_weight="0"
             android:background="@drawable/rounded_text_comment_box"
             android:gravity="top|start"
-            android:hint="Ingresá el nombre del curso"
+            android:hint="Ingresá el nombre del docente"
             android:maxLength="48"
             android:maxLines="1"
             android:paddingBottom="10dp"
@@ -82,6 +82,18 @@
             android:textColorHint="@color/colorGreyCommentSection"
             android:textSize="18dp" />
 
+        <TextView
+            android:id="@+id/tv_curso_detail_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="50dp"
+            android:singleLine="false"
+            android:text="Nombre del Curso: Ingenieria y Sociedad"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -89,6 +101,21 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fabFindCurso_id"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/activity_vertical_margin"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:longClickable="false"
+            android:onClick="find_Curso"
+            android:visibility="gone"
+            app:backgroundTint="@color/colorGreen3"
+            app:elevation="0dp"
+            app:srcCompat="@android:drawable/ic_menu_search" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabConfirmCurso_id"
@@ -99,7 +126,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
-            android:onClick="confirm_EditCurso"
+            android:onClick="confirm_AddCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="?android:attr/textCheckMark" />
@@ -113,7 +140,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:longClickable="false"
-            android:onClick="cancel_EditCurso"
+            android:onClick="cancel_AddCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
             app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />

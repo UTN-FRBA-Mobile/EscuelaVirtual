@@ -1,4 +1,4 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.docente;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;

@@ -1,4 +1,4 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,14 +14,17 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.Curso;
+import escuelavirtual.escuelavirtual.LoginActivity;
+import escuelavirtual.escuelavirtual.ModelAdapterCurso;
+import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,8 +32,8 @@ import retrofit2.Response;
 import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 
 public class MainActivity extends AppCompatActivity {
-    final List<Curso> cursos = new ArrayList<>();
 
+    final List<Curso> cursos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar();
 
         cargarCursos();
-
     }
 
     private void cargarCursos() {
@@ -54,15 +56,11 @@ public class MainActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<CursoPersistible> lista = response.body();
                             for (CursoPersistible cursoP : lista) {
-
-                                //TODO ejercicios habria que reemplazarlo por cursoP.getEjercicios()
-                                final List<Ejercicio> ejercicios = new ArrayList<>();
-                                ejercicios.add(new Ejercicio("Ejercicio 1"));
-                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), ejercicios));
+                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
                             }
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos));
+                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
                         }
                     }
 
@@ -116,12 +114,6 @@ public class MainActivity extends AppCompatActivity {
                 return false;
         }
     }
-
-
-
-
-
-
 
     public void gotoCurso(View view){
         //TODO: Pasar el nombre del ejercicio para el encabezado en el menu

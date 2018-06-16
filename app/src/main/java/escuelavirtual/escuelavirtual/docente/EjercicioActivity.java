@@ -1,4 +1,4 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.docente;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +13,9 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
+import escuelavirtual.escuelavirtual.R;
 
 import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 

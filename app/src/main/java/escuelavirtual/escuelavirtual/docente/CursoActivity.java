@@ -1,4 +1,4 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,6 +16,11 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import escuelavirtual.escuelavirtual.Ejercicio;
+import escuelavirtual.escuelavirtual.LoginActivity;
+import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
+import escuelavirtual.escuelavirtual.R;
 
 public class CursoActivity extends AppCompatActivity {
 

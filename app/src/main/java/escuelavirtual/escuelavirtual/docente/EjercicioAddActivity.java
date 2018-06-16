@@ -1,37 +1,21 @@
-package escuelavirtual.escuelavirtual;
+package escuelavirtual.escuelavirtual.docente;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
-import escuelavirtual.escuelavirtual.data.CursoPersistible;
-import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
+import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.docente.CursoActivity;
 
 public class EjercicioAddActivity extends AppCompatActivity {
 

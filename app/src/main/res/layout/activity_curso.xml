@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center|top"
-    tools:context="escuelavirtual.escuelavirtual.CursoActivity"
+    tools:context="escuelavirtual.escuelavirtual.docente.CursoActivity"
     android:background="@color/colorGreen1">
 
     <LinearLayout

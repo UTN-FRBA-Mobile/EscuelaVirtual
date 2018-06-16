@@ -18,7 +18,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -95,11 +94,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             }
         });
 
-//     /TODO: Completo login - para agilizar las pruebas *recordar quitar*
-        mEmailView.setText("e@v.com");
-        mPasswordView.setText("123456");
-//     \End
-
         Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
@@ -133,8 +127,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     public void onResponse(Call<UsuarioPersistible> call, Response<UsuarioPersistible> response) {
                         if(response.isSuccessful()) {
                             UsuarioPersistible usuario = response.body();
+                            Intent intent;
                             //TODO Aca esta el usuario, preguntar si es alumno o profesor y hacer magia (1 alumno, 0 docente)
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            if (usuario.getPerfil() == 0)
+                                //Es Docente
+                                {intent = new Intent(LoginActivity.this,
+                                        escuelavirtual.escuelavirtual.docente.MainActivity.class);}
+                            else//Es Alumno
+                                {intent = new Intent(LoginActivity.this,
+                                        escuelavirtual.escuelavirtual.alumno.MainActivity.class);}
                             startActivity(intent);
                         }
                     }

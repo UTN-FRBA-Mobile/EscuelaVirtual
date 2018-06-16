@@ -102,6 +102,7 @@ public class RegistrationActivity extends AppCompatActivity {
         String nombre = mNombreView.getText().toString();
         int perfil = mPerfilRadioGroup.getCheckedRadioButtonId();
         //1 alumno, 0 docente
+        //TODO: Cambiar referencia explicita por una referencia
         perfil = (perfil == 2131230868)?1:0;
         ApiUtils.getAPIService().guardarUsuario(nombre, perfil, uid, FirebaseInstanceId.getInstance().getToken())
                 .enqueue(new Callback<String>() {
