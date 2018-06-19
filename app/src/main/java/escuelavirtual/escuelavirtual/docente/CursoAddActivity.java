@@ -23,16 +23,16 @@ import retrofit2.Response;
 
 public class CursoAddActivity extends AppCompatActivity {
 
-    private EditText etCursoName;
     private EditText etCursoCode;
+    private EditText etCursoDescripcion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso_add);
 
-        etCursoName = (EditText) findViewById(R.id.et_curso_name_id);
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
+        etCursoDescripcion = (EditText) findViewById(R.id.et_curso_descripcion_id);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
@@ -94,7 +94,7 @@ public class CursoAddActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
                 "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
-                etCursoName.getText()));
+                etCursoDescripcion.getText()));
         alertDialogBuilder.setPositiveButton("Sí",
                   new DialogInterface.OnClickListener() {
                     @Override
@@ -117,7 +117,7 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
-        ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(),etCursoName.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(), etCursoDescripcion.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {

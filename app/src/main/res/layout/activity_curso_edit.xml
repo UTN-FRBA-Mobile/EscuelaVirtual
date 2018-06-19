@@ -19,38 +19,6 @@
         <include layout="@layout/toolbar_global" />
 
         <TextView
-            android:id="@+id/tv_curso_name_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:singleLine="false"
-            android:text="Nombre del Curso"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_curso_name_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="0"
-            android:background="@drawable/rounded_text_comment_box"
-            android:gravity="top|start"
-            android:hint="Ingresá el nombre del curso"
-            android:maxLength="48"
-            android:maxLines="1"
-            android:paddingBottom="10dp"
-            android:paddingEnd="10dp"
-            android:paddingStart="10dp"
-            android:paddingTop="15dp"
-            android:singleLine="true"
-            android:textColorHint="@color/colorGreyCommentSection"
-            android:textSize="18dp" />
-
-        <TextView
             android:id="@+id/tv_curso_code_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -82,6 +50,38 @@
             android:textColorHint="@color/colorGreyCommentSection"
             android:textSize="18dp" />
 
+        <TextView
+            android:id="@+id/tv_curso_name_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:singleLine="false"
+            android:text="Nombre del Curso"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/et_curso_descripcion_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_weight="0"
+            android:background="@drawable/rounded_text_comment_box"
+            android:gravity="top|start"
+            android:hint="Ingresá el nombre del curso"
+            android:maxLength="48"
+            android:maxLines="1"
+            android:paddingBottom="10dp"
+            android:paddingEnd="10dp"
+            android:paddingStart="10dp"
+            android:paddingTop="15dp"
+            android:singleLine="true"
+            android:textColorHint="@color/colorGreyCommentSection"
+            android:textSize="18dp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -102,7 +102,7 @@
             android:onClick="confirm_EditCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
-            app:srcCompat="?android:attr/textCheckMark" />
+            app:srcCompat="@android:drawable/ic_input_add" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fabCancelCurso_id"
@@ -116,7 +116,7 @@
             android:onClick="cancel_EditCurso"
             app:backgroundTint="@color/colorGreen3"
             app:elevation="0dp"
-            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+            app:srcCompat="@android:drawable/ic_delete" />
     </LinearLayout>
 
 </FrameLayout>

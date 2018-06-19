@@ -21,11 +21,9 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
-import escuelavirtual.escuelavirtual.OnItemClickListener;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -61,12 +59,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this, new OnItemClickListener() {
-                                @Override
-                                public void onItemClick(Curso curso) {
-                                    Toast.makeText(MainActivity.this, curso.getName(), Toast.LENGTH_LONG).show();
-                                }
-                            }));
+                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
                         }
                     }
 
@@ -140,7 +133,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarCurso(new CursoPersistible(courseToDelete.getName(),
+                        eliminarCurso(new CursoPersistible(courseToDelete.getCodigo(),
                                 courseToDelete.getDescripcion(),null,
                                 FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
@@ -160,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Curso findCourseToDelete(View view){
         for(int i = 0; i < this.cursos.size(); i++){
-            if(this.cursos.get(i).getName() == view.getTag()){
+            if(this.cursos.get(i).getCodigo() == view.getTag()){
                 return this.cursos.get(i);
             }
         }

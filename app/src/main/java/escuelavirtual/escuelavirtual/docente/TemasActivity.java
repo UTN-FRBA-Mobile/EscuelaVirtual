@@ -17,7 +17,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.ArrayList;
 import java.util.List;
 
-
 import escuelavirtual.escuelavirtual.ModelAdapterTema;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;

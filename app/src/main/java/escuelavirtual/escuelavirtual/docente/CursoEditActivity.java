@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.iid.FirebaseInstanceId;
 
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
@@ -25,8 +24,8 @@ import retrofit2.Response;
 
 public class CursoEditActivity extends AppCompatActivity{
 
-    private EditText etCursoName;
     private EditText etCursoCode;
+    private EditText etCursoDescripcion;
 
     private static Curso course;
 
@@ -44,11 +43,11 @@ public class CursoEditActivity extends AppCompatActivity{
         setContentView(R.layout.activity_curso_edit);
 
         //TODO: Cargar el Nombre y Codigo del curso
-        etCursoName = (EditText) findViewById(R.id.et_curso_name_id);
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
+        etCursoDescripcion = (EditText) findViewById(R.id.et_curso_descripcion_id);
 
-        etCursoCode.setText(getCourse().getName());
-        etCursoName.setText(FirebaseInstanceId.getInstance().getToken());
+        etCursoCode.setText(getCourse().getCodigo());
+        etCursoDescripcion.setText(getCourse().getDescripcion());
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
@@ -133,7 +132,7 @@ public class CursoEditActivity extends AppCompatActivity{
     }
 
     private void editCursoConfirm() {
-        ApiUtils.getAPIService().updateCursos(course.getName(),etCursoCode.getText().toString(),course.getDescripcion(),etCursoName.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().updateCursos(course.getCodigo(),etCursoCode.getText().toString(),course.getDescripcion(), etCursoDescripcion.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

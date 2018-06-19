@@ -21,9 +21,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.iid.FirebaseInstanceId;
 
-import java.io.IOException;
-
-import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;

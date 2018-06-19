@@ -11,6 +11,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,11 +22,9 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
-import escuelavirtual.escuelavirtual.OnItemClickListener;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -45,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar();
 
+        ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
+
         cargarCursos();
     }
 
@@ -57,16 +58,11 @@ public class MainActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<CursoPersistible> lista = response.body();
                             for (CursoPersistible cursoP : lista) {
-                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
+                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                             }
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this, new OnItemClickListener() {
-                                @Override
-                                public void onItemClick(Curso curso) {
-                                    Toast.makeText(MainActivity.this, curso.getName(), Toast.LENGTH_LONG).show();
-                                }
-                            }));
+                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
                         }
                     }
 
@@ -122,8 +118,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCurso(View view){
-        //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
         Intent intent = new Intent(this, CursoActivity.class);
+        Curso.setCursoSeleccionado(this.findCourseSelected(view));
         startActivity(intent);
     }
 
@@ -133,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trytoDeleteCurso (View deleteButton){
-        final Curso courseToDelete = this.findCourseToDelete(deleteButton);
+        final Curso courseToDelete = this.findCourseSelected(deleteButton);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
@@ -145,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarCurso(new CursoPersistible(courseToDelete.getName(),courseToDelete.getDescripcion(),null,FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        eliminarCurso(new CursoPersistible(courseToDelete.getCodigo(),courseToDelete.getDescripcion(),null,FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 });
 
@@ -161,10 +157,17 @@ public class MainActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private Curso findCourseToDelete(View view){
+    private Curso findCourseSelected(View view){
         for(int i = 0; i < this.cursos.size(); i++){
-            if(this.cursos.get(i).getName() == view.getTag()){
+            if(this.cursos.get(i).getCodigo().equals(view.getTag())){
                 return this.cursos.get(i);
+            }
+            try{
+                if(((TextView)view).getText().toString().contains(cursos.get(i).getCodigo())){
+                    return this.cursos.get(i);
+                }
+            }catch (Exception e){
+                
             }
         }
         return null;
@@ -190,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trytoEditCurso (View button){
-        CursoEditActivity.setCourse(this.findCourseToDelete(button));
+        CursoEditActivity.setCourse(this.findCourseSelected(button));
         Intent intent = new Intent(this, CursoEditActivity.class);
         startActivity(intent);
     }

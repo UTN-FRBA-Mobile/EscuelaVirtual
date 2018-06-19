@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import java.io.ByteArrayOutputStream;
 
 import escuelavirtual.escuelavirtual.R;
-import escuelavirtual.escuelavirtual.docente.CursoActivity;
 
 public class EjercicioAddActivity extends AppCompatActivity {
 
