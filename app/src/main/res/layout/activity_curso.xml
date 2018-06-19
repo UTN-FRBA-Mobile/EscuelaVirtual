@@ -20,7 +20,7 @@
         <include layout="@layout/toolbar_global" />
 
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rvEjercicios"
             android:layout_width="match_parent"
             android:layout_height="340dp"
             android:layout_weight="1" />

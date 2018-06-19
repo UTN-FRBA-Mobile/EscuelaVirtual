@@ -11,18 +11,29 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
+import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
+import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CursoActivity extends AppCompatActivity {
+
+    final List<Ejercicio> ejercicios = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,23 +44,31 @@ public class CursoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        cargarEjercicios();
+    }
 
-//     /TODO: Carga de items - Reemplazar con datos persistidos
-        List<Ejercicio> ejercicios = new ArrayList<>();
-        ejercicios.add(new Ejercicio("Ejercicio 1"));
-        ejercicios.add(new Ejercicio("Ejercicio 2"));
-        ejercicios.add(new Ejercicio("Ejercicio 3"));
-        ejercicios.add(new Ejercicio("Ejercicio 4"));
-        ejercicios.add(new Ejercicio("Ejercicio 5"));
-        ejercicios.add(new Ejercicio("Ejercicio 6"));
-        ejercicios.add(new Ejercicio("Ejercicio 7"));
-        ejercicios.add(new Ejercicio("Ejercicio 8"));
-        ejercicios.add(new Ejercicio("Ejercicio 9"));
-//     \End
+    private void cargarEjercicios() {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
+        ApiUtils.getAPIService().getEjercicio(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<List<EjercicioPersistible>>() {
+                    @Override
+                    public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
+                        if(response.isSuccessful()) {
+                            List<EjercicioPersistible> lista = response.body();
+                            for (EjercicioPersistible ejercicio : lista) {
+                                ejercicios.add(new Ejercicio(""));
+                            }
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+                            recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
+                        Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override
