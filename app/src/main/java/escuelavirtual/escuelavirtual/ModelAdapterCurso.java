@@ -14,10 +14,12 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
 
     private List<Curso> items;
     private boolean docente;
+    private OnItemClickListener listener;
 
-    public ModelAdapterCurso(List<Curso> items, Context parent) {
+    public ModelAdapterCurso(List<Curso> items, Context parent, OnItemClickListener listener) {
         this.items = items;
         this.docente = (parent.getClass().getName().contains("docente"));
+        this.listener = listener;
     }
 
     @Override
@@ -27,7 +29,7 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
 
     @Override
     public void onBindViewHolder(ModelAdapterCurso.ModelViewHolder holder, int position) {
-        holder.bind(items.get(position));
+        holder.bind(items.get(position), listener);
     }
 
     @Override
@@ -49,10 +51,16 @@ public class ModelAdapterCurso extends RecyclerView.Adapter<ModelAdapterCurso.Mo
             this.editButton.setVisibility(docente?View.VISIBLE:View.GONE);
         }
 
-        public void bind(Curso curso) {
+        public void bind(final Curso curso, final OnItemClickListener listener) {
             textView.setText(curso.getName());
             this.deleteButton.setTag(curso.getName());
             this.editButton.setTag(curso.getName());
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(curso);
+                }
+            });
         }
     }
 }

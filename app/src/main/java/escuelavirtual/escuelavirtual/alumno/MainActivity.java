@@ -21,6 +21,7 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
+import escuelavirtual.escuelavirtual.OnItemClickListener;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
@@ -60,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this, new OnItemClickListener() {
+                                @Override
+                                public void onItemClick(Curso curso) {
+                                    Toast.makeText(MainActivity.this, curso.getName(), Toast.LENGTH_LONG).show();
+                                }
+                            }));
                         }
                     }
 
