@@ -181,11 +181,11 @@ public class CursoActivity extends AppCompatActivity {
 
     private Ejercicio findExerciseSelected(View view){
         for(int i = 0; i < this.ejercicios.size(); i++){
-            if(this.ejercicios.get(i).getCodigoCurso().equals(view.getTag())){
+            if(this.ejercicios.get(i).getCodigoEjercicio().equals(view.getTag())){
                 return this.ejercicios.get(i);
             }
             try{
-                if(((TextView)view).getText().toString().contains(ejercicios.get(i).getCodigoCurso())){
+                if(((TextView)view).getText().toString().contains(ejercicios.get(i).getCodigoEjercicio())){
                     return this.ejercicios.get(i);
                 }
             }catch (Exception e){

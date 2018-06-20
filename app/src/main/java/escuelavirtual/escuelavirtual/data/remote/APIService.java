@@ -100,9 +100,8 @@ public interface APIService {
     @PUT("/put_ejercicio")
     @FormUrlEncoded
     Call<String> actualizarEjercicio(@Field("codCurso") String codigoCurso,
-                                  @Field("codEjercicio") String codigoEjercicio,
+                                  @Field("codEjercicioViejo") String codigoEjercicioViejo,
+                                  @Field("codEjercicioNuevo") String codigoEjercicioNuevo,
                                   @Field("imagenBase64") String imagenBase64,
                                   @Field("uid") String uid);
-
-
 }

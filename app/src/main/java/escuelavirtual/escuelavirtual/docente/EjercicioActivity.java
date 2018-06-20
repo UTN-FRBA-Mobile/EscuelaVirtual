@@ -14,6 +14,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
 
@@ -24,7 +25,7 @@ public class EjercicioActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     ModelAdapterRespuesta mAdapter;
     List<String> respuestas;
-
+    private static Ejercicio ejercicioSeleccionado;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

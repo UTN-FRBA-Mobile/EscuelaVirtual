@@ -55,10 +55,10 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
             byte[] decodedString = Base64.decode(ejercicio.getImagenBase64(), Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-            textView.setText(ejercicio.getCodigoCurso());
+            textView.setText(ejercicio.getCodigoEjercicio());
             preview.setImageBitmap(bitmap);
-            this.deleteButton.setTag(ejercicio.getCodigoCurso());
-            this.editButton.setTag(ejercicio.getCodigoCurso());
+            this.deleteButton.setTag(ejercicio.getCodigoEjercicio());
+            this.editButton.setTag(ejercicio.getCodigoEjercicio());
         }
     }
 }

@@ -71,7 +71,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
             Bitmap bitmap = base64ToBitMap(ejercicioSeleccionado.getImagenBase64());
             photo.setImageBitmap(bitmap);
             photoBitmap = bitmap;
-            codigoEjercicio.setText(ejercicioSeleccionado.getCodigoCurso());
+            codigoEjercicio.setText(ejercicioSeleccionado.getCodigoEjercicio());
         }else{
             ((TextView)findViewById(R.id.main_title_id)).setText("Subir nuevo ejercicio");
         }
@@ -188,7 +188,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     private void editEjercicioConfirm() {
-        ApiUtils.getAPIService().actualizarEjercicio(Curso.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().actualizarEjercicio(Curso.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() ,codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
