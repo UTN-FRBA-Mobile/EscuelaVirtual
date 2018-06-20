@@ -3,19 +3,24 @@ package escuelavirtual.escuelavirtual.docente;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,11 +29,6 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
-import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
-import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class CursoActivity extends AppCompatActivity {
 
@@ -50,14 +50,24 @@ public class CursoActivity extends AppCompatActivity {
 
     private void cargarEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
-        ApiUtils.getAPIService().getEjercicio(FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+        // TODO: este código es para probar mientras no se tenga la persistencia
+        ImageView fotoEjemplo = new ImageView(this);
+        fotoEjemplo.setImageResource(R.drawable.ejercicio_ejemplo);
+        ejercicios.add(new Ejercicio("Ejercicio 1", bitmapToBase64(((BitmapDrawable) fotoEjemplo.getDrawable()).getBitmap())));
+        ejercicios.add(new Ejercicio("Ejercicio 2", bitmapToBase64(((BitmapDrawable) fotoEjemplo.getDrawable()).getBitmap())));
+        recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+
+        // TODO: este código comentado va a funcar cuando esté la persistencia hecha
+        /*ApiUtils.getAPIService().getEjercicio(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
                         if(response.isSuccessful()) {
                             List<EjercicioPersistible> lista = response.body();
                             for (EjercicioPersistible ejercicio : lista) {
-                                ejercicios.add(new Ejercicio(""));
+                                ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64()));
                             }
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
@@ -69,7 +79,7 @@ public class CursoActivity extends AppCompatActivity {
                     public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
                         Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
-                });
+                });*/
     }
 
     @Override
@@ -166,5 +176,17 @@ public class CursoActivity extends AppCompatActivity {
         //TODO: Agregar actividad EjercicioEdit y pasar el nombre del ejercicio al EditText
 /*        Intent intent = new Intent(this, XXX);
         startActivity(intent);*/
+    }
+
+    private String bitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    private Bitmap base64ToBitMap(String base64){
+        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
     }
 }

@@ -25,19 +25,25 @@ android:orientation="horizontal">
     android:layout_width="match_parent"
     android:layout_height="112dp"
     android:gravity="center|end">
+    
+    <ImageView
+        android:id="@+id/preview_id"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <ImageButton
-        android:id="@+id/ibtn_edit_ejercicio_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/edit_ejercicio_id"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:background="@color/colorGreen2"
+        android:layout_marginLeft="10dp"
         android:onClick="trytoEditEjercicio"
         app:srcCompat="@android:drawable/ic_menu_edit" />
 
     <ImageButton
-        android:id="@+id/ibtn_delete_ejercicio_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/delete_ejercicio_id"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:background="@color/colorGreen2"

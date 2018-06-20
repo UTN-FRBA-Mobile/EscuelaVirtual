@@ -1,9 +1,13 @@
 package escuelavirtual.escuelavirtual;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -34,14 +38,20 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
     public class ModelViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
+        private ImageView preview;
 
         public ModelViewHolder(View itemView) {
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_ejercicio_id);
+            this.preview = (ImageView) itemView.findViewById(R.id.preview_id);
         }
 
-        public void bind(Ejercicio ejer) {
-            textView.setText(ejer.getImagenBase64());
+        public void bind(Ejercicio ejercicio) {
+            byte[] decodedString = Base64.decode(ejercicio.getImagenBase64(), Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            textView.setText(ejercicio.getCodigoCurso());
+            preview.setImageBitmap(bitmap);
         }
     }
 }
