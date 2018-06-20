@@ -3,10 +3,6 @@ package escuelavirtual.escuelavirtual.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-import escuelavirtual.escuelavirtual.Ejercicio;
-
 public class EjercicioPersistible {
     @SerializedName("codCurso")
     @Expose
