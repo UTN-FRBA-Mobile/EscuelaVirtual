@@ -11,7 +11,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -71,6 +73,19 @@ public class EjercicioAddActivity extends AppCompatActivity {
             codigoEjercicio.setText(ejercicioSeleccionado.getCodigoCurso());
         }else{
             ((TextView)findViewById(R.id.main_title_id)).setText("Subir nuevo ejercicio");
+        }
+
+        EventoTeclado keyboard = new EventoTeclado();
+        codigoEjercicio.setOnEditorActionListener(keyboard);
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                confirmarFotoEjercicio(null);
+            }
+            return false;
         }
     }
 
@@ -206,8 +221,12 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
     public static void restartForm(){
         ejercicioSeleccionado = null;
-        codigoEjercicio.setText("");
-        photo.setImageBitmap(null);
+        if(codigoEjercicio != null){
+            codigoEjercicio.setText("");
+        }
+        if(photo != null){
+            photo.setImageBitmap(null);
+        }
         photoBitmap = null;
     }
 }
