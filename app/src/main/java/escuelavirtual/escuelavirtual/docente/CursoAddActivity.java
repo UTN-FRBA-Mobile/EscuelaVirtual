@@ -6,10 +6,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,20 +26,33 @@ import retrofit2.Response;
 
 public class CursoAddActivity extends AppCompatActivity {
 
-    private EditText etCursoCode;
-    private EditText etCursoDescripcion;
+    private EditText codigoCurso;
+    private EditText nombreCurso;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso_add);
 
-        etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
-        etCursoDescripcion = (EditText) findViewById(R.id.et_curso_descripcion_id);
+        codigoCurso = (EditText) findViewById(R.id.et_curso_code_id);
+        nombreCurso = (EditText) findViewById(R.id.et_curso_descripcion_id);
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        EventoTeclado keyboard = new EventoTeclado();
+        nombreCurso.setOnEditorActionListener(keyboard);
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                confirm_AddCurso(null);
+            }
+            return false;
+        }
     }
 
     @Override
@@ -94,7 +110,7 @@ public class CursoAddActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
                 "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
-                etCursoDescripcion.getText()));
+                nombreCurso.getText()));
         alertDialogBuilder.setPositiveButton("Sí",
                   new DialogInterface.OnClickListener() {
                     @Override
@@ -117,7 +133,7 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
-        ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(), etCursoDescripcion.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().guardarCurso(codigoCurso.getText().toString(), nombreCurso.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
