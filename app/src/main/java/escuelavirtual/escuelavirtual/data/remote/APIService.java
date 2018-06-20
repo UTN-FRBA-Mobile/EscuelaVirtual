@@ -15,6 +15,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface APIService {
@@ -91,7 +92,14 @@ public interface APIService {
 
     @POST("/post_ejercicio")
     @FormUrlEncoded
-    Call<String> guardarEjercicio(@Field("codCurso") String codigoCurso,
+    Call<String> crearEjercicio(@Field("codCurso") String codigoCurso,
+                                  @Field("codEjercicio") String codigoEjercicio,
+                                  @Field("imagenBase64") String imagenBase64,
+                                  @Field("uid") String uid);
+
+    @PUT("/put_ejercicio")
+    @FormUrlEncoded
+    Call<String> actualizarEjercicio(@Field("codCurso") String codigoCurso,
                                   @Field("codEjercicio") String codigoEjercicio,
                                   @Field("imagenBase64") String imagenBase64,
                                   @Field("uid") String uid);

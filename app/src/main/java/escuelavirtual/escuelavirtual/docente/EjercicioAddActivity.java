@@ -10,9 +10,11 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,6 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.io.ByteArrayOutputStream;
 
 import escuelavirtual.escuelavirtual.Curso;
+import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -28,9 +31,18 @@ import retrofit2.Response;
 
 public class EjercicioAddActivity extends AppCompatActivity {
 
-    private ImageView photo;
-    private EditText codigoEjercicio;
-    private Bitmap photoBitmap;
+    private static ImageView photo;
+    private static Bitmap photoBitmap;
+    private static EditText codigoEjercicio;
+    private static Ejercicio ejercicioSeleccionado;
+
+    public static Ejercicio getEjercicioSeleccionado() {
+        return ejercicioSeleccionado;
+    }
+
+    public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
+        EjercicioAddActivity.ejercicioSeleccionado = ejercicioSeleccionado;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +61,17 @@ public class EjercicioAddActivity extends AppCompatActivity {
                 startActivityForResult(intent, 0);
             }
         });
-
         codigoEjercicio = (EditText) findViewById(R.id.codigo_ejercicio_id);
+
+        if(ejercicioSeleccionado != null){
+            ((TextView)findViewById(R.id.main_title_id)).setText("Editar ejercicio");
+            Bitmap bitmap = base64ToBitMap(ejercicioSeleccionado.getImagenBase64());
+            photo.setImageBitmap(bitmap);
+            photoBitmap = bitmap;
+            codigoEjercicio.setText(ejercicioSeleccionado.getCodigoCurso());
+        }else{
+            ((TextView)findViewById(R.id.main_title_id)).setText("Subir nuevo ejercicio");
+        }
     }
 
     @Override
@@ -82,7 +103,9 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
     public void confirmarFotoEjercicio(View view) {
         if("".equals(codigoEjercicio.getText().toString()) || photoBitmap == null){
-            Toast.makeText(this, "Para cargar el ejercicio, ingresá un código identificatorio y la imagen", Toast.LENGTH_SHORT).show();
+            Toast toast = Toast.makeText(this,"Para cargar el ejercicio, ingresá un código identificatorio y la imagen", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
         }else{
             AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
             alertDialogBuilder.setMessage(String.format(
@@ -92,7 +115,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface arg0, int arg1) {
-                            addEjercicioConfirm();
+                            addOrEditExercise();
                         }
                     });
 
@@ -119,7 +142,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
-                        addEjercicioCancel();
+                        restartForm();
                     }
                 });
 
@@ -135,16 +158,23 @@ public class EjercicioAddActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void addEjercicioConfirm() {
-        ApiUtils.getAPIService().guardarEjercicio(Curso.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+    private void addOrEditExercise(){
+        if(ejercicioSeleccionado != null){
+            editEjercicioConfirm();
+        }else{
+            addEjercicioConfirm();
+        }
+    }
+
+    private void editEjercicioConfirm() {
+        ApiUtils.getAPIService().actualizarEjercicio(Curso.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(EjercicioAddActivity.this, "El ejercicio se creó con éxito",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EjercicioAddActivity.this, "El ejercicio se actualizó con éxito",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(EjercicioAddActivity.this, CursoActivity.class);
                             startActivity(intent);
-
                         }
                     }
 
@@ -155,8 +185,29 @@ public class EjercicioAddActivity extends AppCompatActivity {
                 });
     }
 
-    private void addEjercicioCancel(){
-        this.photoBitmap = null;
+    private void addEjercicioConfirm() {
+        ApiUtils.getAPIService().crearEjercicio(Curso.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(EjercicioAddActivity.this, "El ejercicio se creó con éxito",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(EjercicioAddActivity.this, CursoActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(EjercicioAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    public static void restartForm(){
+        ejercicioSeleccionado = null;
+        codigoEjercicio.setText("");
         photo.setImageBitmap(null);
+        photoBitmap = null;
     }
 }

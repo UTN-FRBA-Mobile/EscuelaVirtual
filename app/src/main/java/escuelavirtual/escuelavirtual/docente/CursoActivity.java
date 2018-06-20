@@ -142,6 +142,7 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void addEjercicio() {
+        EjercicioAddActivity.restartForm();
         Intent intent = new Intent(this, EjercicioAddActivity.class);
         startActivity(intent);
     }
@@ -173,9 +174,25 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void trytoEditEjercicio (View view){
-        //TODO: Agregar actividad EjercicioEdit y pasar el nombre del ejercicio al EditText
-/*        Intent intent = new Intent(this, XXX);
-        startActivity(intent);*/
+        EjercicioAddActivity.setEjercicioSeleccionado(this.findExerciseSelected(view));
+        Intent intent = new Intent(this, EjercicioAddActivity.class);
+        startActivity(intent);
+    }
+
+    private Ejercicio findExerciseSelected(View view){
+        for(int i = 0; i < this.ejercicios.size(); i++){
+            if(this.ejercicios.get(i).getCodigoCurso().equals(view.getTag())){
+                return this.ejercicios.get(i);
+            }
+            try{
+                if(((TextView)view).getText().toString().contains(ejercicios.get(i).getCodigoCurso())){
+                    return this.ejercicios.get(i);
+                }
+            }catch (Exception e){
+
+            }
+        }
+        return null;
     }
 
     private String bitmapToBase64(Bitmap bitmap){

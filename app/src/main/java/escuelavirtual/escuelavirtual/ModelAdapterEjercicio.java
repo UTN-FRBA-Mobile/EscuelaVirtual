@@ -2,6 +2,7 @@ package escuelavirtual.escuelavirtual;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.AppCompatImageButton;
 import android.support.v7.widget.RecyclerView;
 import android.util.Base64;
 import android.view.LayoutInflater;
@@ -39,11 +40,15 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
 
         private TextView textView;
         private ImageView preview;
+        private AppCompatImageButton deleteButton;
+        private AppCompatImageButton editButton;
 
         public ModelViewHolder(View itemView) {
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_ejercicio_id);
             this.preview = (ImageView) itemView.findViewById(R.id.preview_id);
+            this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.delete_ejercicio_id);
+            this.editButton = (AppCompatImageButton) itemView.findViewById(R.id.edit_ejercicio_id);
         }
 
         public void bind(Ejercicio ejercicio) {
@@ -52,6 +57,8 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
 
             textView.setText(ejercicio.getCodigoCurso());
             preview.setImageBitmap(bitmap);
+            this.deleteButton.setTag(ejercicio.getCodigoCurso());
+            this.editButton.setTag(ejercicio.getCodigoCurso());
         }
     }
 }
