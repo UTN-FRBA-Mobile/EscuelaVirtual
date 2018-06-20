@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void gotoCurso(View view){
         Intent intent = new Intent(this, CursoActivity.class);
-        Curso.setCursoSeleccionado(this.findCourseSelected(view));
+        CursoActivity.setCursoSeleccionado(this.findCourseSelected(view));
         startActivity(intent);
     }
 

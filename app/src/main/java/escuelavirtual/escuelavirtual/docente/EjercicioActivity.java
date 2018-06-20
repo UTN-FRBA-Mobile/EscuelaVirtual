@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -27,6 +28,14 @@ public class EjercicioActivity extends AppCompatActivity {
     List<String> respuestas;
     private static Ejercicio ejercicioSeleccionado;
 
+    public static Ejercicio getEjercicioSeleccionado() {
+        return ejercicioSeleccionado;
+    }
+
+    public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
+        EjercicioActivity.ejercicioSeleccionado = ejercicioSeleccionado;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +44,8 @@ public class EjercicioActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((TextView)findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
 
         getRespuestas();
 

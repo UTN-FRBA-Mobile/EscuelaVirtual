@@ -8,15 +8,6 @@ public class Curso {
     private String descripcion;
     private String docente;
     private List<Ejercicio> ejercicios;
-    private static Curso cursoSeleccionado;
-
-    public static Curso getCursoSeleccionado() {
-        return cursoSeleccionado;
-    }
-
-    public static void setCursoSeleccionado(Curso cursoSeleccionado) {
-        Curso.cursoSeleccionado = cursoSeleccionado;
-    }
 
     public Curso(String name, String descripcion) {
         this.codigo = name;

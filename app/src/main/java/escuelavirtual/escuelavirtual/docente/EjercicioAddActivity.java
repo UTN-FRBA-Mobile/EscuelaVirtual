@@ -188,7 +188,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     private void editEjercicioConfirm() {
-        ApiUtils.getAPIService().actualizarEjercicio(Curso.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() ,codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() ,codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -207,7 +207,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     private void addEjercicioConfirm() {
-        ApiUtils.getAPIService().crearEjercicio(Curso.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().crearEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

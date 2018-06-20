@@ -33,6 +33,15 @@ import escuelavirtual.escuelavirtual.R;
 public class CursoActivity extends AppCompatActivity {
 
     final List<Ejercicio> ejercicios = new ArrayList<>();
+    private static Curso cursoSeleccionado;
+
+    public static Curso getCursoSeleccionado() {
+        return cursoSeleccionado;
+    }
+
+    public static void setCursoSeleccionado(Curso aCursoSeleccionado) {
+        cursoSeleccionado = aCursoSeleccionado;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,7 @@ public class CursoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + Curso.getCursoSeleccionado().getCodigo() + " - Ejercicios");
+        ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
 
         cargarEjercicios();
     }
@@ -137,6 +146,7 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void gotoEjercicio(View button) {
+        EjercicioActivity.setEjercicioSeleccionado(this.findExerciseSelected(button));
         Intent intent = new Intent(button.getContext(), EjercicioActivity.class);
         startActivity(intent);
     }
