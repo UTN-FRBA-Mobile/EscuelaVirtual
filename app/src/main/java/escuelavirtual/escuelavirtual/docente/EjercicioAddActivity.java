@@ -99,11 +99,15 @@ public class EjercicioAddActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+        try{
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
-        photo.setBackgroundColor(Color.WHITE);
-        photo.setImageBitmap(bitmap);
-        photoBitmap = bitmap;
+            photo.setBackgroundColor(Color.WHITE);
+            photo.setImageBitmap(bitmap);
+            photoBitmap = bitmap;
+        }catch (Exception e){
+            // No hacer ningún cambio porque no se sacó la foto
+        }
     }
 
     private String bitmapToBase64(Bitmap bitmap){
