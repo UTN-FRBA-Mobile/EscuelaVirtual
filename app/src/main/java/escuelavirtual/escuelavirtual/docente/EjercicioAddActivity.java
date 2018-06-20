@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
@@ -100,6 +101,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap bitmap = (Bitmap) data.getExtras().get("data");
 
+        photo.setBackgroundColor(Color.WHITE);
         photo.setImageBitmap(bitmap);
         photoBitmap = bitmap;
     }
@@ -226,6 +228,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
         }
         if(photo != null){
             photo.setImageBitmap(null);
+            photo.setBackgroundResource(android.R.drawable.ic_menu_camera);
         }
         photoBitmap = null;
     }
