@@ -41,7 +41,7 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
         }
 
         public void bind(Ejercicio ejer) {
-            textView.setText(ejer.getName());
+            textView.setText(ejer.getImagenBase64());
         }
     }
 }

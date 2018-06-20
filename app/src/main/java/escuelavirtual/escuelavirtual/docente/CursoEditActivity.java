@@ -42,7 +42,6 @@ public class CursoEditActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso_edit);
 
-        //TODO: Cargar el Nombre y Codigo del curso
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
         etCursoDescripcion = (EditText) findViewById(R.id.et_curso_descripcion_id);
 

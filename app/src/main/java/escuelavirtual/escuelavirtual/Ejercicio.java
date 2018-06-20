@@ -3,18 +3,18 @@ package escuelavirtual.escuelavirtual;
 public class Ejercicio {
 
     private String codigoCurso;
-    private String name;
+    private String imagenBase64;
 
     public Ejercicio(String name) {
-        this.name = name;
+        this.imagenBase64 = name;
     }
 
-    public Ejercicio(String codigoCurso, String name){
-        this.name = name;
+    public Ejercicio(String codigoCurso, String imagenBase64){
+        this.imagenBase64 = imagenBase64;
         this.codigoCurso = codigoCurso;
     }
 
-    public String getName() {
-        return name;
+    public String getImagenBase64() {
+        return imagenBase64;
     }
 }

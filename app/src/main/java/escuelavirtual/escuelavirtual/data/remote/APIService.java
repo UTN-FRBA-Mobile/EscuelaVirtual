@@ -77,7 +77,7 @@ public interface APIService {
                               @Field("descViejo") String descViejo,
                               @Field("descNuevo") String descNuevo,
                               @Field("docente") String docente
-                              );
+    );
 
     @POST("/post_usuario")
     @FormUrlEncoded
@@ -88,6 +88,13 @@ public interface APIService {
 
     @GET("/gat_usuario")
     Call<UsuarioPersistible> getUsuario(@Query("uid") String uid);
+
+    @POST("/post_ejercicio")
+    @FormUrlEncoded
+    Call<String> guardarEjercicio(@Field("codCurso") String codigoCurso,
+                                  @Field("codEjercicio") String codigoEjercicio,
+                                  @Field("imagenBase64") String imagenBase64,
+                                  @Field("uid") String uid);
 
 
 }
