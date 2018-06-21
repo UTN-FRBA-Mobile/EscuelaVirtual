@@ -97,10 +97,12 @@ public class RegistrationActivity extends AppCompatActivity {
 
     private void guardarUsuario(String uid) {
         String nombre = mNombreView.getText().toString();
-        int perfil = mPerfilRadioGroup.getCheckedRadioButtonId();
+        int checkedPerfilId = mPerfilRadioGroup.getCheckedRadioButtonId();
+        View radioButton = mPerfilRadioGroup.findViewById(checkedPerfilId);
+        String perfilId = radioButton.getResources().getResourceEntryName(checkedPerfilId);
         //1 alumno, 0 docente
-        //TODO: Cambiar referencia explicita por una referencia
-        perfil = (perfil == 2131230868)?1:0;
+        //Refefrencia al ID del radioButton
+        int perfil = (perfilId.equals("radioAlumno"))?1:0;
         ApiUtils.getAPIService().guardarUsuario(nombre, perfil, uid, FirebaseInstanceId.getInstance().getToken())
                 .enqueue(new Callback<String>() {
                     @Override
