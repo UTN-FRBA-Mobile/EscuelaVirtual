@@ -17,4 +17,16 @@ public class Respuesta {
     public String getCodigoAlumno() {
         return codigoAlumno;
     }
+
+    public String getCodigoCurso() {
+        return codigoCurso;
+    }
+
+    public String getCodigoEjercicio() {
+        return codigoEjercicio;
+    }
+
+    public String getNombreAlumno() {
+        return nombreAlumno;
+    }
 }

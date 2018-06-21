@@ -17,8 +17,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
@@ -35,8 +37,13 @@ public class EjercicioActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ModelAdapterRespuesta mAdapter;
-    List<Respuesta> respuestas;
+    List<Respuesta> respuestas = new ArrayList<>();
+    private static Curso cursoSeleccionado;
     private static Ejercicio ejercicioSeleccionado;
+
+    public static void setCursoSeleccionado(Curso cursoSeleccionado) {
+        EjercicioActivity.cursoSeleccionado = cursoSeleccionado;
+    }
 
     public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
         EjercicioActivity.ejercicioSeleccionado = ejercicioSeleccionado;
@@ -59,6 +66,12 @@ public class EjercicioActivity extends AppCompatActivity {
 
     private void cargarRespuestas(){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
+
+        // TODO: este código es para probar mientras no se tenga la persistencia
+        respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(),"1", "Deadpool"));
+        respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(),"2", "Batman"));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new ModelAdapterRespuesta(respuestas));
 
         // TODO: este código comentado va a funcar cuando esté la persistencia hecha
         ApiUtils.getAPIService().getRespuestas(FirebaseAuth.getInstance().getCurrentUser().getUid())

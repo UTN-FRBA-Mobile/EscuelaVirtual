@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -38,7 +37,6 @@ public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterResp
     public class ModelViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
-        private WeakReference<ClickListener> listenerRef;
 
         public ModelViewHolder(View itemView) {
             super(itemView);
@@ -46,14 +44,7 @@ public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterResp
         }
 
         public void bind(Respuesta respuesta) {
-            textView.setText(respuesta.getCodigoAlumno());
+            textView.setText(respuesta.getCodigoCurso() + " - " + respuesta.getCodigoEjercicio() + " - " + respuesta.getCodigoAlumno() + " - " + respuesta.getNombreAlumno());
         }
-    }
-
-    public interface ClickListener {
-
-        void onPositionClicked(View v,int position);
-
-        void onLongClicked(View v, int position);
     }
 }
