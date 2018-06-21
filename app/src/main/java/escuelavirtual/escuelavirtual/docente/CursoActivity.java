@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -28,6 +29,11 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CursoActivity extends AppCompatActivity {
 
@@ -67,8 +73,8 @@ public class CursoActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
 
-        // TODO: este código comentado va a funcar cuando esté la persistencia hecha
-        /*ApiUtils.getAPIService().getEjercicio(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        // TODO: este código va a funcar cuando esté la persistencia hecha
+        ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
@@ -85,9 +91,9 @@ public class CursoActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
-                        Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
                     }
-                });*/
+                });
     }
 
     @Override

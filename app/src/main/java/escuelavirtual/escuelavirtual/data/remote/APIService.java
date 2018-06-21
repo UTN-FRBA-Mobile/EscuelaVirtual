@@ -5,6 +5,7 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
+import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
@@ -47,7 +48,10 @@ public interface APIService {
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
     @GET("/get_ejercicios")
-    Call<List<EjercicioPersistible>> getEjercicio(@Query("docente") String docente);
+    Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente);
+
+    @GET("/get_respuestas")
+    Call<List<RespuestaPersistible>> getRespuestas(@Query("docente") String docente);
 
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)

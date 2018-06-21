@@ -14,23 +14,15 @@ import java.util.List;
  */
 
 public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterRespuesta.ModelViewHolder>{
-    private List<String> items;
-    private final ClickListener listener;
+    private List<Respuesta> items;
 
-
-    public ModelAdapterRespuesta(List<String> items, ClickListener listener) {
+    public ModelAdapterRespuesta(List<Respuesta> items) {
         this.items = items;
-        this.listener = listener;
-    }
-
-    public void crearTema(){
-        items.add("Sasa Agregado");
-        notifyItemInserted(items.size() - 1);
     }
 
     @Override
     public ModelAdapterRespuesta.ModelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ModelAdapterRespuesta.ModelViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_respuesta, parent, false),listener);
+        return new ModelAdapterRespuesta.ModelViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_respuesta, parent, false));
     }
 
     @Override
@@ -43,32 +35,18 @@ public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterResp
         return items != null ? items.size() : 0;
     }
 
-    public class ModelViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener{
+    public class ModelViewHolder extends RecyclerView.ViewHolder{
 
         private TextView textView;
         private WeakReference<ClickListener> listenerRef;
 
-        public ModelViewHolder(View itemView, ClickListener listener) {
+        public ModelViewHolder(View itemView) {
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_respuesta_id);
-
-            listenerRef = new WeakReference<>(listener);
-
-            textView.setOnClickListener(this);
         }
 
-        public void bind(String respuesta) {
-            textView.setText(respuesta);
-        }
-
-        @Override
-        public void onClick(View v) {
-            listenerRef.get().onPositionClicked(v,getAdapterPosition());
-        }
-
-        @Override
-        public boolean onLongClick(View view) {
-            return false;
+        public void bind(Respuesta respuesta) {
+            textView.setText(respuesta.getCodigoAlumno());
         }
     }
 

@@ -11,16 +11,23 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import java.util.ArrayList;
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.Respuesta;
+import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 
@@ -28,12 +35,8 @@ public class EjercicioActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ModelAdapterRespuesta mAdapter;
-    List<String> respuestas;
+    List<Respuesta> respuestas;
     private static Ejercicio ejercicioSeleccionado;
-
-    public static Ejercicio getEjercicioSeleccionado() {
-        return ejercicioSeleccionado;
-    }
 
     public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
         EjercicioActivity.ejercicioSeleccionado = ejercicioSeleccionado;
@@ -51,24 +54,33 @@ public class EjercicioActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
         ((ImageView)findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
 
-        getRespuestas();
+        cargarRespuestas();
+    }
 
-        recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
-        recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
+    private void cargarRespuestas(){
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
 
-        mAdapter = new ModelAdapterRespuesta(respuestas,new ModelAdapterRespuesta.ClickListener() {
-            @Override public void onPositionClicked(View v, int position) {
-                if(v.getId() == R.id.tv_respuesta_id) {
-                    openRta(position);
-                }
-            }
+        // TODO: este código comentado va a funcar cuando esté la persistencia hecha
+        ApiUtils.getAPIService().getRespuestas(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<List<RespuestaPersistible>>() {
+                    @Override
+                    public void onResponse(Call<List<RespuestaPersistible>> call, Response<List<RespuestaPersistible>> response) {
+                        if(response.isSuccessful()) {
+                            List<RespuestaPersistible> lista = response.body();
+                            for (RespuestaPersistible respuesta : lista) {
+                                respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno()));
+                            }
 
-            @Override public void onLongClicked(View v, int position) {
-                return;
-            }
-        });
+                            recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
+                            recyclerView.setAdapter(new ModelAdapterRespuesta(respuestas));
+                        }
+                    }
 
-        recyclerView.setAdapter(mAdapter);
+                    @Override
+                    public void onFailure(Call<List<RespuestaPersistible>> call, Throwable t) {
+                        Toast.makeText(EjercicioActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -108,17 +120,5 @@ public class EjercicioActivity extends AppCompatActivity {
         //TODO: Obtener el id de la respuesta en esta POSITION
         //TODO: Pasar el id al CommentsOnPhotoActivity
         startActivity(intent);
-    }
-
-    private void getRespuestas() {
-        respuestas = new ArrayList<String>();
-        respuestas.add("rta1");
-        respuestas.add("rta2");
-        respuestas.add("rta3");
-        respuestas.add("rta4");
-        respuestas.add("rta5");
-
-
-
     }
 }

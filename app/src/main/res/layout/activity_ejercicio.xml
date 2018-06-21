@@ -21,8 +21,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="249dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
-
+                android:layout_marginBottom="5dp"
+                android:padding="5dp"/>
 
             <TextView
                 android:id="@+id/textView2"
@@ -30,8 +30,9 @@
                 android:layout_height="wrap_content"
                 android:text="Respuestas"
                 android:height="40dp"
-                android:textSize="17sp"
-                android:gravity="center|start"
+                android:textSize="20dp"
+                android:textColor="@color/colorWhite"
+                android:gravity="center"
                 android:background="@color/colorGreen3"/>
 
             <android.support.v7.widget.RecyclerView
@@ -39,9 +40,5 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
-
         </LinearLayout>
-
-
-
 </android.support.constraint.ConstraintLayout>
