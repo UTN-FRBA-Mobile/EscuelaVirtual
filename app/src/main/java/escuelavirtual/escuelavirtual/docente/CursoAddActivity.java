@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -133,6 +135,10 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
+        final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
+        progress.setMessage("Guardando....");
+        progress.setTitle("Guardando el curso:  " + nombreCurso.getText().toString());
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().guardarCurso(codigoCurso.getText().toString(), nombreCurso.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
@@ -141,7 +147,10 @@ public class CursoAddActivity extends AppCompatActivity {
                     Toast.makeText(CursoAddActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                     startActivity(intent);
+                }else{
+                    Toast.makeText(CursoAddActivity.this, "El curso ya existe",Toast.LENGTH_SHORT).show();
                 }
+                Loading.terminar(progress);
             }
 
             @Override
@@ -149,9 +158,9 @@ public class CursoAddActivity extends AppCompatActivity {
                 Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                 startActivity(intent);
+                Loading.terminar(progress);
             }
         });
-
     }
 
     public void cancel_AddCurso(View view) {
