@@ -241,7 +241,6 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     public static void restartForm(){
-        ejercicioSeleccionado = null;
         if(codigoEjercicio != null){
             codigoEjercicio.setText("");
         }
