@@ -5,9 +5,9 @@ public class Ejercicio {
     private String codigoEjercicio;
     private String imagenBase64;
 
-    public Ejercicio(String codigoCurso, String imagenBase64){
+    public Ejercicio(String codigoEjercicio, String imagenBase64){
         this.imagenBase64 = imagenBase64;
-        this.codigoEjercicio = codigoCurso;
+        this.codigoEjercicio = codigoEjercicio;
     }
 
     public String getImagenBase64() {

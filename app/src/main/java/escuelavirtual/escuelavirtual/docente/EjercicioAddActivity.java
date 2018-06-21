@@ -37,9 +37,10 @@ public class EjercicioAddActivity extends AppCompatActivity {
     private static Bitmap photoBitmap;
     private static EditText codigoEjercicio;
     private static Ejercicio ejercicioSeleccionado;
+    private static Boolean desdePantallaDelEjercicio = false;
 
-    public static Ejercicio getEjercicioSeleccionado() {
-        return ejercicioSeleccionado;
+    public static void setDesdePantallaDelEjercicio(Boolean desdePantallaDelEjercicio) {
+        EjercicioAddActivity.desdePantallaDelEjercicio = desdePantallaDelEjercicio;
     }
 
     public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
@@ -91,6 +92,13 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
+        if(desdePantallaDelEjercicio){
+            EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
+            startActivity(new Intent(this, EjercicioActivity.class));
+            return true;
+        }
+
+        desdePantallaDelEjercicio = false;
         startActivity(new Intent(this, CursoActivity.class));
         return true;
     }
@@ -187,14 +195,22 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     private void editEjercicioConfirm() {
-        ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() ,codigoEjercicio.getText().toString(), this.bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() , codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(EjercicioAddActivity.this, "El ejercicio se actualizó con éxito",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(EjercicioAddActivity.this, CursoActivity.class);
-                            startActivity(intent);
+
+                            if(desdePantallaDelEjercicio){
+                                EjercicioActivity.setEjercicioSeleccionado(new Ejercicio(codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap)));
+                                Intent intent = new Intent(EjercicioAddActivity.this, EjercicioActivity.class);
+                                startActivity(intent);
+                            }else{
+                                Intent intent = new Intent(EjercicioAddActivity.this, CursoActivity.class);
+                                startActivity(intent);
+                            }
+                            desdePantallaDelEjercicio = false;
                         }
                     }
 

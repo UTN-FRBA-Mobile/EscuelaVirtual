@@ -1,16 +1,19 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +49,7 @@ public class EjercicioActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
+        ((ImageView)findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
 
         getRespuestas();
 
@@ -67,6 +71,11 @@ public class EjercicioActivity extends AppCompatActivity {
         recyclerView.setAdapter(mAdapter);
     }
 
+    private Bitmap base64ToBitMap(String base64){
+        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_respuesta, menu);
@@ -79,14 +88,19 @@ public class EjercicioActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_logout:
             {confirm_logout(this); return false;}
-            case R.id.menu_editar_respuesta_id:
-            {
-                //editarEjercicio();
-                Toast.makeText(EjercicioActivity.this, "Edit",Toast.LENGTH_SHORT).show();
+            case R.id.menu_editar_respuesta_id: {
+                editarEjercicio();
             }
             default:
                 return false;
         }
+    }
+
+    private void editarEjercicio(){
+        EjercicioAddActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
+        EjercicioAddActivity.setDesdePantallaDelEjercicio(true);
+        Intent intent = new Intent(this, EjercicioAddActivity.class);
+        startActivity(intent);
     }
 
     private void openRta(int position) {

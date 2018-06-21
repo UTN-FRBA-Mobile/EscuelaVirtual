@@ -37,6 +37,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="temas">Temas</string>
     <string name="title_activity_temas">Temas</string>
-    <string name="title_activity_ejercicio">Ejercicio</string>
+    <string name="title_activity_ejercicio"></string>
 
 </resources>
