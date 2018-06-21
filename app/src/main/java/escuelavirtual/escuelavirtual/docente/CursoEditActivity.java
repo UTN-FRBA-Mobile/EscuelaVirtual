@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -131,6 +133,10 @@ public class CursoEditActivity extends AppCompatActivity{
     }
 
     private void editCursoConfirm() {
+        final ProgressDialog progress = new ProgressDialog(CursoEditActivity.this);
+        progress.setMessage("Guardando....");
+        progress.setTitle("Actualizando el curso:  " + course.getDescripcion());
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().updateCursos(course.getCodigo(),etCursoCode.getText().toString(),course.getDescripcion(), etCursoDescripcion.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
@@ -139,13 +145,14 @@ public class CursoEditActivity extends AppCompatActivity{
                             Toast.makeText(CursoEditActivity.this, "El curso ha sido editado.",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CursoEditActivity.this, MainActivity.class);
                             startActivity(intent);
-
+                            Loading.terminar(progress);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Toast.makeText(CursoEditActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }
