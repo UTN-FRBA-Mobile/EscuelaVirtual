@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +35,7 @@ public class RegistrationActivity extends AppCompatActivity {
     private EditText mNombreView;
     private RadioGroup mPerfilRadioGroup;
     private TextView mPerfilError;
+    private ImageView mPEPicture;
 
     private String email;
 
@@ -57,11 +59,11 @@ public class RegistrationActivity extends AppCompatActivity {
         mNombreView = (EditText) findViewById(R.id.name);
         mPerfilRadioGroup = (RadioGroup) findViewById(R.id.perfilRadioGroup);
         mPerfilError = (TextView) findViewById(R.id.perfilError);
+        mPEPicture = (ImageView) findViewById(R.id.pe_picture);
+        mPEPicture.setImageResource(R.drawable.tech_stud_50op);
     }
 
     public void registrar(View view) {
-
-
         if(validarRegistro()){
             email = mEmailView.getText().toString();
             String password = mPasswordView.getText().toString();
@@ -95,11 +97,23 @@ public class RegistrationActivity extends AppCompatActivity {
         }
     }
 
-    private void guardarUsuario(String uid) {
-        String nombre = mNombreView.getText().toString();
+    public void onSelectedPerfil(View view){
+        if (selectedPrerfil().equals("radioAlumno")) {
+            mPEPicture.setImageResource(R.drawable.tech_50op);
+        }else{
+            mPEPicture.setImageResource(R.drawable.stud_50op);
+        }
+    }
+
+    private String selectedPrerfil(){
         int checkedPerfilId = mPerfilRadioGroup.getCheckedRadioButtonId();
         View radioButton = mPerfilRadioGroup.findViewById(checkedPerfilId);
-        String perfilId = radioButton.getResources().getResourceEntryName(checkedPerfilId);
+        return radioButton.getResources().getResourceEntryName(checkedPerfilId);
+    }
+
+    private void guardarUsuario(String uid) {
+        String nombre = mNombreView.getText().toString();
+        String perfilId = selectedPrerfil();
         //1 alumno, 0 docente
         //Refefrencia al ID del radioButton
         int perfil = (perfilId.equals("radioAlumno"))?1:0;

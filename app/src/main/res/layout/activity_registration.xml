@@ -1,38 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/intro_v"
+    android:orientation="vertical"
     tools:context="escuelavirtual.escuelavirtual.RegistrationActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="495dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp">
+    <include
+        layout="@layout/toolbar_global"
+        tools:layout_editor_absoluteY="8dp" />
 
-        <include layout="@layout/toolbar_global" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/activity_vertical_margin">
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_email"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true">
 
             <AutoCompleteTextView
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="textEmailAddress"
                 android:hint="@string/prompt_email"
                 android:imeOptions="actionNext"
-            />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorWhite" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_pass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/til_email">
 
             <EditText
                 android:id="@+id/password"
@@ -42,13 +49,15 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                />
+                android:textColor="@color/colorWhite" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_repass"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/til_pass">
 
             <EditText
                 android:id="@+id/repeatPassword"
@@ -58,62 +67,89 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:singleLine="true"
-                />
+                android:textColor="@color/colorWhite" />
 
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/til_name"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/til_repass">
 
             <EditText
                 android:id="@+id/name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/prompt_name"
+                android:imeOptions="actionDone"
                 android:maxLines="1"
                 android:singleLine="true"
-                android:imeOptions="actionDone"
-                />
+                android:textColor="@color/colorWhite" />
 
         </android.support.design.widget.TextInputLayout>
 
+        <ImageView
+            android:id="@+id/pe_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/perfilRadioGroup"
+            android:layout_below="@+id/til_name"
+            app:srcCompat="@drawable/tech_stud_50op" />
+
         <RadioGroup
             android:id="@+id/perfilRadioGroup"
-            android:layout_width="300dp"
-            android:layout_height="97dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/perfilError"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <RadioButton
                 android:id="@+id/radioAlumno"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Alumno" />
-
-            <RadioButton
-                android:id="@+id/radioProfesor"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Profesor"
-                />
-
-            <TextView
-                android:id="@+id/perfilError"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text=""
-                android:focusableInTouchMode="true"
-                android:textColor="@color/colorAccent"/>
+                android:onClick="onSelectedPerfil"
+                android:text="Alumno"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/radioProfesor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="onSelectedPerfil"
+                android:text="Profesor"
+                android:textColor="@color/colorWhite"
+                android:textStyle="bold" />
+
         </RadioGroup>
+
+        <TextView
+            android:id="@+id/perfilError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/button2"
+            android:layout_centerHorizontal="false"
+            android:layout_weight="1"
+            android:focusableInTouchMode="true"
+            android:textAlignment="center"
+            android:textColor="@color/colorAccent" />
 
         <Button
             android:id="@+id/button2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/action_register"
-            android:onClick="registrar"/>
+            android:layout_alignParentBottom="true"
+            android:onClick="registrar"
+            android:text="@string/action_register" />
 
-    </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+    </RelativeLayout>
+</LinearLayout>
