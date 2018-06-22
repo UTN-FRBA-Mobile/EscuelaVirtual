@@ -44,7 +44,7 @@ public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterResp
         }
 
         public void bind(Respuesta respuesta) {
-            textView.setText(respuesta.getCodigoCurso() + " - " + respuesta.getCodigoEjercicio() + " - " + respuesta.getCodigoAlumno() + " - " + respuesta.getNombreAlumno());
+            textView.setText(respuesta.getCodigoCurso() + " - " + respuesta.getCodigoEjercicio() + " - " + respuesta.getCodigoRespuesta() + " - " + respuesta.getNombreAlumno());
         }
     }
 }

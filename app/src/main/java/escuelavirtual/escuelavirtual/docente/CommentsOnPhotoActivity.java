@@ -3,12 +3,16 @@ package escuelavirtual.escuelavirtual.docente;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -24,7 +28,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import escuelavirtual.escuelavirtual.Curso;
+import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
@@ -37,6 +44,21 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     public int centralPositionOfTag = 35;
     public Map<Integer, TagView> tagsAdded;
     public APIService mAPIService;
+    private static Respuesta respuestaSeleccionada;
+    private static Ejercicio ejercicioSeleccionado;
+    private static Curso cursoSeleccionado;
+
+    public static void setRespuestaSeleccionada(Respuesta respuestaSeleccionada) {
+        CommentsOnPhotoActivity.respuestaSeleccionada = respuestaSeleccionada;
+    }
+
+    public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
+        CommentsOnPhotoActivity.ejercicioSeleccionado = ejercicioSeleccionado;
+    }
+
+    public static void setCursoSeleccionado(Curso cursoSeleccionado) {
+        CommentsOnPhotoActivity.cursoSeleccionado = cursoSeleccionado;
+    }
 
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
@@ -71,8 +93,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        //foto_test en algun momento va a tener que ser el nombre de la imagen
-        getCommentsTag("foto_test");
+        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
 
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
@@ -97,12 +118,21 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         
         ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
         ViewsController.getInfoDetailButton().setVisibility(View.VISIBLE);
-        ViewsController.getInfoDetailButton().setEnabled(false);
+        ViewsController.getInfoDetailButton().setEnabled(true);
+        ViewsController.getInfoDetailButton().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast toast = Toast.makeText(view.getContext(), "Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio() + "\nRespuesta: " + respuestaSeleccionada.getCodigoRespuesta() + "\nAlumno: " + respuestaSeleccionada.getNombreAlumno(), Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+            }
+        });
 
         // Comment section
         ViewsController.setCommentSection((LinearLayout)findViewById(R.id.comment_section_id));
 
         ViewsController.setBaseImage((ImageView)findViewById(R.id.base_image_id));
+        ViewsController.getBaseImage().setImageBitmap(base64ToBitMap(respuestaSeleccionada.getImagenRespuestaBase64()));
         ViewsController.getBaseImage().setOnTouchListener(new View.OnTouchListener() {
 
             final Handler handler = new Handler();
@@ -171,9 +201,16 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         });
     }
 
+    private Bitmap base64ToBitMap(String base64){
+        byte[] decodedString = Base64.decode(base64, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+    }
+
     @Override
     public boolean onSupportNavigateUp() {
-        startActivity(new Intent(this, CursoActivity.class));
+        EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
+        EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
+        startActivity(new Intent(this, EjercicioActivity.class));
         return true;
     }
 

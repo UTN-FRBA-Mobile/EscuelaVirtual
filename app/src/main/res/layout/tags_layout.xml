@@ -15,8 +15,7 @@
         android:layout_width="350dp"
         android:layout_height="300dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:src="@drawable/example_image" />
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

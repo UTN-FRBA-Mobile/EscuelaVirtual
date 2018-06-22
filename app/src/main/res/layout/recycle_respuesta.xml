@@ -12,6 +12,7 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:background="@color/colorGreen2"
         android:clickable="true"
+        android:onClick="goToRespuesta"
         android:fontFamily="sans-serif"
         android:gravity="center|start"
         android:includeFontPadding="false"
