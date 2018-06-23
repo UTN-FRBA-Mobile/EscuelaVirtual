@@ -65,16 +65,16 @@ public class CursoActivity extends AppCompatActivity {
     private void cargarEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
 
-        // TODO: este código es para probar mientras no se tenga la persistencia
+       /* // TODO: este código es para probar mientras no se tenga la persistencia
         ImageView fotoEjemplo = new ImageView(this);
         fotoEjemplo.setImageResource(R.drawable.ejercicio_ejemplo);
         ejercicios.add(new Ejercicio("Ejercicio 1", bitmapToBase64(((BitmapDrawable) fotoEjemplo.getDrawable()).getBitmap())));
         ejercicios.add(new Ejercicio("Ejercicio 2", bitmapToBase64(((BitmapDrawable) fotoEjemplo.getDrawable()).getBitmap())));
         recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));*/
 
         // TODO: este código va a funcar cuando esté la persistencia hecha
-        ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {

@@ -48,7 +48,8 @@ public interface APIService {
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
     @GET("/get_ejercicios")
-    Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente);
+    Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente,
+                                                   @Query("curso") String curso);
 
     @GET("/get_respuestas")
     Call<List<RespuestaPersistible>> getRespuestas(
@@ -105,7 +106,7 @@ public interface APIService {
                                   @Field("imagenBase64") String imagenBase64,
                                   @Field("uid") String uid);
 
-    
+
     @PUT("/put_ejercicio")
     @FormUrlEncoded
     Call<String> actualizarEjercicio(@Field("codCurso") String codigoCurso,
