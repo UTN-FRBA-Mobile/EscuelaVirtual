@@ -158,8 +158,6 @@ public class CursoAddActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
-                startActivity(intent);
                 Loading.terminar(progress);
             }
         });

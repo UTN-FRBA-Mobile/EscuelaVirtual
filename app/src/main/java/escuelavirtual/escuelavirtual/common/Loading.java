@@ -18,7 +18,7 @@ public class Loading {
 
      public static void ejecutar(final ProgressDialog progress){
 
-         //progress.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(50,192,192,192)));
+         progress.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(50,192,192,192)));
         /* WindowManager.LayoutParams wlmp = progress.getWindow().getAttributes();
          wlmp.gravity = Gravity.NO_GRAVITY;
          progress.getWindow().setAttributes(wlmp);
@@ -33,7 +33,8 @@ public class Loading {
 
         progress.setIcon(R.mipmap.ic_escuelavirtual);
         progress.setMax(100);
-        progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+         //progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
          progress.show();
         new Thread(new Runnable() {
             @Override
@@ -42,8 +43,8 @@ public class Loading {
                     while (progress.getProgress() <= progress
                             .getMax()) {
                         Thread.sleep(50);
-                        if (progress.getProgress() == 60) {
-                            progress.dismiss();
+                        if (progress.getProgress() == 55) {
+
                         }else {
                             progress.incrementProgressBy(1);
                             if (progress.getProgress() == progress
@@ -60,8 +61,8 @@ public class Loading {
     }
 
     public static void terminar(final ProgressDialog progress){
-       // progress.setProgress(85);
-
+        //progress.setProgress(95);
+        progress.dismiss();
     }
 
 }

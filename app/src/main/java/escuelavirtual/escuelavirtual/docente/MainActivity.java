@@ -49,7 +49,11 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
 
         if(cursos.isEmpty()){
-            cargarCursos();
+            final ProgressDialog progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Cargando sus cursos....");
+            progress.setTitle("Por favor Espere");
+            Loading.ejecutar(progress);
+            cargarCursos(progress);
         }else{
             updateCursos();
         }
@@ -57,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void cargarCursos() {
+    private void cargarCursos(final ProgressDialog progress) {
         ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
@@ -69,12 +73,14 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             updateCursos();
+                            Loading.terminar(progress);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }
