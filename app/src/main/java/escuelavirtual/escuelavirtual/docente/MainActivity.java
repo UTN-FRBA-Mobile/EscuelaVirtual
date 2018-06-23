@@ -33,7 +33,7 @@ import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout
 
 public class MainActivity extends AppCompatActivity {
 
-    final List<Curso> cursos = new ArrayList<>();
+    static final List<Curso> cursos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
 
-        cargarCursos();
+        if(cursos.isEmpty()){
+            cargarCursos();
+        }else{
+            updateCursos();
+        }
+
+
     }
 
     private void cargarCursos() {
@@ -218,4 +224,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, TemasActivity.class);
         startActivity(intent);
     }
+
+
+
 }

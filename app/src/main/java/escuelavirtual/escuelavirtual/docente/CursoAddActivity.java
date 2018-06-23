@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
@@ -145,6 +146,7 @@ public class CursoAddActivity extends AppCompatActivity {
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(CursoAddActivity.this, "Sus cambios han sido guardados.",Toast.LENGTH_SHORT).show();
+                    MainActivity.cursos.add(new Curso(codigoCurso.getText().toString(), nombreCurso.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid(),null));
                     Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                     startActivity(intent);
                 }else{

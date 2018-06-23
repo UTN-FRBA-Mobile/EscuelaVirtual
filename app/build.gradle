@@ -17,13 +17,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
 }
 
 dependencies {
     implementation 'com.android.support:design:25.4.0'
     implementation 'com.google.firebase:firebase-auth:10.0.1'
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:support-v4:25.4.0'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -35,7 +39,6 @@ dependencies {
     // JSON Parsing
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.1.0'
-
     testImplementation 'junit:junit:4.12'
 }
 
