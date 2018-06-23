@@ -51,7 +51,11 @@ public interface APIService {
     Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente);
 
     @GET("/get_respuestas")
-    Call<List<RespuestaPersistible>> getRespuestas(@Query("docente") String docente);
+    Call<List<RespuestaPersistible>> getRespuestas(
+            @Query("codCurso") String codigoCurso,
+            @Query("codEjercicio") String codigoEjercicio,
+            @Query("docente") String docente
+    );
 
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)

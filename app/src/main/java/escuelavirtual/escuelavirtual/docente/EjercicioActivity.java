@@ -80,7 +80,7 @@ public class EjercicioActivity extends AppCompatActivity {
         recyclerView.setAdapter(new ModelAdapterRespuesta(respuestas));
 
         // TODO: este código comentado va a funcar cuando esté la persistencia hecha
-        ApiUtils.getAPIService().getRespuestas(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override
                     public void onResponse(Call<List<RespuestaPersistible>> call, Response<List<RespuestaPersistible>> response) {
