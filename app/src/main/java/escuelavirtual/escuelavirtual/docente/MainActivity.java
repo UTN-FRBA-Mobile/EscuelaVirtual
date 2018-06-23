@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarCursos() {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
         ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
@@ -61,8 +60,7 @@ public class MainActivity extends AppCompatActivity {
                                 cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                             }
 
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+                            updateCursos();
                         }
                     }
 
@@ -173,23 +171,41 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private void eliminarCurso(CursoPersistible cursoPersistible) {
+    private void eliminarCurso(final CursoPersistible cursoPersistible) {
         ApiUtils.getAPIService().deleteCurso(cursoPersistible)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "El curso ha sido eliminado.",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            //Intent intent = new Intent(MainActivity.this, MainActivity.class);
+                            //startActivity(intent);
+                            int posicion = ubicarCursoEliminado(cursoPersistible);
+                            cursos.remove(posicion);
+                            updateCursos();
                         }
                     }
+
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void updateCursos() {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+    }
+
+    private int ubicarCursoEliminado(CursoPersistible cursoPersistible) {
+        for (Curso curso : cursos){
+            if(curso.getCodigo() == cursoPersistible.getCurso()) return cursos.indexOf(curso);
+        }
+
+        return -1;
     }
 
     public void trytoEditCurso (View button){
