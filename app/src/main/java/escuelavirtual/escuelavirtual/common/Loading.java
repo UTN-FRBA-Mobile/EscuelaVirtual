@@ -1,13 +1,24 @@
 package escuelavirtual.escuelavirtual.common;
 
+import android.app.DialogFragment;
 import android.app.ProgressDialog;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.widget.DialogTitle;
+import android.widget.ProgressBar;
+
+import escuelavirtual.escuelavirtual.R;
 
 public class Loading {
 
      public static void ejecutar(final ProgressDialog progress){
+
+         //progress.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(50,192,192,192)));
+         progress.setIcon(R.mipmap.ic_escuelavirtual);
         progress.setMax(100);
         progress.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        progress.show();
+         progress.show();
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -15,10 +26,14 @@ public class Loading {
                     while (progress.getProgress() <= progress
                             .getMax()) {
                         Thread.sleep(50);
-                        progress.incrementProgressBy(1);
-                        if (progress.getProgress() == progress
-                                .getMax()) {
+                        if (progress.getProgress() == 60) {
                             progress.dismiss();
+                        }else {
+                            progress.incrementProgressBy(1);
+                            if (progress.getProgress() == progress
+                                    .getMax()) {
+                                progress.dismiss();
+                            }
                         }
                     }
                 } catch (Exception e) {
@@ -29,7 +44,7 @@ public class Loading {
     }
 
     public static void terminar(final ProgressDialog progress){
-        progress.incrementProgressBy(100);
+        progress.setProgress(85);
 
     }
 
