@@ -1,16 +1,8 @@
 package escuelavirtual.escuelavirtual.common;
 
-import android.app.DialogFragment;
 import android.app.ProgressDialog;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
-import android.support.v7.widget.DialogTitle;
-import android.view.Gravity;
-import android.view.WindowManager;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 
 import escuelavirtual.escuelavirtual.R;
 
