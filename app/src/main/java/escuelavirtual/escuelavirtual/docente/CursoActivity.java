@@ -148,6 +148,8 @@ public class CursoActivity extends AppCompatActivity {
 
     public void addEjercicio() {
         EjercicioAddActivity.restartForm();
+        EjercicioAddActivity.setEjercicioSeleccionado(null);
+        EjercicioAddActivity.setDesdePantallaDelEjercicio(false);
         Intent intent = new Intent(this, EjercicioAddActivity.class);
         startActivity(intent);
     }

@@ -70,10 +70,12 @@ public class EjercicioAddActivity extends AppCompatActivity {
             ((TextView)findViewById(R.id.main_title_id)).setText("Editar ejercicio");
             Bitmap bitmap = base64ToBitMap(ejercicioSeleccionado.getImagenBase64());
             photo.setImageBitmap(bitmap);
+            photo.setBackgroundColor(Color.WHITE);
             photoBitmap = bitmap;
             codigoEjercicio.setText(ejercicioSeleccionado.getCodigoEjercicio());
         }else{
             ((TextView)findViewById(R.id.main_title_id)).setText("Subir nuevo ejercicio");
+            restartForm();
         }
 
         EventoTeclado keyboard = new EventoTeclado();
@@ -171,6 +173,15 @@ public class EjercicioAddActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         restartForm();
+                        if(desdePantallaDelEjercicio){
+                            EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
+                            startActivity(new Intent(EjercicioAddActivity.this, EjercicioActivity.class));
+                            return;
+                        }
+
+                        desdePantallaDelEjercicio = false;
+                        startActivity(new Intent(EjercicioAddActivity.this, CursoActivity.class));
+                        return;
                     }
                 });
 
