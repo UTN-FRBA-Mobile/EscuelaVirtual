@@ -143,12 +143,7 @@ public class CursoEditActivity extends AppCompatActivity{
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(CursoEditActivity.this, "El curso ha sido editado.",Toast.LENGTH_SHORT).show();
-                            Curso cursoNuevo = new Curso(etCursoCode.getText().toString(), etCursoDescripcion.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid(),null);
-                            int index = obtenerIndice(course.getCodigo());
-                            MainActivity.cursos.remove(index);
-                            MainActivity.cursos.add(index,cursoNuevo);
-                            Intent intent = new Intent(CursoEditActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            cursoActualizado();
                             Loading.terminar(progress);
                         }
                     }
@@ -159,6 +154,17 @@ public class CursoEditActivity extends AppCompatActivity{
                         Loading.terminar(progress);
                     }
                 });
+    }
+
+
+
+    private void cursoActualizado() {
+        Curso cursoNuevo = new Curso(etCursoCode.getText().toString(), etCursoDescripcion.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid(),null);
+        int index = obtenerIndice(course.getCodigo());
+        MainActivity.cursos.remove(index);
+        MainActivity.cursos.add(index,cursoNuevo);
+        Intent intent = new Intent(CursoEditActivity.this, MainActivity.class);
+        startActivity(intent);
     }
 
     private int obtenerIndice(String cursoViejo) {

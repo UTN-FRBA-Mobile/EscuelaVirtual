@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -178,24 +180,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void eliminarCurso(final CursoPersistible cursoPersistible) {
+        final ProgressDialog progress = new ProgressDialog(MainActivity.this);
+        progress.setMessage("Eliminando....");
+        progress.setTitle("Eliminando el curso:  " + cursoPersistible.getDescripcion());
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().deleteCurso(cursoPersistible)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(MainActivity.this, "El curso ha sido eliminado.",Toast.LENGTH_SHORT).show();
-                            //Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            //startActivity(intent);
                             int posicion = ubicarCursoEliminado(cursoPersistible);
                             cursos.remove(posicion);
                             updateCursos();
                         }
+                        Loading.terminar(progress);
                     }
 
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }
