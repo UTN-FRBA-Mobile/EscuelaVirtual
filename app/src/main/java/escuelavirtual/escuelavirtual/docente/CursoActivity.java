@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +28,7 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -155,6 +157,8 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void trytoDeleteEjercicio (View view){
+        final Ejercicio ejercicioABorrar = this.findExerciseSelected(view);
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
                 "¿Desea eliminar este ejercicio?%n%n" +
@@ -165,6 +169,7 @@ public class CursoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
+                        eliminarEjercicio(new EjercicioPersistible(cursoSeleccionado.getCodigo(), ejercicioABorrar.getCodigoEjercicio(), ejercicioABorrar.getImagenBase64(),FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 });
 
@@ -178,6 +183,48 @@ public class CursoActivity extends AppCompatActivity {
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    private void eliminarEjercicio(final EjercicioPersistible ejercicioPersistible) {
+        final ProgressDialog progress = new ProgressDialog(CursoActivity.this);
+        progress.setMessage("Eliminando....");
+        progress.setTitle("Eliminando el ejercicio:  " + ejercicioPersistible.getCodigoEjercicio());
+        Loading.ejecutar(progress);
+        ApiUtils.getAPIService().deleteEjercicio(ejercicioPersistible)
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(CursoActivity.this, "El ejercicio ha sido eliminado.",Toast.LENGTH_SHORT).show();
+                            int posicion = ubicarEjercicioEliminado(ejercicioPersistible);
+                            ejercicios.remove(posicion);
+                            updateEjercicios();
+                        }
+                        Loading.terminar(progress);
+                    }
+
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
+                    }
+                });
+    }
+
+    private void updateEjercicios() {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
+        recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+    }
+
+    private int ubicarEjercicioEliminado(EjercicioPersistible ejercicioPersistible) {
+        for (Ejercicio ejercicio : ejercicios){
+            if(ejercicio.getCodigoEjercicio().equals(ejercicioPersistible.getCodigoEjercicio())){
+                return ejercicios.indexOf(ejercicio);
+            }
+        }
+        return -1;
     }
 
     public void trytoEditEjercicio (View view){
