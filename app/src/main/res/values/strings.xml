@@ -38,5 +38,7 @@
     <string name="temas">Temas</string>
     <string name="title_activity_temas">Temas</string>
     <string name="title_activity_ejercicio"></string>
+    <string name="title_activity_curso">CursoActivity</string>
+    <string name="title_activity_respuesta_add">Agregar Respuesta</string>
 
 </resources>

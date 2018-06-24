@@ -61,9 +61,10 @@ public class EjercicioActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ((TextView)findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
-        ((ImageView)findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
-
+        if(ejercicioSeleccionado != null) {
+            ((TextView) findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
+            ((ImageView) findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
+        }
         cargarRespuestas();
     }
 
@@ -140,6 +141,7 @@ public class EjercicioActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
         getMenuInflater().inflate(R.menu.edit_respuesta, menu);
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;

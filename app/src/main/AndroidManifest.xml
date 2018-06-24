@@ -80,7 +80,8 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".docente.EjercicioActivity"
+        <activity
+            android:name=".docente.EjercicioActivity"
             android:label="@string/title_activity_ejercicio"
             android:parentActivityName=".docente.CursoActivity"
             android:theme="@style/AppTheme">
@@ -89,6 +90,25 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".docente.CursoActivity" />
+        </activity>
+        <activity
+            android:name=".alumno.CursoActivity"
+            android:label="@string/title_activity_curso"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".alumno.EjercicioActivity"
+            android:label="@string/title_activity_ejercicio"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".alumno.RespuestaAddActivity"
+            android:label="@string/title_activity_respuesta_add"
+            android:theme="@style/AppTheme"
+            android:parentActivityName=".alumno.EjercicioActivity"
+            >
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".alumno.EjercicioActivity" />
         </activity>
     </application>
 

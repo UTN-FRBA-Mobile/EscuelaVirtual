@@ -5,6 +5,7 @@ public class Respuesta {
     private String codigoCurso;
     private String codigoEjercicio;
     private String codigoRespuesta;
+    private String idAlumno;
     private String nombreAlumno;
     private String imagenRespuestaBase64;
 
