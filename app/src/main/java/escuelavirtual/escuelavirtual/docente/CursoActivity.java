@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,7 +38,7 @@ import retrofit2.Response;
 
 public class CursoActivity extends AppCompatActivity {
 
-    final List<Ejercicio> ejercicios = new ArrayList<>();
+    static final List<Ejercicio> ejercicios = new ArrayList<>();
     private static Curso cursoSeleccionado;
 
     public static Curso getCursoSeleccionado() {
@@ -59,12 +60,18 @@ public class CursoActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
 
-        cargarEjercicios();
+        if(ejercicios.isEmpty()){
+            final ProgressDialog progress = new ProgressDialog(CursoActivity.this);
+            progress.setMessage("Cargando sus ejercicios....");
+            progress.setTitle("Por favor Espere");
+            Loading.ejecutar(progress);
+            cargarEjercicios(progress);
+        }else{
+            updateEjercicios();
+        }
     }
 
-    private void cargarEjercicios() {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
-
+    private void cargarEjercicios(final ProgressDialog progress) {
         ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
@@ -74,15 +81,15 @@ public class CursoActivity extends AppCompatActivity {
                             for (EjercicioPersistible ejercicio : lista) {
                                 ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64()));
                             }
-
-                            recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+                            updateEjercicios();
                         }
+                        Loading.terminar(progress);
                     }
 
                     @Override
                     public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
                         Toast.makeText(CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }
