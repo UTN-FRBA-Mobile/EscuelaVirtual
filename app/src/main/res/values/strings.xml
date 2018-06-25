@@ -26,7 +26,7 @@
     <string name="logout">Cerrar Sesión</string>
 
     <!-- Titulos -->
-    <string name="title_activity_login">EV - Login</string>
+    <string name="title_activity_login">Escuela Virtual</string>
     <string name="bar_main_title"></string>
     <string name="bar_curso_title"></string>
     <string name="bar_curso_add_title">EV - Agregar curso</string>
