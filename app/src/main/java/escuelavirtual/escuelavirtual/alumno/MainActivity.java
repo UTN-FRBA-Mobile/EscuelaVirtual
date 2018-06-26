@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (cursos.isEmpty()) {
             final ProgressDialog progress = new ProgressDialog(MainActivity.this);
             progress.setMessage("Cargando sus cursos....");
-            progress.setTitle("Por favor Espere");
+            progress.setTitle("Por favor, espere...");
             Loading.ejecutar(progress);
             cargarCursos(progress);
         } else {
@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
        */
         //MOCK
         cursos.add(new Curso("Analisis 1","am1"));
+        Loading.terminar(progress);
         updateCursos();
     }
 

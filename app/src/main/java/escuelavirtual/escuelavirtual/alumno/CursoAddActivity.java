@@ -107,7 +107,7 @@ public class CursoAddActivity extends AppCompatActivity {
     public void confirm_AddCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
-                "Está a punto de agregar el curso:%n%s%n%n¿Confirma esta acción?",
+                "Está a punto de inscribirse al curso:%n%s%n%n¿Está seguro?",
                 etCursoCode.getText()));
         alertDialogBuilder.setPositiveButton("Sí",
                   new DialogInterface.OnClickListener() {
@@ -157,7 +157,7 @@ public class CursoAddActivity extends AppCompatActivity {
     public void cancel_AddCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
-                "¿Desea cancelar la creación del curso?"));
+                "¿Desea cancelar la inscripción al curso?"));
 
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {
