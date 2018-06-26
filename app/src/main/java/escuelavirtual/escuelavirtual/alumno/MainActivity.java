@@ -26,6 +26,8 @@ import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+
+import escuelavirtual.escuelavirtual.docente.EjercicioActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -55,10 +57,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             updateCursos();
         }
-
     }
 
     private void cargarCursos(final ProgressDialog progress) {
+        /*
         ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
@@ -78,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
+       */
+        //MOCK
+        cursos.add(new Curso("Analisis 1","am1"));
+        updateCursos();
     }
 
     private void updateCursos() {
@@ -131,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
 /*        Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);*/
+        Intent intent = new Intent(this, CursoActivity.class);
+        startActivity(intent);
     }
 
     public void gotoAddCurso(){

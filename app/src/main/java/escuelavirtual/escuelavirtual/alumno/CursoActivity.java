@@ -67,6 +67,7 @@ public class CursoActivity extends AppCompatActivity {
         cargarEjercicios(progress);
     }
 
+
     private void cargarEjercicios(final ProgressDialog progress) {
         ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
