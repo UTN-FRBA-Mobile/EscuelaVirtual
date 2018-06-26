@@ -37,7 +37,7 @@ import retrofit2.Response;
 public class CommentsOnPhotoActivity_a extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
-    public Map<Integer, TagView> tagsAdded;
+    public Map<Integer, TagView> tagsAdded = new HashMap<>();
     public APIService mAPIService;
     private static Respuesta respuestaSeleccionada;
     private static Ejercicio ejercicioSeleccionado;
@@ -67,8 +67,6 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
-
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
         ViewsController.getCommentBox().setEnabled(false);
@@ -77,7 +75,7 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
         ViewsController.getTagAndNumberLayout().setVisibility(View.INVISIBLE);
 
         ViewsController.setNumberOverTag((TextView)findViewById(R.id.tag_number_id));
-        
+
         ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
         ViewsController.getInfoDetailButton().setVisibility(View.VISIBLE);
         ViewsController.getInfoDetailButton().setEnabled(true);
@@ -95,59 +93,14 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
 
         ViewsController.setBaseImage((ImageView)findViewById(R.id.base_image_id));
         ViewsController.getBaseImage().setImageBitmap(base64ToBitMap(respuestaSeleccionada.getImagenRespuestaBase64()));
-        /*ViewsController.getBaseImage().setOnTouchListener(new View.OnTouchListener() {
-
-            final Handler handler = new Handler();
-            int touchX;
-            int touchY;
-
-            // This runs when a tag is added over image
-            Runnable mLongPressed = new Runnable() {
-                public void run() {
-                    // Keyboard
-                    ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
-                    ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
-
-                    // Create a tag
-                    Integer leftMargin = touchX - centralPositionOfTag;
-                    Integer topMargin = touchY - centralPositionOfTag;
-                    Tag tag = new Tag(centralPositionOfTag, leftMargin, topMargin);
-                    final TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
-
-                    // Draw a tag
-                    RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
-                    ViewsController.setBaseImageLayout(baseImageLayout);
-                    TagDrawer.drawTag(tagsAdded, tagView);
-
-                    // Set pipe/focus into comment box
-                    ViewsController.getCommentBox().setEnabled(true);
-                    ViewsController.getCommentBox().setVisibility(View.VISIBLE);
-                    ViewsController.getCommentBox().requestFocus();
-
-                    ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
-                }
-            };
-
+        ViewsController.getBaseImage().setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        // Do this to allow clearing comment section if image is touched
-                        ViewsController.turnOffCommentBox();
-                        TagDrawer.reDrawTags(tagsAdded, true);
-
-                        touchX = (int) event.getX();
-                        touchY = (int) event.getY();
-                        handler.postDelayed(mLongPressed, 200);
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_MOVE:
-                        handler.removeCallbacks(mLongPressed);
-                        break;
-                }
-                return true;
+            public void onClick(View view) {
+                TagDrawer.seletcNoneTag();
             }
-        });*/
+        });
+
+        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -159,24 +112,38 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
         EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
-        startActivity(new Intent(this, escuelavirtual.escuelavirtual.alumno.EjercicioActivity.class));
+        startActivity(new Intent(this, EjercicioActivity.class));
         return true;
     }
 
     private void getCommentsTag(String foto) {
+        RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
+        ViewsController.setBaseImageLayout(baseImageLayout);
+        ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
+
+        // TODO: remover este ejemplo harcodeado
+        Tag tag = new Tag(35, 304, 243, 50, "Hola");
+        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag).setFromAlumno());
+        tag = new Tag(35, 404, 243, 51, "Chau");
+        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag).setFromAlumno());
+        TagDrawer.reDrawTags(tagsAdded, false);
+        ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
+        // ------->
+
         mAPIService.getTag(foto)
-               .enqueue(new Callback<List<Tag>>() {
+                .enqueue(new Callback<List<Tag>>() {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                         if(response.isSuccessful()) {
                             List<Tag> lista = response.body();
                             for (Tag tag : lista) {
-                                TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
+                                TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag).setFromAlumno();
                                 tagsAdded.put(tag.getNumberOfTag(), tagView);
                             }
 
-                            ViewsController.setBaseImageLayout((RelativeLayout) findViewById(R.id.tags_layout_id));
+                            RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
+                            ViewsController.setBaseImageLayout(baseImageLayout);
                             ViewsController.turnOffCommentBox();
                             TagDrawer.reDrawTags(tagsAdded, false);
 
@@ -190,7 +157,7 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<Tag>> call, Throwable t) {
-                        //Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
+                        //Toast.makeText(CommentsOnPhotoActivity_a.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
     }

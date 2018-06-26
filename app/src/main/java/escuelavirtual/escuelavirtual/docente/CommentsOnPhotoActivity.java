@@ -42,7 +42,7 @@ import retrofit2.Response;
 public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     public int centralPositionOfTag = 35;
-    public Map<Integer, TagView> tagsAdded;
+    public Map<Integer, TagView> tagsAdded = new HashMap<>();
     public APIService mAPIService;
     private static Respuesta respuestaSeleccionada;
     private static Ejercicio ejercicioSeleccionado;
@@ -93,8 +93,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
-
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
         ViewsController.getCommentBox().setEnabled(false);
@@ -115,7 +113,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
         ViewsController.setSaveButton((Button) findViewById(R.id.save_id));
         ViewsController.enableAndShowButton("save");
-        
+
         ViewsController.setInfoDetailButton((Button) findViewById(R.id.info_id));
         ViewsController.getInfoDetailButton().setVisibility(View.VISIBLE);
         ViewsController.getInfoDetailButton().setEnabled(true);
@@ -199,6 +197,9 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
+        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -238,7 +239,21 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     }
 
     private void getCommentsTag(String foto) {
+        RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
+        ViewsController.setBaseImageLayout(baseImageLayout);
+        ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
+
+        // TODO: remover este ejemplo harcodeado
+        Tag tag = new Tag(35, 304, 243, 50, "Hola");
+        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag));
+        TagDrawer.reDrawTags(tagsAdded, false);
+        ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
+        ViewsController.setAddButtonClickListener(tagsAdded);
+        ViewsController.setEditButtonClickListener(tagsAdded);
+        ViewsController.setDeleteButtonClickListener(tagsAdded, mAPIService);
+        // ------->
+
         mAPIService.getTag(foto)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
@@ -250,7 +265,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                                 tagsAdded.put(tag.getNumberOfTag(), tagView);
                             }
 
-                            ViewsController.setBaseImageLayout((RelativeLayout) findViewById(R.id.tags_layout_id));
+                            RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
+                            ViewsController.setBaseImageLayout(baseImageLayout);
                             ViewsController.turnOffCommentBox();
                             TagDrawer.reDrawTags(tagsAdded, false);
 

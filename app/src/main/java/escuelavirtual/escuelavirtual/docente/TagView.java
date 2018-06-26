@@ -13,6 +13,12 @@ import escuelavirtual.escuelavirtual.data.Tag;
 
 public class TagView extends View {
     private Tag tag;
+    private Boolean fromAlumno = false;
+
+    public TagView setFromAlumno() {
+        this.fromAlumno = true;
+        return this;
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     public TagView(final Context context){
@@ -38,14 +44,15 @@ public class TagView extends View {
         ViewsController.getCommentBox().setVisibility(VISIBLE);
         ViewsController.getCommentBox().setTextColor(Color.BLACK);
 
-        ViewsController.getAddCommentButton().setVisibility(VISIBLE);
-        ViewsController.getEditCommentButton().setVisibility(VISIBLE);
-        ViewsController.getDeleteCommentButton().setVisibility(VISIBLE);
+        if(!fromAlumno){
+            ViewsController.getAddCommentButton().setVisibility(VISIBLE);
+            ViewsController.getEditCommentButton().setVisibility(VISIBLE);
+            ViewsController.getDeleteCommentButton().setVisibility(VISIBLE);
 
-
-        ViewsController.getAddCommentButton().setEnabled(true);
-        ViewsController.getEditCommentButton().setEnabled(true);
-        ViewsController.getDeleteCommentButton().setEnabled(true);
+            ViewsController.getAddCommentButton().setEnabled(true);
+            ViewsController.getEditCommentButton().setEnabled(true);
+            ViewsController.getDeleteCommentButton().setEnabled(true);
+        }
     }
 
     public TagView(final Context context, Tag tag){
