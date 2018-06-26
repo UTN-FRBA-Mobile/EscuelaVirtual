@@ -122,7 +122,7 @@ public class CursoActivity extends AppCompatActivity {
     private void refreshEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
     }
 
     private void confirm_logout() {

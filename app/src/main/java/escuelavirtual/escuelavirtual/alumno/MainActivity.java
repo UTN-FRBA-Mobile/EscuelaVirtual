@@ -162,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void trytoDeleteCurso (View deleteButton){
-        final Curso courseToDelete = this.findCourseToDelete(deleteButton);
+        final Curso courseToDesuscribe = this.findCourseToDelete(deleteButton);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format("¿Desea desuscribirse de este curso?"));
@@ -172,9 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarCurso(new CursoPersistible(courseToDelete.getCodigo(),
-                                courseToDelete.getDescripcion(),null,
-                                FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        desuscribirseDeCurso(courseToDesuscribe);
                     }
                 });
 
@@ -199,8 +197,11 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private void eliminarCurso(CursoPersistible cursoPersistible) {
-        ApiUtils.getAPIService().deleteCurso(cursoPersistible)
+    private void desuscribirseDeCurso(Curso curso) {
+        cursos.remove(curso);
+        updateCursos();
+
+        ApiUtils.getAPIService().desuscribeCurso(new CursoPersistible(curso.getCodigo(), curso.getDescripcion(),null, curso.getDocente()))
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
