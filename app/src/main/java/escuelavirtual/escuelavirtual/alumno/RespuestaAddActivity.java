@@ -148,6 +148,8 @@ public class RespuestaAddActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<UsuarioPersistible> call, Throwable t) {
+                        Toast.makeText(RespuestaAddActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
 
