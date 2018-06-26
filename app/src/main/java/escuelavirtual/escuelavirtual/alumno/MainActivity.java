@@ -12,9 +12,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.TextView;
-import escuelavirtual.escuelavirtual.common.Loading;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -24,10 +24,9 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-
-import escuelavirtual.escuelavirtual.docente.EjercicioActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarCursos(final ProgressDialog progress) {
-        /*
+        cursos.add(new Curso("Analisis 1","am1"));
+        Loading.terminar(progress);
+        updateCursos();
+
         ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
@@ -80,11 +82,6 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
-       */
-        //MOCK
-        cursos.add(new Curso("Analisis 1","am1"));
-        Loading.terminar(progress);
-        updateCursos();
     }
 
     private void updateCursos() {
@@ -135,14 +132,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCurso(View view){
-        //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
-/*        Intent intent = new Intent(this, CursoActivity.class);
-        startActivity(intent);*/
-
-//        Intent intent = new Intent(this, CursoActivity.class);
-
         Intent intent = new Intent(this, CursoActivity.class);
+        if(CursoActivity.getCursoSeleccionado() != this.findCourseSelected(view)){
+            CursoActivity.ejercicios.removeAll(CursoActivity.ejercicios);
+        }
+        CursoActivity.setCursoSeleccionado(this.findCourseSelected(view));
         startActivity(intent);
+    }
+
+    private Curso findCourseSelected(View view){
+        for(int i = 0; i < this.cursos.size(); i++){
+            if(this.cursos.get(i).getCodigo().equals(view.getTag())){
+                return this.cursos.get(i);
+            }
+            try{
+                if(((TextView)view).getText().toString().contains(cursos.get(i).getCodigo())){
+                    return this.cursos.get(i);
+                }
+            }catch (Exception e){
+
+            }
+        }
+        return null;
     }
 
     public void gotoAddCurso(){

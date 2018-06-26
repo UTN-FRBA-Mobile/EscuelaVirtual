@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
 
-import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;

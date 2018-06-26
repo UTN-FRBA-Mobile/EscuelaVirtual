@@ -9,12 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
@@ -25,13 +22,10 @@ import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
-    private static Ejercicio ejercicioSeleccionado;
-    private static Curso cursoSeleccionado;
 
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     public static void agregarRespuesta(Respuesta respueta) {
@@ -131,5 +125,11 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        startActivity(new Intent(this, CursoActivity.class));
+        return true;
     }
 }

@@ -4,17 +4,22 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,12 +51,15 @@ public class CursoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycle_curso_a);
+        setContentView(R.layout.activity_curso);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = new Intent(this, EjercicioActivity.class);
-        startActivity(intent);
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Cargando ejercicios...");
+        progress.setTitle("Por favor espere...");
+        Loading.ejecutar(progress);
+        cargarEjercicios(progress);
     }
 
     @Override
@@ -67,7 +75,16 @@ public class CursoActivity extends AppCompatActivity {
 
 
     private void cargarEjercicios(final ProgressDialog progress) {
-        ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
+        ejercicios.removeAll(ejercicios);
+
+        // TODO: remover cuando se solucione la persistencia del id del docente del lado de Docente, cuando se crea un ejercicio
+        ImageView imagenRespuesta = new ImageView(this);
+        imagenRespuesta.setImageResource(R.drawable.example_image);
+        Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
+        ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap)));
+
+        // TODO: Esto no funciona porque no se está percistiendo el código de docente cuando el docente crea un ejercicio
+        ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
@@ -87,6 +104,13 @@ public class CursoActivity extends AppCompatActivity {
                         Loading.terminar(progress);
                     }
                 });
+    }
+
+    protected String bitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
     }
 
     private void refreshEjercicios() {

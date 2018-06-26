@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -20,22 +18,15 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
-import java.util.Random;
 
-import escuelavirtual.escuelavirtual.Ejercicio;
-import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-import escuelavirtual.escuelavirtual.docente.*;
-import escuelavirtual.escuelavirtual.docente.CursoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

@@ -1,7 +1,5 @@
 package escuelavirtual.escuelavirtual;
 
-import android.text.Editable;
-
 public class Respuesta {
 
     private String codigoCurso;
