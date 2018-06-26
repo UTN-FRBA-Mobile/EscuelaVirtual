@@ -17,6 +17,14 @@ import escuelavirtual.escuelavirtual.R;
 import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
+    private static Ejercicio ejercicioSeleccionado;
+    private static Curso cursoSeleccionado;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +56,14 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
     private void agregarRespuesta(EjercicioActivity ejercicioActivity) {
         Intent intent = new Intent(this, RespuestaAddActivity.class);
         startActivity(intent);
+    }
+
+    public static void setEjercicioSeleccionado(Ejercicio ejercicioSeleccionado) {
+        EjercicioActivity.ejercicioSeleccionado = ejercicioSeleccionado;
+    }
+
+    public static void setCursoSeleccionado(Curso cursoSeleccionado) {
+        EjercicioActivity.cursoSeleccionado = cursoSeleccionado;
     }
 
 }

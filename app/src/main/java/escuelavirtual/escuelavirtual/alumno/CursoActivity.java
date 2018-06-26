@@ -35,21 +35,20 @@ import retrofit2.Response;
 public class CursoActivity extends AppCompatActivity {
 
     static final List<Ejercicio> ejercicios = new ArrayList<>();
-
     private static Curso cursoSeleccionado;
 
     public static Curso getCursoSeleccionado() {
         return cursoSeleccionado;
     }
 
-    public static void setCursoSeleccionado(Curso aCursoSeleccionado) {
-        cursoSeleccionado = aCursoSeleccionado;
+    public static void setCursoSeleccionado(Curso c) {
+        cursoSeleccionado = c;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curso_a);
+        setContentView(R.layout.recycle_curso_a);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -61,9 +60,9 @@ public class CursoActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        final ProgressDialog progress = new ProgressDialog(escuelavirtual.escuelavirtual.alumno.CursoActivity.this);
-        progress.setMessage("Cargando sus ejercicios....");
-        progress.setTitle("Por favor Espere");
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage("Cargando ejercicios...");
+        progress.setTitle("Por favor espere...");
         Loading.ejecutar(progress);
         cargarEjercicios(progress);
     }
@@ -93,7 +92,7 @@ public class CursoActivity extends AppCompatActivity {
 
     private void updateEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
-        recyclerView.setLayoutManager(new LinearLayoutManager(escuelavirtual.escuelavirtual.alumno.CursoActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
     }
 
@@ -133,9 +132,9 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     public void gotoEjercicio(View button) {
-        escuelavirtual.escuelavirtual.alumno.EjercicioActivity.setEjercicioSeleccionado(this.findExerciseSelected(button));
-        escuelavirtual.escuelavirtual.alumno.EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
-        Intent intent = new Intent(button.getContext(), escuelavirtual.escuelavirtual.alumno.EjercicioActivity.class);
+        EjercicioActivity.setEjercicioSeleccionado(this.findExerciseSelected(button));
+        EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
+        Intent intent = new Intent(button.getContext(), EjercicioActivity.class);
         startActivity(intent);
     }
 

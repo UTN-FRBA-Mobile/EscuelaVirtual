@@ -32,7 +32,6 @@ public class CursoAddActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso_add_a);
 
-        etDocenteName = (EditText) findViewById(R.id.et_docente_name_id);
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
         tvCursoDetail = (TextView) findViewById(R.id.tv_curso_detail_id);
         fabFindCurso = (FloatingActionButton) findViewById(R.id.fabFindCurso_id);
@@ -103,8 +102,8 @@ public class CursoAddActivity extends AppCompatActivity {
     public void confirm_AddCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
-                "Esta a punto de agregar el curso:%n%s%n%n¿Confirma esta acción?",
-                etDocenteName.getText()));
+                "Está a punto de agregar el curso:%n%s%n%n¿Confirma esta acción?",
+                etCursoCode.getText()));
         alertDialogBuilder.setPositiveButton("Sí",
                   new DialogInterface.OnClickListener() {
                     @Override
