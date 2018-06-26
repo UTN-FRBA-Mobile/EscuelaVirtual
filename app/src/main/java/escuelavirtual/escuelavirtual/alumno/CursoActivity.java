@@ -57,16 +57,6 @@ public class CursoActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        final ProgressDialog progress = new ProgressDialog(escuelavirtual.escuelavirtual.alumno.CursoActivity.this);
-        progress.setMessage("Cargando sus ejercicios....");
-        progress.setTitle("Por favor Espere");
-        Loading.ejecutar(progress);
-        cargarEjercicios(progress);
-    }
 
     private void cargarEjercicios(final ProgressDialog progress) {
         ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())

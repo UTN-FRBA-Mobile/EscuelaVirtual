@@ -24,7 +24,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="112dp"
-        android:gravity="center|end">
+        android:gravity="center|end"
+        android:onClick="gotoCurso">
 
         <ImageButton
             android:id="@+id/ibtn_delete_curso_id"

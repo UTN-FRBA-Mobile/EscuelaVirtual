@@ -24,6 +24,8 @@ import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+
+import escuelavirtual.escuelavirtual.docente.EjercicioActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -43,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar();
 
+
         cargarCursos();
     }
 
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
                             for (CursoPersistible cursoP : lista) {
                                 cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
                             }
+
+                            //MOCK
+                            cursos.add(new Curso("Analisis 1","am1"));
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
                             recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
@@ -115,6 +121,8 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
 /*        Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);*/
+        Intent intent = new Intent(this, CursoActivity.class);
+        startActivity(intent);
     }
 
     public void gotoAddCurso(){
