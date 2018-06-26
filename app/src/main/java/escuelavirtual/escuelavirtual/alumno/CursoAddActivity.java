@@ -16,8 +16,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.List;
+
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -101,6 +104,23 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void find_Curso(View view){
+        ApiUtils.getAPIService().getCurso(etCursoCode.getText().toString())
+                .enqueue(new Callback<List<CursoPersistible>>() {
+                    @Override
+                    public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
+                        if(response.isSuccessful()) {
+
+                            CursoPersistible cursoFound = response.body().get(0);
+
+                            tvCursoDetail.setText(cursoFound.getDescripcion().toString());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
+
+                    }
+                });
         showFind(false);
     }
 
@@ -131,12 +151,12 @@ public class CursoAddActivity extends AppCompatActivity {
 
     private void addCursoConfirm() {
         /*
-       ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(),"Pepe",null,FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().inscribir(etCursoCode.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
-                    Toast.makeText(CursoAddActivity.this, "Guardado correctamente.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CursoAddActivity.this, "Inscripto con éxito.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                     startActivity(intent);
                 }

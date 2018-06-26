@@ -61,26 +61,26 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarCursos(final ProgressDialog progress) {
         /*
-        ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().getCursosInscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
-                    @Override
-                    public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
-                        if(response.isSuccessful()) {
-                            List<CursoPersistible> lista = response.body();
-                            for (CursoPersistible cursoP : lista) {
-                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
-                            }
-                            updateCursos();
-                            Loading.terminar(progress);
+                @Override
+                public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
+                    if(response.isSuccessful()) {
+                        List<CursoPersistible> lista = response.body();
+                        for (CursoPersistible cursoP : lista) {
+                            cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
                         }
+                        updateCursos();
+                        Loading.terminar(progress);
                     }
+                }
 
-                    @Override
-                    public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                    }
-                });
-       */
+                @Override
+                public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
+                    Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                }
+        });
+*/
         //MOCK
         cursos.add(new Curso("Analisis 1","am1"));
         Loading.terminar(progress);
