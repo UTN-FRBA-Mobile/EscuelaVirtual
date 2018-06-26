@@ -215,9 +215,8 @@ public class ViewsController{
             @Override
             public void onClick(View button) {
                 ViewsController.turnOffCommentBox();
-                TagView tagAEliminar = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
-                tagAEliminar = tagsAdded.remove(tagAEliminar);
-                apiService.deleteTag(tagAEliminar.getTag())
+                TagView tagRemovido = tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
+                apiService.deleteTag(tagRemovido.getTag())
                         .enqueue(new Callback<Tag>() {
                             @Override
                             public void onResponse(Call<Tag> call, Response<Tag> response) {
