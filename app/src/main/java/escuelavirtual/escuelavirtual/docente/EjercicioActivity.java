@@ -48,6 +48,10 @@ public class EjercicioActivity extends AppCompatActivity {
         return cursoSeleccionado;
     }
 
+    public static Ejercicio getEjercicioSeleccionado() {
+        return ejercicioSeleccionado;
+    }
+
     public static void setCursoSeleccionado(Curso cursoSeleccionado) {
         EjercicioActivity.cursoSeleccionado = cursoSeleccionado;
     }

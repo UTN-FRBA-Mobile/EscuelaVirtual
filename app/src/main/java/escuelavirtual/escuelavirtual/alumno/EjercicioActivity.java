@@ -17,6 +17,7 @@ import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
+import escuelavirtual.escuelavirtual.docente.CommentsOnPhotoActivity_a;
 
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
 
@@ -26,7 +27,7 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
     }
 
     public static void agregarRespuesta(Respuesta respueta) {
-        escuelavirtual.escuelavirtual.docente.EjercicioActivity.respuestas.add(respueta);
+        respuestas.add(respueta);
     }
 
     @Override
@@ -117,5 +118,14 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
         CursoActivity.setCursoSeleccionado(getCursoSeleccionado());
         startActivity(new Intent(this, CursoActivity.class));
         return true;
+    }
+
+    @Override
+    public void goToRespuesta(View button) {
+        CommentsOnPhotoActivity_a.setRespuestaSeleccionada(this.findRespuestaSelected(button));
+        CommentsOnPhotoActivity_a.setEjercicioSeleccionado(getEjercicioSeleccionado());
+        CommentsOnPhotoActivity_a.setCursoSeleccionado(getCursoSeleccionado());
+        Intent intent = new Intent(this, CommentsOnPhotoActivity_a.class);
+        startActivity(intent);
     }
 }
