@@ -138,6 +138,9 @@ public class MainActivity extends AppCompatActivity {
         //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
 /*        Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);*/
+
+//        Intent intent = new Intent(this, CursoActivity.class);
+
         Intent intent = new Intent(this, CursoActivity.class);
         startActivity(intent);
     }

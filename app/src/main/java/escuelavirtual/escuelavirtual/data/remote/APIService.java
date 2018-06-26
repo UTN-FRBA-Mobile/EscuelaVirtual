@@ -116,4 +116,6 @@ public interface APIService {
                                   @Field("codEjercicioNuevo") String codigoEjercicioNuevo,
                                   @Field("imagenBase64") String imagenBase64,
                                   @Field("uid") String uid);
+    @POST("/post_respuesta")
+    Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);
 }
