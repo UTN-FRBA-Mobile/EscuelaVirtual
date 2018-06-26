@@ -44,6 +44,10 @@ public class EjercicioActivity extends AppCompatActivity {
     protected static Curso cursoSeleccionado;
     protected static Ejercicio ejercicioSeleccionado;
 
+    public static Curso getCursoSeleccionado() {
+        return cursoSeleccionado;
+    }
+
     public static void setCursoSeleccionado(Curso cursoSeleccionado) {
         EjercicioActivity.cursoSeleccionado = cursoSeleccionado;
     }
@@ -200,5 +204,12 @@ public class EjercicioActivity extends AppCompatActivity {
         //TODO: Obtener el id de la respuesta en esta POSITION
         //TODO: Pasar el id al CommentsOnPhotoActivity
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        CursoActivity.setCursoSeleccionado(getCursoSeleccionado());
+        startActivity(new Intent(this, CursoActivity.class));
+        return true;
     }
 }

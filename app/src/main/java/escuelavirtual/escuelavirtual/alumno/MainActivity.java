@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<CursoPersistible> lista = response.body();
                             for (CursoPersistible cursoP : lista) {
-                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
+                                cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), null));
                             }
                             updateCursos();
                             Loading.terminar(progress);

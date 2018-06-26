@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -34,20 +35,8 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //MOCK: Cuando el curso y el ejercicio no están cargados, los carga con un ejercicio de ejemplo
-        //TODO: Al implementar listado de ejercicios ALUMNO, llamar a setCursoSeleccionado y setEjercicioSeleccionado
-        if(cursoSeleccionado == null ) this.setCursoSeleccionado(new Curso("name","description"));
-        if(ejercicioSeleccionado == null){
-            ImageView imagenRespuesta = new ImageView(this);
-            imagenRespuesta.setImageResource(R.drawable.ejercicio_ejemplo);
-            Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-            this.setEjercicioSeleccionado(new Ejercicio("e1",bitmapToBase64(bitmap)));
-        }
-
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,6 +118,7 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
 
     @Override
     public boolean onSupportNavigateUp() {
+        CursoActivity.setCursoSeleccionado(getCursoSeleccionado());
         startActivity(new Intent(this, CursoActivity.class));
         return true;
     }

@@ -52,29 +52,34 @@ public class CursoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_curso);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setMessage("Cargando ejercicios...");
-        progress.setTitle("Por favor espere...");
-        Loading.ejecutar(progress);
-        cargarEjercicios(progress);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
+
+        cargarEjercicios();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        cargarEjercicios();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarEjercicios();
+    }
+
+    private void cargarEjercicios() {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Cargando ejercicios...");
         progress.setTitle("Por favor espere...");
         Loading.ejecutar(progress);
-        cargarEjercicios(progress);
-    }
 
-
-    private void cargarEjercicios(final ProgressDialog progress) {
         ejercicios.removeAll(ejercicios);
 
         // TODO: remover cuando se solucione la persistencia del id del docente del lado de Docente, cuando se crea un ejercicio
@@ -82,6 +87,7 @@ public class CursoActivity extends AppCompatActivity {
         imagenRespuesta.setImageResource(R.drawable.example_image);
         Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
         ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap)));
+        refreshEjercicios();
 
         // TODO: Esto no funciona porque no se está percistiendo el código de docente cuando el docente crea un ejercicio
         ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(),cursoSeleccionado.getCodigo())
