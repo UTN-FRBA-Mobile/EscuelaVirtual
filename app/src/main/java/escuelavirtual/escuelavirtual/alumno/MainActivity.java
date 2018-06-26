@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.alumno;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
-
+import android.widget.TextView;
+import escuelavirtual.escuelavirtual.common.Loading;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
@@ -43,11 +45,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar();
 
-        cargarCursos();
+        ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
+        if (cursos.isEmpty()) {
+            final ProgressDialog progress = new ProgressDialog(MainActivity.this);
+            progress.setMessage("Cargando sus cursos....");
+            progress.setTitle("Por favor Espere");
+            Loading.ejecutar(progress);
+            cargarCursos(progress);
+        } else {
+            updateCursos();
+        }
+
     }
 
-    private void cargarCursos() {
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
+    private void cargarCursos(final ProgressDialog progress) {
         ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
@@ -57,9 +68,8 @@ public class MainActivity extends AppCompatActivity {
                             for (CursoPersistible cursoP : lista) {
                                 cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
                             }
-
-                            recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+                            updateCursos();
+                            Loading.terminar(progress);
                         }
                     }
 
@@ -68,6 +78,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    private void updateCursos() {
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
+        recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
     }
 
     @Override
