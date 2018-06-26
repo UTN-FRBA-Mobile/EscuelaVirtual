@@ -1,30 +1,51 @@
 package escuelavirtual.escuelavirtual.alumno;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
+import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
-
-import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
+import escuelavirtual.escuelavirtual.Respuesta;
+import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
 
+    public static void agregarRespuesta(Respuesta respueta) {
+        escuelavirtual.escuelavirtual.docente.EjercicioActivity.respuestas.add(respueta);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        this.setCursoSeleccionado(new Curso("name","description"));
-        this.setEjercicioSeleccionado(new Ejercicio("e1","123"));
-        super.onCreate(savedInstanceState);
 
+        //MOCK: Cuando el curso y el ejercicio no están cargados, los carga con un ejercicio de ejemplo
+        //TODO: Al implementar listado de ejercicios ALUMNO, llamar a setCursoSeleccionado y setEjercicioSeleccionado
+        if(cursoSeleccionado == null ) this.setCursoSeleccionado(new Curso("name","description"));
+        if(ejercicioSeleccionado == null){
+            ImageView imagenRespuesta = new ImageView(this);
+            imagenRespuesta.setImageResource(R.drawable.ejercicio_ejemplo);
+            Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
+            this.setEjercicioSeleccionado(new Ejercicio("e1",bitmapToBase64(bitmap)));
+        }
+
+        super.onCreate(savedInstanceState);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -39,15 +60,60 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
             case R.id.menu_add_respuesta_id:
-                {agregarRespuesta(this);}
+                {crearRespuesta(this);}
             default:
                 return false;
         }
     }
 
-    private void agregarRespuesta(EjercicioActivity ejercicioActivity) {
+    private void crearRespuesta(EjercicioActivity ejercicioActivity) {
+        String codigoRta = getNuevoCodigoRespuesta(respuestas);
+        //Autogenero codigo de respuesta para la nueva Respuesta
+        RespuestaAddActivity.setRespuesta(new Respuesta(cursoSeleccionado.getCodigo(),ejercicioSeleccionado.getCodigoEjercicio(),codigoRta));
         Intent intent = new Intent(this, RespuestaAddActivity.class);
         startActivity(intent);
     }
 
+    private String getNuevoCodigoRespuesta(List<Respuesta> respuestas) {
+        //En caso de lista vacía, devuelve 1 como id inicial
+        if(respuestas.size() == 0) return "1";
+
+        Integer maxValue = 0;
+        for(int i = 0; i < respuestas.size(); i++) {
+            if(Integer.parseInt(respuestas.get(i).getCodigoRespuesta()) > maxValue) {
+                maxValue = Integer.parseInt(respuestas.get(i).getCodigoRespuesta());
+            }
+        }
+
+        maxValue += 1;
+
+        return String.valueOf(maxValue);
+    }
+
+    @Override
+    protected void setAdapter(RecyclerView recyclerView) {
+        recyclerView.setAdapter(new ModelAdapterRespuesta(false,respuestas));
+    }
+
+    @Override
+    protected void persistiblesToList(List<RespuestaPersistible> lista) {
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        for (RespuestaPersistible respuesta : lista) {
+            if(respuesta.getCodigoAlumno() == uid) {
+                respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoRespuesta(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno(), respuesta.getImagenBase64(), respuesta.getDescripcion()));
+            }
+        }
+    }
+
+    @Override
+    protected Respuesta findRespuestaSelected(View view) {
+        for(int i = 0; i < this.respuestas.size(); i++){
+            //Devuelve la respuesta con el mismo codigo de respuesta
+            if(this.respuestas.get(i).getCodigoRespuesta().equals(view.getTag()))
+            {
+                return this.respuestas.get(i);
+            }
+        }
+        return null;
+    }
 }

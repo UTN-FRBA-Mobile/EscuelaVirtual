@@ -13,10 +13,12 @@ import java.util.List;
  */
 
 public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterRespuesta.ModelViewHolder>{
+    private Boolean esDocente;
     private List<Respuesta> items;
 
-    public ModelAdapterRespuesta(List<Respuesta> items) {
+    public ModelAdapterRespuesta(Boolean esDocente, List<Respuesta> items) {
         this.items = items;
+        this.esDocente = esDocente;
     }
 
     @Override
@@ -44,7 +46,10 @@ public class ModelAdapterRespuesta extends RecyclerView.Adapter<ModelAdapterResp
         }
 
         public void bind(Respuesta respuesta) {
-            textView.setText(respuesta.getCodigoCurso() + " - " + respuesta.getCodigoEjercicio() + " - " + respuesta.getCodigoRespuesta() + " - " + respuesta.getNombreAlumno());
+            textView.setTag(respuesta.getCodigoRespuesta());
+            String rtaLabel = respuesta.getCodigoCurso() + " - " + respuesta.getCodigoEjercicio() + " - " + respuesta.getCodigoRespuesta();
+            if(esDocente) rtaLabel += " - " + respuesta.getNombreAlumno();
+            textView.setText(rtaLabel);
         }
     }
 }

@@ -54,8 +54,7 @@ public interface APIService {
     @GET("/get_respuestas")
     Call<List<RespuestaPersistible>> getRespuestas(
             @Query("codCurso") String codigoCurso,
-            @Query("codEjercicio") String codigoEjercicio,
-            @Query("docente") String docente
+            @Query("codEjercicio") String codigoEjercicio
     );
 
 
