@@ -10,6 +10,9 @@ public class RespuestaPersistible {
     @SerializedName("codEjercicio")
     @Expose
     private String codigoEjercicio;
+    @SerializedName("codRespuesta")
+    @Expose
+    private String codigoRespuesta;
     @SerializedName("codAlumno")
     @Expose
     private String codigoAlumno;
@@ -22,6 +25,9 @@ public class RespuestaPersistible {
     @SerializedName("docente")
     @Expose
     private String docente;
+    @SerializedName("descripcion")
+    @Expose
+    private String descripcion;
 
     public RespuestaPersistible(String codigoCurso, String codigoEjercicio, String codigoAlumno, String nombreAlumno, String imagenBase64, String docente) {
         this.codigoCurso = codigoCurso;
@@ -78,5 +84,13 @@ public class RespuestaPersistible {
 
     public void setDocente(String docente) {
         this.docente = docente;
+    }
+
+    public String getCodigoRespuesta() {
+        return codigoRespuesta;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
     }
 }

@@ -40,9 +40,9 @@ public class EjercicioActivity extends AppCompatActivity {
 
     RecyclerView recyclerView;
     ModelAdapterRespuesta mAdapter;
-    List<Respuesta> respuestas = new ArrayList<>();
-    private static Curso cursoSeleccionado;
-    private static Ejercicio ejercicioSeleccionado;
+    protected static List<Respuesta> respuestas = new ArrayList<>();
+    protected static Curso cursoSeleccionado;
+    protected static Ejercicio ejercicioSeleccionado;
 
     public static void setCursoSeleccionado(Curso cursoSeleccionado) {
         EjercicioActivity.cursoSeleccionado = cursoSeleccionado;
@@ -61,10 +61,13 @@ public class EjercicioActivity extends AppCompatActivity {
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+        //Carga nombre de ejercicio e imagen
         if(ejercicioSeleccionado != null) {
             ((TextView) findViewById(R.id.main_title_id)).setText("Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio());
             ((ImageView) findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
         }
+
         cargarRespuestas();
     }
 
@@ -73,26 +76,44 @@ public class EjercicioActivity extends AppCompatActivity {
 
         // TODO: este código es para probar mientras no se tenga la persistencia
         ImageView imagenRespuesta = new ImageView(this);
-        imagenRespuesta.setImageResource(R.drawable.ejercicio_ejemplo);
+        imagenRespuesta.setImageResource(R.drawable.example_image);
         Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-        respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(),"1", "Deadpool", bitmapToBase64(bitmap)));
-        respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(),"2", "Batman", bitmapToBase64(bitmap)));
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterRespuesta(respuestas));
 
-        // TODO: este código comentado va a funcar cuando esté la persistencia hecha
-        ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ImageView imagenRespuesta2 = new ImageView(this);
+        imagenRespuesta2.setImageResource(R.drawable.ejercicio_ejemplo);
+        Bitmap bitmap2 = ((BitmapDrawable) imagenRespuesta2.getDrawable()).getBitmap();
+
+        if(respuestas.size() == 0) {
+            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            //Deadpool tiene que abrir las fotos de homero
+            //Batman tiene que abrir la foto de ejercicio posta
+
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "1",uid, "Deadpool", bitmapToBase64(bitmap),"desc1"));
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "2",uid, "Deadpool", bitmapToBase64(bitmap),"desc2"));
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "1",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "2",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "3",uid, "Deadpool", bitmapToBase64(bitmap),"desc3"));
+            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "3",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
+        }
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+        setAdapter(recyclerView);
+        //FIN Prueba sin persistencia
+        //---------------------------
+
+
+
+        // TODO: este código va a funcar cuando esté la persistencia hecha
+        ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override
                     public void onResponse(Call<List<RespuestaPersistible>> call, Response<List<RespuestaPersistible>> response) {
                         if(response.isSuccessful()) {
                             List<RespuestaPersistible> lista = response.body();
-                            for (RespuestaPersistible respuesta : lista) {
-                                respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno(), respuesta.getImagenBase64()));
-                            }
+                            persistiblesToList(lista);
 
                             recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
-                            recyclerView.setAdapter(new ModelAdapterRespuesta(respuestas));
+                            setAdapter(recyclerView);
                         }
                     }
 
@@ -103,6 +124,16 @@ public class EjercicioActivity extends AppCompatActivity {
                 });
     }
 
+    protected void persistiblesToList(List<RespuestaPersistible> lista) {
+        for (RespuestaPersistible respuesta : lista) {
+            respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoRespuesta(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno(), respuesta.getImagenBase64(),respuesta.getDescripcion()));
+        }
+    }
+
+    protected void setAdapter(RecyclerView recyclerView) {
+        recyclerView.setAdapter(new ModelAdapterRespuesta(true,respuestas));
+    }
+
     public void goToRespuesta(View button) {
         CommentsOnPhotoActivity.setRespuestaSeleccionada(this.findRespuestaSelected(button));
         CommentsOnPhotoActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
@@ -111,23 +142,20 @@ public class EjercicioActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private Respuesta findRespuestaSelected(View view){
+    protected Respuesta findRespuestaSelected(View view){
         for(int i = 0; i < this.respuestas.size(); i++){
-            if(this.respuestas.get(i).getCodigoEjercicio().equals(view.getTag())){
+            //Devuelve la respuesta si corresponde a la respuesta y usuario clickeados
+            if(
+                    this.respuestas.get(i).getCodigoRespuesta().equals(view.getTag()) &&
+                    ((TextView)view).getText().toString().contains(this.respuestas.get(i).getNombreAlumno())
+                ) {
                 return this.respuestas.get(i);
-            }
-            try{
-                if(((TextView)view).getText().toString().contains(respuestas.get(i).getCodigoEjercicio())){
-                    return this.respuestas.get(i);
-                }
-            }catch (Exception e){
-
             }
         }
         return null;
     }
 
-    private String bitmapToBase64(Bitmap bitmap){
+    protected String bitmapToBase64(Bitmap bitmap){
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
         byte[] byteArray = byteArrayOutputStream .toByteArray();

@@ -26,7 +26,6 @@ import retrofit2.Response;
 
 public class CursoAddActivity extends AppCompatActivity {
 
-    private EditText etDocenteName;
     private EditText etCursoCode;
     private TextView tvCursoDetail;
     private FloatingActionButton fabFindCurso;
