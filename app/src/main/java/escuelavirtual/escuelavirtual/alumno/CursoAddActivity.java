@@ -12,11 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class CursoAddActivity extends AppCompatActivity {
@@ -125,13 +130,13 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
-        /*
-       ApiUtils.getAPIService().guardarCurso(etCursoCode.getText().toString(),"Pepe",null,FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+       ApiUtils.getAPIService().postSuscripcion(etCursoCode.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
-                    Toast.makeText(CursoAddActivity.this, "Guardado correctamente.",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CursoAddActivity.this, "Usted esta suscripto al curso.",Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
@@ -144,7 +149,7 @@ public class CursoAddActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
+
         showFind(true);
         startActivity(new Intent(this, MainActivity.class));
     }

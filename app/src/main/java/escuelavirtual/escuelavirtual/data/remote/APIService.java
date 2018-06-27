@@ -121,4 +121,8 @@ public interface APIService {
                                   @Field("uid") String uid);
     @POST("/post_respuesta")
     Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);
+
+    @POST("/post_suscripcion")
+    Call<String> postSuscripcion(@Field("codCurso") String codigoCurso,
+                               @Field("uidUsuario") String usuario);
 }
