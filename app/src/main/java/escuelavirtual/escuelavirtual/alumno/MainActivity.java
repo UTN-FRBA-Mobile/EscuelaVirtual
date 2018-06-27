@@ -35,7 +35,7 @@ import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout
 
 public class MainActivity extends AppCompatActivity {
 
-    final List<Curso> cursos = new ArrayList<>();
+    static List<Curso> cursos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         Loading.terminar(progress);
         updateCursos();
 
-        ApiUtils.getAPIService().getCurso(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().getCursoSuscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<List<CursoPersistible>>() {
                     @Override
                     public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {

@@ -123,6 +123,13 @@ public interface APIService {
     Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);
 
     @POST("/post_suscripcion")
+    @FormUrlEncoded
     Call<String> postSuscripcion(@Field("codCurso") String codigoCurso,
                                @Field("uidUsuario") String usuario);
+
+    @GET("/get_cursos_suscriptos")
+    Call<List<CursoPersistible>> getCursoSuscripto(@Query("alumno") String alumno);
+
+
+
 }
