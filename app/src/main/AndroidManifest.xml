@@ -52,6 +52,7 @@
             android:name=".docente.CursoEditActivity"
             android:label="@string/bar_curso_edit_title" />
         <activity android:name=".docente.CommentsOnPhotoActivity" />
+        <activity android:name=".docente.CommentsOnPhotoActivity_a" />
         <activity
             android:name=".docente.EjercicioAddActivity"
             android:label="@string/bar_ejercicio_add_title" />

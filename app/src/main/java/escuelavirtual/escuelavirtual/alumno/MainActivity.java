@@ -12,22 +12,22 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 import android.widget.TextView;
-import escuelavirtual.escuelavirtual.common.Loading;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
+import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-
-import escuelavirtual.escuelavirtual.docente.EjercicioActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -60,15 +60,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarCursos(final ProgressDialog progress) {
+        cursos.add(new Curso("Analisis 1", "am1", "Pedro", null));
+        Loading.terminar(progress);
+        updateCursos();
+
         /*
-        ApiUtils.getAPIService().getCursosInscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .enqueue(new Callback<List<CursoPersistible>>() {
+        //TODO: getCursosDeAlumno
+        ApiUtils.getAPIService().getCursosDeAlumno(FirebaseAuth.getInstance().getCurrentUser().getUid())
+            .enqueue(new Callback<List<CursoPersistible>>() {
                 @Override
                 public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
                     if(response.isSuccessful()) {
                         List<CursoPersistible> lista = response.body();
                         for (CursoPersistible cursoP : lista) {
-                            cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion()));
+                            cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                         }
                         updateCursos();
                         Loading.terminar(progress);
@@ -79,12 +84,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
                     Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                 }
-        });
-*/
-        //MOCK
-        cursos.add(new Curso("Analisis 1","am1"));
-        Loading.terminar(progress);
-        updateCursos();
+            });
+
+        */
     }
 
     private void updateCursos() {
@@ -135,20 +137,37 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void gotoCurso(View view){
-        //TODO: Pasar el nombre del ejercicio para el encabezado en el menu
-/*        Intent intent = new Intent(this, CursoActivity.class);
-        startActivity(intent);*/
         Intent intent = new Intent(this, CursoActivity.class);
+        if(CursoActivity.getCursoSeleccionado() != this.findCourseSelected(view)){
+            CursoActivity.ejercicios.removeAll(CursoActivity.ejercicios);
+        }
+        CursoActivity.setCursoSeleccionado(this.findCourseSelected(view));
         startActivity(intent);
     }
 
+    private Curso findCourseSelected(View view){
+        for(int i = 0; i < this.cursos.size(); i++){
+            if(this.cursos.get(i).getCodigo().equals(view.getTag())){
+                return this.cursos.get(i);
+            }
+            try{
+                if(((TextView)view).getText().toString().contains(cursos.get(i).getCodigo())){
+                    return this.cursos.get(i);
+                }
+            }catch (Exception e){
+
+            }
+        }
+        return null;
+    }
+
     public void gotoAddCurso(){
-       Intent intent = new Intent(this, CursoAddActivity.class);
+        Intent intent = new Intent(this, CursoAddActivity.class);
         startActivity(intent);
     }
 
     public void trytoDeleteCurso (View deleteButton){
-        final Curso courseToDelete = this.findCourseToDelete(deleteButton);
+        final Curso courseToDesuscribe = this.findCourseToDelete(deleteButton);
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format("¿Desea desuscribirse de este curso?"));
@@ -158,9 +177,7 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarCurso(new CursoPersistible(courseToDelete.getCodigo(),
-                                courseToDelete.getDescripcion(),null,
-                                FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        desuscribirseDeCurso(courseToDesuscribe);
                     }
                 });
 
@@ -185,8 +202,11 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private void eliminarCurso(CursoPersistible cursoPersistible) {
-        ApiUtils.getAPIService().deleteCurso(cursoPersistible)
+    private void desuscribirseDeCurso(Curso curso) {
+        cursos.remove(curso);
+        updateCursos();
+
+        ApiUtils.getAPIService().desuscribeCurso(new CursoPersistible(curso.getCodigo(), curso.getDescripcion(),null, curso.getDocente()))
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

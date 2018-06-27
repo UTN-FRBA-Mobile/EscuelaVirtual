@@ -131,7 +131,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void gotoCurso(View view){
         Intent intent = new Intent(this, CursoActivity.class);
-        if(CursoActivity.getCursoSeleccionado() != this.findCourseSelected(view))  CursoActivity.ejercicios.removeAll(CursoActivity.ejercicios);
+        if(CursoActivity.getCursoSeleccionado() != this.findCourseSelected(view)){
+            CursoActivity.ejercicios.removeAll(CursoActivity.ejercicios);
+        }
         CursoActivity.setCursoSeleccionado(this.findCourseSelected(view));
         startActivity(intent);
     }

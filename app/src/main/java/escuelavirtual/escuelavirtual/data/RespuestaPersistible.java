@@ -22,20 +22,18 @@ public class RespuestaPersistible {
     @SerializedName("imagenBase64")
     @Expose
     private String imagenBase64;
-    @SerializedName("docente")
-    @Expose
-    private String docente;
     @SerializedName("descripcion")
     @Expose
     private String descripcion;
 
-    public RespuestaPersistible(String codigoCurso, String codigoEjercicio, String codigoAlumno, String nombreAlumno, String imagenBase64, String docente) {
+    public RespuestaPersistible(String codigoCurso, String codigoEjercicio, String codigoRespuesta, String codigoAlumno, String nombreAlumno, String imagenBase64, String descripcion) {
         this.codigoCurso = codigoCurso;
         this.codigoEjercicio = codigoEjercicio;
+        this.codigoRespuesta = codigoRespuesta;
         this.codigoAlumno = codigoAlumno;
         this.nombreAlumno = nombreAlumno;
         this.imagenBase64 = imagenBase64;
-        this.docente = docente;
+        this.descripcion = descripcion;
     }
 
     public String getCodigoCurso() {
@@ -78,12 +76,8 @@ public class RespuestaPersistible {
         this.imagenBase64 = imagenBase64;
     }
 
-    public String getDocente() {
-        return docente;
-    }
-
-    public void setDocente(String docente) {
-        this.docente = docente;
+    public void setDocente(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public String getCodigoRespuesta() {

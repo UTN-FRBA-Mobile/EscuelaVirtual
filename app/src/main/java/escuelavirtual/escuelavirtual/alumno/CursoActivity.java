@@ -4,17 +4,22 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Base64;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,28 +51,46 @@ public class CursoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.recycle_curso_a);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_curso);
 
-        Intent intent = new Intent(this, EjercicioActivity.class);
-        startActivity(intent);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
+
+        cargarEjercicios();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+        cargarEjercicios();
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarEjercicios();
+    }
+
+    private void cargarEjercicios() {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Cargando ejercicios...");
         progress.setTitle("Por favor espere...");
         Loading.ejecutar(progress);
-        cargarEjercicios(progress);
-    }
 
+        ejercicios.removeAll(ejercicios);
 
-    private void cargarEjercicios(final ProgressDialog progress) {
-        ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
+        // TODO: remover cuando se solucione la persistencia del id del docente del lado de Docente, cuando se crea un ejercicio
+        ImageView imagenRespuesta = new ImageView(this);
+        imagenRespuesta.setImageResource(R.drawable.example_image);
+        Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
+        ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap)));
+        refreshEjercicios();
+
+        // TODO: Esto no funciona porque no se está percistiendo el código de docente cuando el docente crea un ejercicio
+        ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
@@ -89,10 +112,17 @@ public class CursoActivity extends AppCompatActivity {
                 });
     }
 
+    protected String bitmapToBase64(Bitmap bitmap){
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream .toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
     private void refreshEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
     }
 
     private void confirm_logout() {

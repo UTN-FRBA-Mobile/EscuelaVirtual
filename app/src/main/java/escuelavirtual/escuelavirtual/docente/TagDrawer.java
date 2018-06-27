@@ -1,5 +1,6 @@
 package escuelavirtual.escuelavirtual.docente;
 
+import android.view.View;
 import android.widget.RelativeLayout;
 
 import java.util.Map;
@@ -40,6 +41,13 @@ public class TagDrawer{
         tagView.selectThisTag();
 
         return tagView;
+    }
+
+    public static void seletcNoneTag(){
+        ViewsController.getTagAndNumberLayout().setVisibility(View.INVISIBLE);
+        // Comment box
+        ViewsController.getCommentBox().setEnabled(false);
+        ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
     }
 
     public static void reDrawTags(Map<Integer, TagView> tagsAdded, Boolean fromImageClicking){

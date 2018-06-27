@@ -16,14 +16,21 @@ import java.util.List;
 public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjercicio.ModelViewHolder>{
 
     private List<Ejercicio> items;
+    private Boolean fromAlumno;
 
     public ModelAdapterEjercicio (List<Ejercicio> items) {
         this.items = items;
+        fromAlumno = false;
+    }
+
+    public ModelAdapterEjercicio setFromAlumno() {
+        this.fromAlumno = true;
+        return this;
     }
 
     @Override
     public ModelAdapterEjercicio.ModelViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ModelViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.recycle_ejercicio, parent, false));
+        return new ModelViewHolder(LayoutInflater.from(parent.getContext()).inflate(fromAlumno ? R.layout.recycle_ejercicio_a : R.layout.recycle_ejercicio, parent, false));
     }
 
     @Override
@@ -47,8 +54,10 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
             super(itemView);
             this.textView = (TextView) itemView.findViewById(R.id.tv_ejercicio_id);
             this.preview = (ImageView) itemView.findViewById(R.id.preview_id);
-            this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.delete_ejercicio_id);
-            this.editButton = (AppCompatImageButton) itemView.findViewById(R.id.edit_ejercicio_id);
+            if(!fromAlumno){
+                this.deleteButton = (AppCompatImageButton) itemView.findViewById(R.id.delete_ejercicio_id);
+                this.editButton = (AppCompatImageButton) itemView.findViewById(R.id.edit_ejercicio_id);
+            }
         }
 
         public void bind(Ejercicio ejercicio) {
@@ -57,8 +66,10 @@ public class ModelAdapterEjercicio extends RecyclerView.Adapter<ModelAdapterEjer
 
             textView.setText(ejercicio.getCodigoEjercicio());
             preview.setImageBitmap(bitmap);
-            this.deleteButton.setTag(ejercicio.getCodigoEjercicio());
-            this.editButton.setTag(ejercicio.getCodigoEjercicio());
+            if(!fromAlumno){
+                this.deleteButton.setTag(ejercicio.getCodigoEjercicio());
+                this.editButton.setTag(ejercicio.getCodigoEjercicio());
+            }
         }
     }
 }

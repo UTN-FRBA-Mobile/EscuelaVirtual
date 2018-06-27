@@ -47,9 +47,25 @@ public interface APIService {
     @GET("/get_cursos")
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
+    //TODO
+    @GET("/get_curso_by_codigo")
+    Call<CursoPersistible> getCursoByCodigo(@Query("codigo") String codigo);
+
+    //TODO
+    @GET("/get_cursos_de_alumno")
+    Call<List<CursoPersistible>> getCursosDeAlumno(@Query("alumnoUid") String alumnoUid);
+
+    //TODO
+    @POST("/inscribir")
+    Call<String> inscribir(@Field("codCurso") String codCurso, @Field("alumnoUid") String alumnoUid);
+
     @GET("/get_ejercicios")
     Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente,
                                                    @Query("curso") String curso);
+
+    //TODO
+    @GET("/get_ejercicios_by_curso")
+    Call<List<EjercicioPersistible>> getEjerciciosByCurso(@Query("curso") String curso);
 
     @GET("/get_respuestas")
     Call<List<RespuestaPersistible>> getRespuestas(
@@ -60,6 +76,9 @@ public interface APIService {
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
     Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);
+
+    @HTTP(method = "POST", path = "/desuscribe_cursos", hasBody = true)
+    Call<String> desuscribeCurso(@Body CursoPersistible cursoPersistible);
 
     @HTTP(method = "DELETE", path = "/delete_ejercicio", hasBody = true)
     Call<String> deleteEjercicio(@Body EjercicioPersistible cursoPersistible);
@@ -116,4 +135,6 @@ public interface APIService {
                                   @Field("codEjercicioNuevo") String codigoEjercicioNuevo,
                                   @Field("imagenBase64") String imagenBase64,
                                   @Field("uid") String uid);
+    @POST("/post_respuesta")
+    Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);
 }

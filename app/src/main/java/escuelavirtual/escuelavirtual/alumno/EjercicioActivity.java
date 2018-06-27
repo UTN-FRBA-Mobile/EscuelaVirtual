@@ -1,20 +1,14 @@
 package escuelavirtual.escuelavirtual.alumno;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
@@ -23,37 +17,23 @@ import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
+import escuelavirtual.escuelavirtual.docente.CommentsOnPhotoActivity_a;
 
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
-    private static Ejercicio ejercicioSeleccionado;
-    private static Curso cursoSeleccionado;
 
     @Override
     protected void onStart() {
         super.onStart();
-
     }
 
     public static void agregarRespuesta(Respuesta respueta) {
-        escuelavirtual.escuelavirtual.docente.EjercicioActivity.respuestas.add(respueta);
+        respuestas.add(respueta);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //MOCK: Cuando el curso y el ejercicio no están cargados, los carga con un ejercicio de ejemplo
-        //TODO: Al implementar listado de ejercicios ALUMNO, llamar a setCursoSeleccionado y setEjercicioSeleccionado
-        if(cursoSeleccionado == null ) this.setCursoSeleccionado(new Curso("name","description"));
-        if(ejercicioSeleccionado == null){
-            ImageView imagenRespuesta = new ImageView(this);
-            imagenRespuesta.setImageResource(R.drawable.ejercicio_ejemplo);
-            Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-            this.setEjercicioSeleccionado(new Ejercicio("e1",bitmapToBase64(bitmap)));
-        }
-
         super.onCreate(savedInstanceState);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -131,5 +111,21 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
             }
         }
         return null;
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        CursoActivity.setCursoSeleccionado(getCursoSeleccionado());
+        startActivity(new Intent(this, CursoActivity.class));
+        return true;
+    }
+
+    @Override
+    public void goToRespuesta(View button) {
+        CommentsOnPhotoActivity_a.setRespuestaSeleccionada(this.findRespuestaSelected(button));
+        CommentsOnPhotoActivity_a.setEjercicioSeleccionado(getEjercicioSeleccionado());
+        CommentsOnPhotoActivity_a.setCursoSeleccionado(getCursoSeleccionado());
+        Intent intent = new Intent(this, CommentsOnPhotoActivity_a.class);
+        startActivity(intent);
     }
 }

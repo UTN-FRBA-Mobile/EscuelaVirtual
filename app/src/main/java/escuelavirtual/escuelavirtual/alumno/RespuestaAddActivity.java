@@ -8,8 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
@@ -22,16 +20,13 @@ import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
-import java.nio.charset.Charset;
-import java.util.Random;
 
-import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
+import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
-import escuelavirtual.escuelavirtual.docente.*;
-import escuelavirtual.escuelavirtual.docente.CursoActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -117,46 +112,63 @@ public class RespuestaAddActivity extends AppCompatActivity {
         progress.setMessage("Guardando....");
         progress.setTitle("Guardando la respuesta");
         Loading.ejecutar(progress);
-        respuesta.setDescripcionRespuesta(RespuestaAddActivity.mDescripcionRespuesta.getText().toString());
-        respuesta.setImagenRespuestaBase64(bitmapToBase64(RespuestaAddActivity.rtaPhotoBitmap));
+       //- respuesta.setDescripcionRespuesta(RespuestaAddActivity.mDescripcionRespuesta.getText().toString());
+       //- respuesta.setImagenRespuestaBase64(bitmapToBase64(RespuestaAddActivity.rtaPhotoBitmap));
         String alumnoId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        String alumnoNombre = servicioGetUserName(alumnoId);
-        servicioGuardarRespuesta(
-                progress,
-                //TODO: Actualizar con codigo de curso
-                respuesta.getCodigoCurso(),
-                respuesta.getCodigoEjercicio(),
-                respuesta.getCodigoRespuesta(),
-                alumnoId,
-                alumnoNombre,
-                respuesta.getImagenRespuestaBase64(),
-                respuesta.getDescripcionRespuesta()
-        );
+
+        RespuestaPersistible r2 = new RespuestaPersistible("CODCURSO","CODEJERCICIO","CODRTA","ALUMNO","A","A","A");
+        //- RespuestaPersistible respuestaPersistible = new RespuestaPersistible(respuesta.getCodigoCurso(),respuesta.getCodigoEjercicio(),alumnoId,alumnoNombre,respuesta.getImagenRespuestaBase64(),respuesta.getDescripcionRespuesta());
+
+        servicioGetUserNameAndSA(progress, alumnoId, r2);
+
+
     }
 
-    private String servicioGetUserName(String alumnoId) {
-        //TODO: La idea es que devuelva el nombre de un usuario segun su id con el objetivo de
-        // guardar el nombre del user en la respuesta y no tener que buscarlo cada vez que se trae
-        // la lista de respuestas
-        return "Thor";
-    }
+    private void servicioGetUserNameAndSA(final ProgressDialog progress, final String alumnoId, final RespuestaPersistible respuestaP) {
 
-    private void servicioGuardarRespuesta(
-            ProgressDialog progress,
-            String codigoCurso,
-            String codigoEjercicio,
-            String codigoRespuesta,
-            String alumnoId,
-            String alumnoNombre,
-            String imagenRespuestaBase64,
-            String descripcionRespuesta) {
+        ApiUtils.getAPIService().getUsuario(alumnoId)
+                .enqueue(new Callback<UsuarioPersistible>() {
+                    @Override
+                    public void onResponse(Call<UsuarioPersistible> call, Response<UsuarioPersistible> response) {
+                        if(response.isSuccessful()) {
+                            UsuarioPersistible usuario = response.body();
+                            respuestaP.setNombreAlumno(usuario.getNombre());
+                            servicioGuardarRespuesta(progress,respuestaP);
+                        }
+                    }
 
-                        Toast.makeText(RespuestaAddActivity.this, "La respuesta se guardó con éxito",Toast.LENGTH_SHORT).show();
-                        //Una vez que guarde el servicio, llamar a cargarRespuestas() para refrescar respuestas
-                        EjercicioActivity.agregarRespuesta(respuesta);
-                        Intent intent = new Intent(RespuestaAddActivity.this, EjercicioActivity.class);
-                        startActivity(intent);
+                    @Override
+                    public void onFailure(Call<UsuarioPersistible> call, Throwable t) {
+                        Toast.makeText(RespuestaAddActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
                         Loading.terminar(progress);
+                    }
+                });
+
+    }
+
+
+    private void servicioGuardarRespuesta(final ProgressDialog progress, RespuestaPersistible respuestaP){
+
+        ApiUtils.getAPIService().postRespuesta(respuestaP)
+                .enqueue(new Callback<RespuestaPersistible>() {
+                    @Override
+                    public void onResponse(Call<RespuestaPersistible> call, Response<RespuestaPersistible> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(RespuestaAddActivity.this, "La respuesta se guardó con éxito",Toast.LENGTH_SHORT).show();
+                            //Una vez que guarde el servicio, llamar a cargarRespuestas() para refrescar respuestas
+                          //-  EjercicioActivity.agregarRespuesta(respuesta);
+                          //-  Intent intent = new Intent(RespuestaAddActivity.this, EjercicioActivity.class);
+                          //-  startActivity(intent);
+                        }
+                        Loading.terminar(progress);
+                    }
+
+                    @Override
+                    public void onFailure(Call<RespuestaPersistible> call, Throwable t) {
+                        Toast.makeText(RespuestaAddActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
+                    }
+                });
     }
 
     private String bitmapToBase64(Bitmap bitmap){

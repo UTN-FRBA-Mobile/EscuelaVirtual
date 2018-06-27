@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import java.util.List;
-
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
@@ -25,7 +23,6 @@ import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
 
 public class CursoAddActivity extends AppCompatActivity {
 
@@ -104,22 +101,21 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void find_Curso(View view){
-        ApiUtils.getAPIService().getCurso(etCursoCode.getText().toString())
-                .enqueue(new Callback<List<CursoPersistible>>() {
+        //TODO: findCursoByCode
+        ApiUtils.getAPIService().getCursoByCodigo(etCursoCode.getText().toString())
+                .enqueue(new Callback<CursoPersistible>() {
+
                     @Override
-                    public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
+                    public void onResponse(Call<CursoPersistible> call, Response<CursoPersistible> response) {
                         if(response.isSuccessful()) {
 
-                            CursoPersistible cursoFound = response.body().get(0);
-
-                            tvCursoDetail.setText(cursoFound.getDescripcion().toString());
                         }
                     }
-
                     @Override
-                    public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
-
+                    public void onFailure(Call<CursoPersistible> call, Throwable t) {
+                        Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
+
                 });
         showFind(false);
     }
@@ -130,7 +126,7 @@ public class CursoAddActivity extends AppCompatActivity {
                 "Está a punto de inscribirse al curso:%n%s%n%n¿Está seguro?",
                 etCursoCode.getText()));
         alertDialogBuilder.setPositiveButton("Sí",
-                  new DialogInterface.OnClickListener() {
+                new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface arg0, int arg1) {
                         addCursoConfirm();
@@ -139,19 +135,20 @@ public class CursoAddActivity extends AppCompatActivity {
 
         alertDialogBuilder.setNegativeButton("No",
                 new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
 
     private void addCursoConfirm() {
-        /*
-        ApiUtils.getAPIService().inscribir(etCursoCode.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid())
+
+        //TODO: llamar a inscribir
+       ApiUtils.getAPIService().inscribir(etCursoCode.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
         .enqueue(new Callback<String>() {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
@@ -161,7 +158,6 @@ public class CursoAddActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-
             @Override
             public void onFailure(Call<String> call, Throwable t) {
                 Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
@@ -169,15 +165,14 @@ public class CursoAddActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        */
+
         showFind(true);
         startActivity(new Intent(this, MainActivity.class));
     }
 
     public void cancel_AddCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format(
-                "¿Desea cancelar la inscripción al curso?"));
+        alertDialogBuilder.setMessage(String.format("¿Desea cancelar la inscripción al curso?"));
 
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {
