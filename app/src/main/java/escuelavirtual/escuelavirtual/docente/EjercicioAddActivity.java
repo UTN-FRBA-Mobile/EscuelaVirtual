@@ -79,6 +79,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
             photo.setBackgroundColor(Color.WHITE);
             photoBitmap = bitmap;
             codigoEjercicio.setText(ejercicioSeleccionado.getCodigoEjercicio());
+            temaEjercicioTextView.setText(ejercicioSeleccionado.getTema());
         }else{
             ((TextView)findViewById(R.id.main_title_id)).setText("Subir nuevo ejercicio");
             restartForm();
