@@ -16,6 +16,8 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +40,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     private static ImageView photo;
     private static Bitmap photoBitmap;
     private static EditText codigoEjercicio;
+    private static AutoCompleteTextView temaEjercicioTextView;
     private static Ejercicio ejercicioSeleccionado;
     private static Boolean desdePantallaDelEjercicio = false;
 
@@ -67,6 +70,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
             }
         });
         codigoEjercicio = (EditText) findViewById(R.id.codigo_ejercicio_id);
+        temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
 
         if(ejercicioSeleccionado != null){
             ((TextView)findViewById(R.id.main_title_id)).setText("Editar ejercicio");
@@ -82,6 +86,33 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
         EventoTeclado keyboard = new EventoTeclado();
         codigoEjercicio.setOnEditorActionListener(keyboard);
+        temaEjercicioTextView.setOnEditorActionListener(keyboard);
+
+        TemasActivity.getTemasAvailable(this);
+        temaEjercicioTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(TemasActivity.getTemasObtenidos()){
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(view.getContext(), android.R.layout.simple_list_item_1, TemasActivity.getTemasDisponibles());
+                    ((AutoCompleteTextView)view).setAdapter(adapter);
+                    Toast.makeText(EjercicioAddActivity.this, "Temas cargados con éxito", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(EjercicioAddActivity.this, "No se pudieron cargar los temas. Por favor, esperá unos segundos hasta que se carguen, y volvé a intentar", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void disableTema(){
+        temaEjercicioTextView.setEnabled(false);
+        temaEjercicioTextView.setFocusable(false);
+        temaEjercicioTextView.setBackgroundResource(R.drawable.rounded_text_comment_box_gray);
+    }
+
+    public void enableTema(){
+        temaEjercicioTextView.setEnabled(true);
+        temaEjercicioTextView.setFocusable(true);
+        temaEjercicioTextView.setBackgroundResource(R.drawable.rounded_text_comment_box);
     }
 
     class EventoTeclado implements TextView.OnEditorActionListener{
@@ -135,7 +166,11 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
     public void confirmarFotoEjercicio(View view) {
         if("".equals(codigoEjercicio.getText().toString()) || photoBitmap == null){
-            Toast toast = Toast.makeText(this,"Para cargar el ejercicio, ingresá un código identificatorio y la imagen", Toast.LENGTH_SHORT);
+            String mensaje = "Para cargar el ejercicio, ingresá un código identificatorio y la imagen";
+            if(!TemasActivity.getTemasDisponibles().isEmpty() && !TemasActivity.getTemasDisponibles().contains(temaEjercicioTextView.getText().toString())){
+                mensaje = "Para cargar el ejercicio, ingresá un código identificatorio, la imagen y un tema";
+            }
+            Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }else{

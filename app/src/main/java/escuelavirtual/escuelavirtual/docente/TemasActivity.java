@@ -1,5 +1,8 @@
 package escuelavirtual.escuelavirtual.docente;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -38,8 +41,18 @@ public class TemasActivity extends AppCompatActivity {
 
     EditText mEditTemaText;
     List<String> temas;
+    private static List<String> temasDisponibles;
+    private static Boolean temasObtenidos = false;
 
     String selectedTema;
+
+    public static List<String> getTemasDisponibles() {
+        return temasDisponibles;
+    }
+
+    public static Boolean getTemasObtenidos() {
+        return temasObtenidos;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +110,6 @@ public class TemasActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(mAdapter);
-
-
     }
 
     @Override
@@ -150,8 +161,30 @@ public class TemasActivity extends AppCompatActivity {
      * Llama a servicio para eliminar tema y actualiza lista
      * @param tema tema a eliminar
      */
-    private void delete_tema(String tema){
-        persistirDeleteTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
+    private void delete_tema(final String tema){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setMessage(String.format(
+                "¿Desea eliminar este tema?%n%n" +
+                        "Los alumnos ya no podrán filtrar por este tema"));
+        alertDialogBuilder.setPositiveButton("Sí",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        persistirDeleteTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
+                    }
+                });
+
+        alertDialogBuilder.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     /**
@@ -257,6 +290,35 @@ public class TemasActivity extends AppCompatActivity {
 
     }
 
+    public static void getTemasAvailable(final Context context){
+        temasDisponibles = new ArrayList<>();
+        temasObtenidos = false;
+        ApiUtils.getAPIService().getTema(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<List<TemaPersistible>>() {
+                    @Override
+                    public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
+                        if(response.isSuccessful()) {
+                            List<TemaPersistible> lista = response.body();
+                            for (TemaPersistible tema : lista) {
+                                temasDisponibles.add(tema.getTema());
+                            }
+                            if(lista.size() == 0){
+                                ((EjercicioAddActivity) context).disableTema();
+                            }else{
+                                ((EjercicioAddActivity) context).enableTema();
+                            }
+                            temasObtenidos = true;
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<TemaPersistible>> call, Throwable t) {
+                        Toast.makeText(context, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        temasObtenidos = false;
+                    }
+                });
+    }
+
     private void getTemasFromService(String uid) {
         ApiUtils.getAPIService().getTema(uid)
                 .enqueue(new Callback<List<TemaPersistible>>() {
@@ -265,7 +327,6 @@ public class TemasActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<TemaPersistible> lista = response.body();
                             for (TemaPersistible tema : lista) {
-
                                 temas.add(tema.getTema());
                             }
 
