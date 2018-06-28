@@ -21,6 +21,7 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -104,7 +105,7 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void find_Curso(View view){
-
+        getCursoByCodigo();
         showFind(false);
     }
 
@@ -198,5 +199,33 @@ public class CursoAddActivity extends AppCompatActivity {
         fabFindCurso.setVisibility(mostrar?View.VISIBLE:View.GONE);
         fabConfirmAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);
         fabCancelAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);
+    }
+
+
+    private void getCursoByCodigo(){
+        final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
+        progress.setMessage("Buscando el curso....");
+        progress.setTitle("Aguarde un instante....");
+        Loading.ejecutar(progress);
+        ApiUtils.getAPIService().getCursoByCodigo(etCursoCode.getText().toString())
+                .enqueue(new Callback<CursoPersistible>() {
+                    @Override
+                    public void onResponse(Call<CursoPersistible> call, Response<CursoPersistible> response) {
+                        if(response.isSuccessful()) {
+                            CursoPersistible curso = response.body();
+                            Toast.makeText(CursoAddActivity.this,curso.getDescripcion(),Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(CursoAddActivity.this, "El curso no existe",Toast.LENGTH_SHORT).show();
+                        }
+                        Loading.terminar(progress);
+                    }
+
+                    @Override
+                    public void onFailure(Call<CursoPersistible> call, Throwable t) {
+                        Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
+                    }
+                });
+
     }
 }

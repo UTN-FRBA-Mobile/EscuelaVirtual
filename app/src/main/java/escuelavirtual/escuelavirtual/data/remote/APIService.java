@@ -61,9 +61,6 @@ public interface APIService {
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
     Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);
 
-    @HTTP(method = "POST", path = "/desuscribe_cursos", hasBody = true)
-    Call<String> desuscribeCurso(@Body CursoPersistible cursoPersistible);
-
     @HTTP(method = "DELETE", path = "/delete_ejercicio", hasBody = true)
     Call<String> deleteEjercicio(@Body EjercicioPersistible cursoPersistible);
 
@@ -131,5 +128,11 @@ public interface APIService {
     Call<List<CursoPersistible>> getCursoSuscripto(@Query("alumno") String alumno);
 
 
+    @GET("/get_curso_by_codigo")
+    Call<CursoPersistible> getCursoByCodigo(@Query("codCurso") String codCurso);
 
+    @POST("/delete_cursos_suscriptos")
+    @FormUrlEncoded
+    Call<String> deleteCursoSuscriptos(@Field("alumno") String alumno,
+                                       @Field("curso") String curso);
 }
