@@ -86,7 +86,7 @@ public class CursoActivity extends AppCompatActivity {
         ImageView imagenRespuesta = new ImageView(this);
         imagenRespuesta.setImageResource(R.drawable.example_image);
         Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-        ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap)));
+        ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap), "raices"));
 
         refreshEjercicios();
 
@@ -98,7 +98,7 @@ public class CursoActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<EjercicioPersistible> lista = response.body();
                             for (EjercicioPersistible ejercicio : lista) {
-                                ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64()));
+                                ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
                             }
                             refreshEjercicios();
                         }

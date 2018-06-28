@@ -7,20 +7,28 @@ public class EjercicioPersistible {
     @SerializedName("codCurso")
     @Expose
     private String curso;
+
     @SerializedName("codEjercicio")
     @Expose
     private String codigoEjercicio;
+
     @SerializedName("imagenBase64")
     @Expose
     private String imagenBase64;
+
+    @SerializedName("tema")
+    @Expose
+    private String tema;
+
     @SerializedName("docente")
     @Expose
     private String docente;
 
-    public EjercicioPersistible(String curso, String codigoEjercicio, String imagenBase64, String docente) {
+    public EjercicioPersistible(String curso, String codigoEjercicio, String imagenBase64, String tema, String docente) {
         this.curso = curso;
         this.codigoEjercicio = codigoEjercicio;
         this.imagenBase64 = imagenBase64;
+        this.tema = tema;
         this.docente = docente;
     }
 
@@ -54,5 +62,9 @@ public class EjercicioPersistible {
 
     public void setDocente(String docente) {
         this.docente = docente;
+    }
+
+    public String getTema() {
+        return tema;
     }
 }

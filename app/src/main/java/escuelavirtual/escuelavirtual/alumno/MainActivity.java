@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
-import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;

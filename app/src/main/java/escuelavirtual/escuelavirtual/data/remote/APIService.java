@@ -109,6 +109,7 @@ public interface APIService {
     Call<String> crearEjercicio(@Field("codCurso") String codigoCurso,
                                   @Field("codEjercicio") String codigoEjercicio,
                                   @Field("imagenBase64") String imagenBase64,
+                                  @Field("tema") String tema,
                                   @Field("uid") String uid);
 
 
@@ -118,6 +119,7 @@ public interface APIService {
                                   @Field("codEjercicioViejo") String codigoEjercicioViejo,
                                   @Field("codEjercicioNuevo") String codigoEjercicioNuevo,
                                   @Field("imagenBase64") String imagenBase64,
+                                  @Field("tema") String tema,
                                   @Field("uid") String uid);
     @POST("/post_respuesta")
     Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);

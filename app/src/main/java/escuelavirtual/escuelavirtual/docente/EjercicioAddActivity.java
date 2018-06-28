@@ -165,9 +165,10 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     public void confirmarFotoEjercicio(View view) {
-        if("".equals(codigoEjercicio.getText().toString()) || photoBitmap == null){
+        Boolean temaIncorrecto = !TemasActivity.getTemasDisponibles().isEmpty() && (!TemasActivity.getTemasDisponibles().contains(temaEjercicioTextView.getText().toString()) || temaEjercicioTextView.getText().toString().isEmpty());
+        if("".equals(codigoEjercicio.getText().toString()) || photoBitmap == null || temaIncorrecto){
             String mensaje = "Para cargar el ejercicio, ingresá un código identificatorio y la imagen";
-            if(!TemasActivity.getTemasDisponibles().isEmpty() && !TemasActivity.getTemasDisponibles().contains(temaEjercicioTextView.getText().toString())){
+            if(temaIncorrecto){
                 mensaje = "Para cargar el ejercicio, ingresá un código identificatorio, la imagen y un tema";
             }
             Toast toast = Toast.makeText(this, mensaje, Toast.LENGTH_SHORT);
@@ -247,7 +248,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
         progress.setMessage("Actualizando....");
         progress.setTitle("Actualizando el ejercicio:  " + ejercicioSeleccionado.getCodigoEjercicio());
         Loading.ejecutar(progress);
-        ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() , codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() , codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), temaEjercicioTextView.getText().toString() , FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -255,7 +256,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
                             Toast.makeText(EjercicioAddActivity.this, "El ejercicio se actualizó con éxito",Toast.LENGTH_SHORT).show();
 
                             if(desdePantallaDelEjercicio){
-                                EjercicioActivity.setEjercicioSeleccionado(new Ejercicio(codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap)));
+                                EjercicioActivity.setEjercicioSeleccionado(new Ejercicio(codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), temaEjercicioTextView.getText().toString()));
                                 Intent intent = new Intent(EjercicioAddActivity.this, EjercicioActivity.class);
                                 startActivity(intent);
                             }else{
@@ -277,7 +278,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     }
 
     private void ejercicioActualizado() {
-        Ejercicio ejercicioNuevo = new Ejercicio(codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap));
+        Ejercicio ejercicioNuevo = new Ejercicio(codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), temaEjercicioTextView.getText().toString());
         int index = obtenerIndice(ejercicioSeleccionado.getCodigoEjercicio());
         CursoActivity.ejercicios.remove(index);
         CursoActivity.ejercicios.add(index,ejercicioNuevo);
@@ -298,13 +299,13 @@ public class EjercicioAddActivity extends AppCompatActivity {
         progress.setTitle("Guardando el ejercicio:  " + codigoEjercicio.getText().toString());
         Loading.ejecutar(progress);
         final String image = this.bitmapToBase64(photoBitmap);
-        ApiUtils.getAPIService().crearEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), image, FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().crearEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), codigoEjercicio.getText().toString(), image, temaEjercicioTextView.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(EjercicioAddActivity.this, "El ejercicio se creó con éxito",Toast.LENGTH_SHORT).show();
-                            CursoActivity.ejercicios.add(new Ejercicio(codigoEjercicio.getText().toString(), image));
+                            CursoActivity.ejercicios.add(new Ejercicio(codigoEjercicio.getText().toString(), image, temaEjercicioTextView.getText().toString()));
                             Intent intent = new Intent(EjercicioAddActivity.this, CursoActivity.class);
                             startActivity(intent);
                         }

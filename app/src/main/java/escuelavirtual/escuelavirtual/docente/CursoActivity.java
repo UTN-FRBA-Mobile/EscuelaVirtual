@@ -78,7 +78,7 @@ public class CursoActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<EjercicioPersistible> lista = response.body();
                             for (EjercicioPersistible ejercicio : lista) {
-                                ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64()));
+                                ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
                             }
                             updateEjercicios();
                         }
@@ -175,7 +175,7 @@ public class CursoActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
-                        eliminarEjercicio(new EjercicioPersistible(cursoSeleccionado.getCodigo(), ejercicioABorrar.getCodigoEjercicio(), ejercicioABorrar.getImagenBase64(),FirebaseAuth.getInstance().getCurrentUser().getUid()));
+                        eliminarEjercicio(new EjercicioPersistible(cursoSeleccionado.getCodigo(), ejercicioABorrar.getCodigoEjercicio(), ejercicioABorrar.getImagenBase64(), ejercicioABorrar.getTema(), FirebaseAuth.getInstance().getCurrentUser().getUid()));
                     }
                 });
 
