@@ -87,10 +87,11 @@ public class CursoActivity extends AppCompatActivity {
         imagenRespuesta.setImageResource(R.drawable.example_image);
         Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
         ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap)));
+
         refreshEjercicios();
 
-        // TODO: Esto no funciona porque no se está percistiendo el código de docente cuando el docente crea un ejercicio
-        ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(),cursoSeleccionado.getCodigo())
+        // TODO
+        ApiUtils.getAPIService().getEjerciciosByCurso(cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {

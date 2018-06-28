@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.alumno;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,10 +20,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
 
 public class CursoAddActivity extends AppCompatActivity {
 
@@ -101,7 +104,6 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void find_Curso(View view){
-        //TODO: findCursoByCode
         ApiUtils.getAPIService().getCursoByCodigo(etCursoCode.getText().toString())
                 .enqueue(new Callback<CursoPersistible>() {
 
@@ -147,27 +149,33 @@ public class CursoAddActivity extends AppCompatActivity {
 
     private void addCursoConfirm() {
 
-        //TODO: llamar a inscribir
-       ApiUtils.getAPIService().inscribir(etCursoCode.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
-        .enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()) {
-                    Toast.makeText(CursoAddActivity.this, "Inscripto con éxito.",Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
-            }
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
-                startActivity(intent);
-            }
-        });
+        final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
+        progress.setMessage("Suscribiendose....");
+        progress.setTitle("Aguarde un instante....");
+        Loading.ejecutar(progress);
+        ApiUtils.getAPIService().postSuscripcion(etCursoCode.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+                .enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        if(response.isSuccessful()) {
+                            Toast.makeText(CursoAddActivity.this, "Usted se ha suscripto al curso.",Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(CursoAddActivity.this, "El curso no existe",Toast.LENGTH_SHORT).show();
+                        }
+                        Loading.terminar(progress);
+                    }
 
-        showFind(true);
-        startActivity(new Intent(this, MainActivity.class));
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
+                    }
+                });
+
+        // showFind(true);
+        // startActivity(new Intent(this, MainActivity.class));
     }
 
     public void cancel_AddCurso(View view) {

@@ -47,23 +47,10 @@ public interface APIService {
     @GET("/get_cursos")
     Call<List<CursoPersistible>> getCurso(@Query("docente") String docente);
 
-    //TODO
-    @GET("/get_curso_by_codigo")
-    Call<CursoPersistible> getCursoByCodigo(@Query("codigo") String codigo);
-
-    //TODO
-    @GET("/get_cursos_de_alumno")
-    Call<List<CursoPersistible>> getCursosDeAlumno(@Query("alumnoUid") String alumnoUid);
-
-    //TODO
-    @POST("/inscribir")
-    Call<String> inscribir(@Field("codCurso") String codCurso, @Field("alumnoUid") String alumnoUid);
-
     @GET("/get_ejercicios")
     Call<List<EjercicioPersistible>> getEjercicios(@Query("docente") String docente,
                                                    @Query("curso") String curso);
 
-    //TODO
     @GET("/get_ejercicios_by_curso")
     Call<List<EjercicioPersistible>> getEjerciciosByCurso(@Query("curso") String curso);
 
@@ -137,4 +124,18 @@ public interface APIService {
                                   @Field("uid") String uid);
     @POST("/post_respuesta")
     Call<RespuestaPersistible> postRespuesta(@Body RespuestaPersistible respuestaP);
+
+    @POST("/post_suscripcion")
+    @FormUrlEncoded
+    Call<String> postSuscripcion(@Field("codCurso") String codigoCurso,
+                               @Field("uidUsuario") String usuario);
+
+    @GET("/get_cursos_suscriptos")
+    Call<List<CursoPersistible>> getCursoSuscripto(@Query("alumno") String alumno);
+
+    //TODO
+    @GET("/get_curso_by_codigo")
+    Call<CursoPersistible> getCursoByCodigo(@Query("codigo") String codigo);
+
+
 }
