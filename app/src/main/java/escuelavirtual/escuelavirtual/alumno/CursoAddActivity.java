@@ -107,8 +107,9 @@ public class CursoAddActivity extends AppCompatActivity {
 
     public void find_Curso(View view){
         final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
-        progress.setMessage("Suscribiendose....");
-        progress.setTitle("Aguarde un instante....");
+        progress.setMessage("Buscando...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle("Aguarde un instante...");
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().getCursoByCodigo(etCursoCode.getText().toString())
                 .enqueue(new Callback<CursoPersistible>() {
@@ -163,17 +164,18 @@ public class CursoAddActivity extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
         progress.setMessage("Suscribiendose....");
         progress.setTitle("Aguarde un instante....");
+        progress.setCanceledOnTouchOutside(false);
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().postSuscripcion(cursoASuscribir.getCurso(),FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(CursoAddActivity.this, "Usted se ha suscripto al curso satisfactoriamente.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CursoAddActivity.this, "Usted se ha suscripto al curso " +cursoASuscribir.getCurso().toString() +  " satisfactoriamente.",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(CursoAddActivity.this, "El curso no existe",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CursoAddActivity.this, "El curso no existe.",Toast.LENGTH_SHORT).show();
                         }
                         Loading.terminar(progress);
                     }

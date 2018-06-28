@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         if (cursos.isEmpty()) {
             final ProgressDialog progress = new ProgressDialog(MainActivity.this);
             progress.setMessage("Cargando sus cursos...");
+            progress.setCanceledOnTouchOutside(false);
             progress.setTitle("Por favor, espere...");
             Loading.ejecutar(progress);
             cargarCursos(progress);
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private void desuscribirseDeCurso(final Curso curso) {
         final ProgressDialog progress = new ProgressDialog(MainActivity.this);
         progress.setMessage("Eliminando....");
+        progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Aguarde un instante....");
         Loading.ejecutar(progress);
 
