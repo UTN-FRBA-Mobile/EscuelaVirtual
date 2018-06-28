@@ -31,6 +31,7 @@ public class CursoAddActivity extends AppCompatActivity {
 
     private EditText etCursoCode;
     private TextView tvCursoDetail;
+    private CursoPersistible cursoASuscribir;
     private FloatingActionButton fabFindCurso;
     private FloatingActionButton fabConfirmAddCurso;
     private FloatingActionButton fabCancelAddCurso;
@@ -110,16 +111,21 @@ public class CursoAddActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<CursoPersistible> call, Response<CursoPersistible> response) {
                         if(response.isSuccessful()) {
-
+                            cursoASuscribir = response.body();
+                            tvCursoDetail.setText(response.body().getDescripcion());
+                            showFind(true);
+                        } else {
+                            Toast.makeText(CursoAddActivity.this, "No se encontró ningún curso que coincida con su búsqueda.", Toast.LENGTH_SHORT).show();
+                            showFind(false);
                         }
                     }
                     @Override
                     public void onFailure(Call<CursoPersistible> call, Throwable t) {
+                        showFind(false);
                         Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                     }
 
                 });
-        showFind(false);
     }
 
     public void confirm_AddCurso(View view) {
@@ -148,12 +154,11 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     private void addCursoConfirm() {
-
         final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
         progress.setMessage("Suscribiendose....");
         progress.setTitle("Aguarde un instante....");
         Loading.ejecutar(progress);
-        ApiUtils.getAPIService().postSuscripcion(etCursoCode.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
+        ApiUtils.getAPIService().postSuscripcion(cursoASuscribir.getCurso(),FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
@@ -180,7 +185,7 @@ public class CursoAddActivity extends AppCompatActivity {
 
     public void cancel_AddCurso(View view) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format("¿Desea cancelar la inscripción al curso?"));
+        alertDialogBuilder.setMessage(String.format("¿Desea cancelar la suscripción al curso?"));
 
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {

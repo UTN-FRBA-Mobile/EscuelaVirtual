@@ -60,11 +60,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarCursos(final ProgressDialog progress) {
-        cursos.add(new Curso("Analisis 1", "am1", "Pedro", null));
-        Loading.terminar(progress);
-        updateCursos();
-
-        //TODO: getCursosDeAlumno
+        //ApiUtils.getAPIService().getCurso("9hgOHOEtRuTlqDun5e2kUZtI4vF3")
         ApiUtils.getAPIService().getCursoSuscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
             .enqueue(new Callback<List<CursoPersistible>>() {
                 @Override
@@ -84,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                 }
             });
+
     }
 
     private void updateCursos() {
