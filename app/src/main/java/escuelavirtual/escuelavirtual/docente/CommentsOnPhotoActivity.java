@@ -244,16 +244,6 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
 
-        // TODO: remover este ejemplo harcodeado
-        Tag tag = new Tag(35, 304, 243, 50, "Hola");
-        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag));
-        TagDrawer.reDrawTags(tagsAdded, false);
-        ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
-        ViewsController.setAddButtonClickListener(tagsAdded);
-        ViewsController.setEditButtonClickListener(tagsAdded);
-        ViewsController.setDeleteButtonClickListener(tagsAdded, mAPIService);
-        // ------->
-
         mAPIService.getTag(foto)
                .enqueue(new Callback<List<Tag>>() {
                     @Override

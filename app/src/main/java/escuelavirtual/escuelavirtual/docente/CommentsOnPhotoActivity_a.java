@@ -122,15 +122,6 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
 
-        // TODO: remover este ejemplo harcodeado
-        Tag tag = new Tag(35, 304, 243, 50, "Hola");
-        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag).setFromAlumno());
-        tag = new Tag(35, 404, 243, 51, "Chau");
-        tagsAdded.put(tag.getNumberOfTag(), new TagView(ViewsController.getBaseImage().getContext() ,tag).setFromAlumno());
-        TagDrawer.reDrawTags(tagsAdded, false);
-        ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
-        // ------->
-
         mAPIService.getTag(foto)
                 .enqueue(new Callback<List<Tag>>() {
                     @Override
