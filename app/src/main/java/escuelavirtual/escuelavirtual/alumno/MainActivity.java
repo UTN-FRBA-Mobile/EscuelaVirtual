@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
         if (cursos.isEmpty()) {
             final ProgressDialog progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage("Cargando sus cursos....");
+            progress.setMessage("Cargando sus cursos...");
             progress.setTitle("Por favor, espere...");
             Loading.ejecutar(progress);
             cargarCursos(progress);
@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void cargarCursos(final ProgressDialog progress) {
-        //ApiUtils.getAPIService().getCurso("9hgOHOEtRuTlqDun5e2kUZtI4vF3")
         ApiUtils.getAPIService().getCursoSuscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
             .enqueue(new Callback<List<CursoPersistible>>() {
                 @Override
@@ -78,6 +77,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
                     Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                    Loading.terminar(progress);
                 }
             });
 
@@ -196,24 +196,28 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-    private void desuscribirseDeCurso(Curso curso) {
-        cursos.remove(curso);
-        updateCursos();
+    private void desuscribirseDeCurso(final Curso curso) {
+        final ProgressDialog progress = new ProgressDialog(MainActivity.this);
+        progress.setMessage("Eliminando....");
+        progress.setTitle("Aguarde un instante....");
+        Loading.ejecutar(progress);
 
-        ApiUtils.getAPIService().desuscribeCurso(new CursoPersistible(curso.getCodigo(), curso.getDescripcion(),null, curso.getDocente()))
+        ApiUtils.getAPIService().deleteCursoSuscriptos(FirebaseAuth.getInstance().getCurrentUser().getUid(),curso.getCodigo())
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "Se ha desuscripto del curso.",Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(MainActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            Toast.makeText(MainActivity.this, "Se ha desuscripto del curso con éxito.",Toast.LENGTH_SHORT).show();
+                            cursos.remove(curso);
+                            updateCursos();
+                            Loading.terminar(progress);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }

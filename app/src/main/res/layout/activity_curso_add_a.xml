@@ -58,8 +58,8 @@
             android:layout_marginTop="50dp"
             android:textColor="@color/colorWhite"
             android:singleLine="false"
-            android:text="Nombre del Curso: Ingenieria y Sociedad"
-            android:textSize="35px"
+            android:text="Ingenieria y Sociedad"
+            android:textSize="50px"
             android:textStyle="bold" />
 
     </LinearLayout>

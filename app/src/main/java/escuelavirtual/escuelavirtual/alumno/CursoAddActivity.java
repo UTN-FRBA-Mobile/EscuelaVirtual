@@ -21,6 +21,7 @@ import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -105,24 +106,29 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void find_Curso(View view){
+        final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
+        progress.setMessage("Suscribiendose....");
+        progress.setTitle("Aguarde un instante....");
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().getCursoByCodigo(etCursoCode.getText().toString())
                 .enqueue(new Callback<CursoPersistible>() {
-
                     @Override
                     public void onResponse(Call<CursoPersistible> call, Response<CursoPersistible> response) {
+                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             cursoASuscribir = response.body();
                             tvCursoDetail.setText(response.body().getDescripcion());
-                            showFind(true);
+                            showFind(false);
                         } else {
                             Toast.makeText(CursoAddActivity.this, "No se encontró ningún curso que coincida con su búsqueda.", Toast.LENGTH_SHORT).show();
-                            showFind(false);
+                            showFind(true);
                         }
                     }
                     @Override
                     public void onFailure(Call<CursoPersistible> call, Throwable t) {
-                        showFind(false);
+                        Loading.terminar(progress);
                         Toast.makeText(CursoAddActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        showFind(true);
                     }
 
                 });
@@ -132,7 +138,7 @@ public class CursoAddActivity extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setMessage(String.format(
                 "Está a punto de inscribirse al curso:%n%s%n%n¿Está seguro?",
-                etCursoCode.getText()));
+                cursoASuscribir.getCurso()));
         alertDialogBuilder.setPositiveButton("Sí",
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -163,7 +169,7 @@ public class CursoAddActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
                         if(response.isSuccessful()) {
-                            Toast.makeText(CursoAddActivity.this, "Usted se ha suscripto al curso.",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CursoAddActivity.this, "Usted se ha suscripto al curso satisfactoriamente.",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(CursoAddActivity.this, MainActivity.class);
                             startActivity(intent);
                         }else{
@@ -178,9 +184,6 @@ public class CursoAddActivity extends AppCompatActivity {
                         Loading.terminar(progress);
                     }
                 });
-
-        // showFind(true);
-        // startActivity(new Intent(this, MainActivity.class));
     }
 
     public void cancel_AddCurso(View view) {
@@ -218,4 +221,5 @@ public class CursoAddActivity extends AppCompatActivity {
         fabConfirmAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);
         fabCancelAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);
     }
+
 }
