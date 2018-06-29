@@ -76,8 +76,20 @@ public class EjercicioActivity extends AppCompatActivity {
         cargarRespuestas();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cargarRespuestas();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarRespuestas();
+    }
+
     private void cargarRespuestas(){
-        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
+        respuestas.removeAll(respuestas);
         ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override
@@ -85,9 +97,8 @@ public class EjercicioActivity extends AppCompatActivity {
                         if(response.isSuccessful()) {
                             List<RespuestaPersistible> lista = response.body();
                             persistiblesToList(lista);
-
-                            recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
-                            setAdapter(recyclerView);
+                            refreshRespuestas();
+                            Toast.makeText(EjercicioActivity.this, "Recibido: " + lista.size() + " en respuestas: " + respuestas.size(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
@@ -98,9 +109,23 @@ public class EjercicioActivity extends AppCompatActivity {
                 });
     }
 
+    protected void refreshRespuestas(){
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
+        recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
+        setAdapter(recyclerView);
+    }
+
     protected void persistiblesToList(List<RespuestaPersistible> lista) {
+        respuestas.removeAll(respuestas);
         for (RespuestaPersistible respuesta : lista) {
-            respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoRespuesta(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno(), respuesta.getImagenBase64(),respuesta.getDescripcion()));
+            respuestas.add(new Respuesta(
+                    respuesta.getCodigoCurso(),
+                    respuesta.getCodigoEjercicio(),
+                    respuesta.getCodigoRespuesta(),
+                    respuesta.getCodigoAlumno(),
+                    respuesta.getNombreAlumno(),
+                    respuesta.getImagenBase64(),
+                    respuesta.getDescripcion()));
         }
     }
 

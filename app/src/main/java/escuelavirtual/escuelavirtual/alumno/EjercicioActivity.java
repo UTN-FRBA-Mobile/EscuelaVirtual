@@ -24,6 +24,7 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
     @Override
     protected void onStart() {
         super.onStart();
+        refreshRespuestas();
     }
 
     public static void agregarRespuesta(Respuesta respueta) {
@@ -33,6 +34,7 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        refreshRespuestas();
     }
 
     @Override
@@ -93,12 +95,14 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
 
     @Override
     protected void persistiblesToList(List<RespuestaPersistible> lista) {
+        respuestas.removeAll(respuestas);
         String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         for (RespuestaPersistible respuesta : lista) {
-            if(respuesta.getCodigoAlumno() == uid) {
+            if(respuesta.getCodigoAlumno().equals(uid) && respuesta.getCodigoEjercicio().equals(ejercicioSeleccionado.getCodigoEjercicio())) {
                 respuestas.add(new Respuesta(respuesta.getCodigoCurso(), respuesta.getCodigoEjercicio(), respuesta.getCodigoRespuesta(), respuesta.getCodigoAlumno(), respuesta.getNombreAlumno(), respuesta.getImagenBase64(), respuesta.getDescripcion()));
             }
         }
+        refreshRespuestas();
     }
 
     @Override
