@@ -66,6 +66,8 @@ public class CursoActivity extends AppCompatActivity {
         temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
         this.disableTema();
         TemasActivity.getTemasAvailable(this, null);
+        InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(temaEjercicioTextView.getWindowToken(), 0);
 
         cargarEjercicios();
     }
@@ -90,6 +92,7 @@ public class CursoActivity extends AppCompatActivity {
             this.disableTema();
             Toast.makeText(this, "No se pudieron cargar los temas. Por favor, esperá unos segundos hasta que se carguen, y volvé a intentar", Toast.LENGTH_SHORT).show();
         }
+        temaEjercicioTextView.clearFocus();
     }
 
     class EventoTeclado implements TextView.OnEditorActionListener{
@@ -109,14 +112,19 @@ public class CursoActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
-        List<Ejercicio> ejerciciosFiltrados = new ArrayList<>();
-        for(Ejercicio ejercicio : ejercicios){
-            if(ejercicio.getTema().equals(temaEjercicioTextView.getText().toString())){
-                ejerciciosFiltrados.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
+        if("".equals(temaEjercicioTextView.getText().toString())){
+            recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
+        }else{
+            List<Ejercicio> ejerciciosFiltrados = new ArrayList<>();
+            for(Ejercicio ejercicio : ejercicios){
+                if(temaEjercicioTextView.getText().toString().equals(ejercicio.getTema())){
+                    ejerciciosFiltrados.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
+                }
             }
+
+            recyclerView.setAdapter(new ModelAdapterEjercicio(ejerciciosFiltrados).setFromAlumno());
         }
 
-        recyclerView.setAdapter(new ModelAdapterEjercicio(ejerciciosFiltrados).setFromAlumno());
     }
 
     @Override
