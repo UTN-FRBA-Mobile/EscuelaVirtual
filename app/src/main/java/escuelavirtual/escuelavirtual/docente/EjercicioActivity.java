@@ -98,7 +98,6 @@ public class EjercicioActivity extends AppCompatActivity {
                             List<RespuestaPersistible> lista = response.body();
                             persistiblesToList(lista);
                             refreshRespuestas();
-                            Toast.makeText(EjercicioActivity.this, "Recibido: " + lista.size() + " en respuestas: " + respuestas.size(), Toast.LENGTH_SHORT).show();
                         }
                     }
 

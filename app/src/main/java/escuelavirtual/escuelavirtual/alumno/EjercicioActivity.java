@@ -27,6 +27,12 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
         refreshRespuestas();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refreshRespuestas();
+    }
+
     public static void agregarRespuesta(Respuesta respueta) {
         respuestas.add(respueta);
     }
