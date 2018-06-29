@@ -8,14 +8,13 @@
     tools:context="escuelavirtual.escuelavirtual.docente.CursoActivity"
     android:background="@color/colorGreen1">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="center|top"
-        android:background="@color/colorGreen1">
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar_global" />
 

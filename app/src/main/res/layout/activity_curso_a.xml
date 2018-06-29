@@ -3,53 +3,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGreen1"
     tools:context="escuelavirtual.escuelavirtual.alumno.CursoActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="center|top"
-        android:background="@color/colorGreen1">
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar_global" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="10dp"
             android:gravity="start"
-            android:layout_marginBottom="10dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtrar por tema"
-                android:textSize="18dp"
                 android:layout_margin="10dp"
-                />
+                android:text="Filtrar por tema"
+                android:textSize="18dp" />
 
-            <AutoCompleteTextView
-                xmlns:android="http://schemas.android.com/apk/res/android"
+            <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tema_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:textColorHint="@color/colorGreyCommentSection"
+                android:background="@drawable/rounded_text_comment_box"
+                android:gravity="top|start"
                 android:hint="Ingresá el tema"
+                android:imeOptions="actionDone"
                 android:maxLength="48"
                 android:maxLines="1"
                 android:paddingBottom="10dp"
                 android:paddingEnd="10dp"
                 android:paddingStart="10dp"
                 android:paddingTop="15dp"
-                android:background="@drawable/rounded_text_comment_box"
-                android:gravity="top|start"
-                android:textSize="20dp"
                 android:singleLine="true"
-                android:imeOptions="actionDone"/>
+                android:textColorHint="@color/colorGreyCommentSection"
+                android:textSize="20dp" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView

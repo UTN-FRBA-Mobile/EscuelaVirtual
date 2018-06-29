@@ -13,27 +13,27 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="top"
-        android:weightSum="100"
-        android:background="@color/colorWhite">
+        android:orientation="vertical"
+        android:weightSum="100">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Respuesta de Ejercicio: "
-            android:textSize="20dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            android:text="Respuesta de Ejercicio: "
+            android:textSize="20dp" />
 
         <ImageView
             android:id="@+id/rta_photo_id"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="70"
             android:layout_margin="10dp"
-            android:padding="10dp"
-            android:background="@android:drawable/ic_menu_camera" />
+            android:layout_weight="70"
+            android:background="@android:drawable/ic_menu_camera"
+            android:padding="10dp" />
 
         <EditText
             android:id="@+id/descripcion_respuesta_id"
@@ -57,9 +57,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="30"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/confirmar_foto_respuesta_id"

@@ -13,18 +13,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="top"
-        android:weightSum="100"
-        android:background="@color/colorWhite">
+        android:orientation="vertical"
+        android:weightSum="100">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Código del ejercicio"
-            android:textSize="18dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"/>
+            android:text="Código del ejercicio"
+            android:textSize="18dp" />
 
         <EditText
             android:id="@+id/codigo_ejercicio_id"
@@ -48,29 +48,28 @@
             android:id="@+id/photo_id"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="60"
             android:layout_marginEnd="40dp"
             android:layout_marginStart="40dp"
-            android:padding="10dp"
-            android:background="@android:drawable/ic_menu_camera" />
+            android:layout_weight="60"
+            android:background="@android:drawable/ic_menu_camera"
+            android:padding="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ingresá el tema que aborda el ejercicio"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
             android:layout_margin="10dp"
-            />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Ingresá el tema que aborda el ejercicio"
+            android:textSize="18dp" />
 
-        <AutoCompleteTextView
-            xmlns:android="http://schemas.android.com/apk/res/android"
+        <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/tema_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:textColorHint="@color/colorGreyCommentSection"
+            android:background="@drawable/rounded_text_comment_box"
+            android:gravity="top|start"
             android:hint="Ingresá el tema"
             android:maxLength="48"
             android:maxLines="1"
@@ -78,18 +77,16 @@
             android:paddingEnd="10dp"
             android:paddingStart="10dp"
             android:paddingTop="15dp"
-            android:background="@drawable/rounded_text_comment_box"
-            android:gravity="top|start"
-            android:textSize="20dp"
-            android:singleLine="true"/>
+            android:singleLine="true"
+            android:textColorHint="@color/colorGreyCommentSection"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="30"
-            android:background="@color/colorWhite"
-            android:orientation="horizontal"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/confirmar_foto_ejercicio_id"

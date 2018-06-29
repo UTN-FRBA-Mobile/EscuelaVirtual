@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGreen1"
     tools:context="escuelavirtual.escuelavirtual.docente.TemasActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGreen1"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="start|left"
         android:orientation="vertical">
 
@@ -19,13 +19,12 @@
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/edit_tema_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/edit_tema_id"
-            android:visibility="gone"
             android:animateLayoutChanges="true"
-            >
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <EditText
                 android:id="@+id/edit_tema_text"
@@ -37,13 +36,12 @@
                 android:clickable="true"
                 android:fontFamily="sans-serif"
                 android:gravity="center|start"
+                android:hint="Ingrese Tema"
+                android:imeOptions="actionDone"
                 android:includeFontPadding="false"
                 android:paddingLeft="16dp"
                 android:text="@+id/tv_curso_id"
-                android:textSize="18sp"
-                android:hint = "Ingrese Tema"
-                android:imeOptions="actionDone"
-                />
+                android:textSize="18sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -64,18 +62,18 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@color/colorGreen1"
-                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"/>
+                    app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
             </LinearLayout>
 
         </RelativeLayout>
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvTemas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1" />
-        
-    </LinearLayout>
 
+    </LinearLayout>
 
 
 </android.support.design.widget.CoordinatorLayout>
