@@ -48,24 +48,25 @@ public class MainActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
         if (cursos.isEmpty()) {
-            final ProgressDialog progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage("Cargando sus cursos...");
-            progress.setCanceledOnTouchOutside(false);
-            progress.setTitle("Por favor, espere...");
-            Loading.ejecutar(progress);
-            cargarCursos(progress);
+            cargarCursos();
         } else {
             updateCursos();
         }
     }
 
-    private void cargarCursos(final ProgressDialog progress) {
+    private void cargarCursos() {
+        final ProgressDialog progress = new ProgressDialog(MainActivity.this);
+        progress.setMessage("Cargando sus cursos...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle("Por favor, espere...");
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().getCursoSuscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
             .enqueue(new Callback<List<CursoPersistible>>() {
                 @Override
                 public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
                     if(response.isSuccessful()) {
                         List<CursoPersistible> lista = response.body();
+                        cursos.clear();
                         for (CursoPersistible cursoP : lista) {
                             cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                         }
@@ -92,10 +93,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if(FirebaseAuth.getInstance().getCurrentUser() == null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cargarCursos();
     }
 
     @Override

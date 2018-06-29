@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
+
 public class CursoActivity extends AppCompatActivity {
 
     static final List<Ejercicio> ejercicios = new ArrayList<>();
@@ -51,7 +54,7 @@ public class CursoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_curso);
+        setContentView(R.layout.activity_curso_a);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(toolbar);
@@ -59,7 +62,11 @@ public class CursoActivity extends AppCompatActivity {
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
 
-        cargarEjercicios();
+        if (ejercicios.isEmpty()) {
+            cargarEjercicios();
+        } else {
+            refreshEjercicios();
+        }
     }
 
     @Override
@@ -77,26 +84,17 @@ public class CursoActivity extends AppCompatActivity {
     private void cargarEjercicios() {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage("Cargando ejercicios...");
-        progress.setTitle("Por favor espere...");
+        progress.setTitle("Por favor, espere...");
+        progress.setCanceledOnTouchOutside(false);
         Loading.ejecutar(progress);
 
-        ejercicios.removeAll(ejercicios);
-
-        // TODO: remover cuando se solucione la persistencia del id del docente del lado de Docente, cuando se crea un ejercicio
-        ImageView imagenRespuesta = new ImageView(this);
-        imagenRespuesta.setImageResource(R.drawable.example_image);
-        Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-        ejercicios.add(new Ejercicio("Ejer 1", bitmapToBase64(bitmap), "raices"));
-
-        refreshEjercicios();
-
-        // TODO
-        ApiUtils.getAPIService().getEjerciciosByCurso(cursoSeleccionado.getCodigo())
+        ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(), cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
                         if(response.isSuccessful()) {
                             List<EjercicioPersistible> lista = response.body();
+                            ejercicios.clear();
                             for (EjercicioPersistible ejercicio : lista) {
                                 ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
                             }
@@ -113,46 +111,10 @@ public class CursoActivity extends AppCompatActivity {
                 });
     }
 
-    protected String bitmapToBase64(Bitmap bitmap){
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
-        return Base64.encodeToString(byteArray, Base64.DEFAULT);
-    }
-
     private void refreshEjercicios() {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
-    }
-
-    private void confirm_logout() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage("¿Cerrar Sesión?");
-        alertDialogBuilder.setPositiveButton("Sí",
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        logout();
-                    }
-                });
-
-        alertDialogBuilder.setNegativeButton("No",new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
-
-    }
-
-    private void logout() {
-        FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
     }
 
     @Override
