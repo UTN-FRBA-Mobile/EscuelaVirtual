@@ -298,6 +298,7 @@ public class TemasActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
                         if(response.isSuccessful()) {
+                            temasObtenidos = true;
                             List<TemaPersistible> lista = response.body();
                             for (TemaPersistible tema : lista) {
                                 temasDisponibles.add(tema.getTema());
@@ -307,7 +308,6 @@ public class TemasActivity extends AppCompatActivity {
                             }else{
                                 ((EjercicioAddActivity) context).enableTema();
                             }
-                            temasObtenidos = true;
                         }
                     }
 

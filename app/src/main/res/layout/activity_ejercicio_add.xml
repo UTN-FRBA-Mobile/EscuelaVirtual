@@ -44,16 +44,6 @@
             android:textColorHint="@color/colorGreyCommentSection"
             android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ingresá el tema que aborda el ejercicio"
-            android:textSize="18dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_margin="10dp"
-            />
-
         <ImageView
             android:id="@+id/photo_id"
             android:layout_width="match_parent"
@@ -63,6 +53,16 @@
             android:layout_marginStart="40dp"
             android:padding="10dp"
             android:background="@android:drawable/ic_menu_camera" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ingresá el tema que aborda el ejercicio"
+            android:textSize="18dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_margin="10dp"
+            />
 
         <AutoCompleteTextView
             xmlns:android="http://schemas.android.com/apk/res/android"
