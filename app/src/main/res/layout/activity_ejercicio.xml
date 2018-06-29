@@ -24,13 +24,12 @@
             android:padding="5dp" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/cantidad_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:height="40dp"
             android:background="@color/colorGreen3"
             android:gravity="center"
-            android:text="Respuestas"
             android:textColor="@color/colorWhite"
             android:textSize="20dp" />
 

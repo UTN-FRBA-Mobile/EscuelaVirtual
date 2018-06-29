@@ -345,7 +345,7 @@ public class TemasActivity extends AppCompatActivity {
                             for (TemaPersistible tema : lista) {
                                 temas.add(tema.getTema());
                             }
-
+                            ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
                             updateListaTemas();
                         }
                     }

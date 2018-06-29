@@ -223,6 +223,7 @@ public class CursoActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(CursoActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios));
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de ejercicios: " + ejercicios.size());
     }
 
     private int ubicarEjercicioEliminado(EjercicioPersistible ejercicioPersistible) {

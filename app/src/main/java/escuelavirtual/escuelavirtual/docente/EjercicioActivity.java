@@ -112,6 +112,7 @@ public class EjercicioActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
         recyclerView.setLayoutManager(new LinearLayoutManager(EjercicioActivity.this, LinearLayoutManager.VERTICAL, false));
         setAdapter(recyclerView);
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de respuestas: " + respuestas.size());
     }
 
     protected void persistiblesToList(List<RespuestaPersistible> lista) {

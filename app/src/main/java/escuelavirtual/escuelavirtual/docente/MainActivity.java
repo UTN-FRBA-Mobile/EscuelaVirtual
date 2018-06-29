@@ -219,6 +219,7 @@ public class MainActivity extends AppCompatActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de cursos: " + cursos.size());
     }
 
     private int ubicarCursoEliminado(CursoPersistible cursoPersistible) {
