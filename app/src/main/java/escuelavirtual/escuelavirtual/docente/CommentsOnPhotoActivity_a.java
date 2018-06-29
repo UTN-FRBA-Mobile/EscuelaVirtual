@@ -110,9 +110,9 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
-        EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
-        startActivity(new Intent(this, EjercicioActivity.class));
+        escuelavirtual.escuelavirtual.alumno.EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
+        escuelavirtual.escuelavirtual.alumno.EjercicioActivity.setEjercicioSeleccionado(ejercicioSeleccionado);
+        startActivity(new Intent(this, escuelavirtual.escuelavirtual.alumno.EjercicioActivity.class));
         return true;
     }
 

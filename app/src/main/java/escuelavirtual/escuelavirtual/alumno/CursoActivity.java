@@ -66,8 +66,6 @@ public class CursoActivity extends AppCompatActivity {
         temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
         this.disableTema();
         TemasActivity.getTemasAvailable(this, null);
-        InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        keyboard.hideSoftInputFromWindow(temaEjercicioTextView.getWindowToken(), 0);
 
         cargarEjercicios();
     }
@@ -92,7 +90,6 @@ public class CursoActivity extends AppCompatActivity {
             this.disableTema();
             Toast.makeText(this, "No se pudieron cargar los temas. Por favor, esperá unos segundos hasta que se carguen, y volvé a intentar", Toast.LENGTH_SHORT).show();
         }
-        temaEjercicioTextView.clearFocus();
     }
 
     class EventoTeclado implements TextView.OnEditorActionListener{

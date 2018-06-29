@@ -3,7 +3,6 @@ package escuelavirtual.escuelavirtual.docente;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,8 +15,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -81,37 +78,6 @@ public class EjercicioActivity extends AppCompatActivity {
 
     private void cargarRespuestas(){
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvRespuestas);
-
-        // TODO: este código es para probar mientras no se tenga la persistencia
-        ImageView imagenRespuesta = new ImageView(this);
-        imagenRespuesta.setImageResource(R.drawable.example_image);
-        Bitmap bitmap = ((BitmapDrawable) imagenRespuesta.getDrawable()).getBitmap();
-
-        ImageView imagenRespuesta2 = new ImageView(this);
-        imagenRespuesta2.setImageResource(R.drawable.ejercicio_ejemplo);
-        Bitmap bitmap2 = ((BitmapDrawable) imagenRespuesta2.getDrawable()).getBitmap();
-
-        if(respuestas.size() == 0) {
-            String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-            //Deadpool tiene que abrir las fotos de homero
-            //Batman tiene que abrir la foto de ejercicio posta
-
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "1",uid, "Deadpool", bitmapToBase64(bitmap),"desc1"));
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "2",uid, "Deadpool", bitmapToBase64(bitmap),"desc2"));
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "1",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "2",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "3",uid, "Deadpool", bitmapToBase64(bitmap),"desc3"));
-            respuestas.add(new Respuesta(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio(), "3",uid+"extra", "Batman", bitmapToBase64(bitmap2),"desc2"));
-        }
-
-        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        setAdapter(recyclerView);
-        //FIN Prueba sin persistencia
-        //---------------------------
-
-
-
-        // TODO: este código va a funcar cuando esté la persistencia hecha
         ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override

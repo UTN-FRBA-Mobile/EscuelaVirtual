@@ -18,14 +18,6 @@
         android:orientation="vertical"
         android:weightSum="100">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Respuesta de Ejercicio: "
-            android:textSize="20dp" />
-
         <ImageView
             android:id="@+id/rta_photo_id"
             android:layout_width="match_parent"
@@ -42,7 +34,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/rounded_text_comment_box"
             android:gravity="top|start"
-            android:hint="Ingresá comentarios"
+            android:hint="Ingresá una descripción"
             android:maxLength="48"
             android:maxLines="1"
             android:paddingBottom="10dp"
