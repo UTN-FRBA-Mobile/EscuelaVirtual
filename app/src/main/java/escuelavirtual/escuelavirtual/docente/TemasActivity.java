@@ -1,7 +1,6 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +21,7 @@ import java.util.List;
 
 import escuelavirtual.escuelavirtual.ModelAdapterTema;
 import escuelavirtual.escuelavirtual.R;
+import escuelavirtual.escuelavirtual.alumno.CursoActivity;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -248,7 +248,6 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void persistirUpdateTema(String uid,final String viejo,final String nuevo) {
-
         ApiUtils.getAPIService().updateTemas(viejo,nuevo,uid)
                 .enqueue(new Callback<String>() {
                     @Override
@@ -290,10 +289,16 @@ public class TemasActivity extends AppCompatActivity {
 
     }
 
-    public static void getTemasAvailable(final Context context){
+    public static void getTemasAvailable(final CursoActivity cursoActivity, final EjercicioAddActivity ejercicioAddActivity){
         temasDisponibles = new ArrayList<>();
         temasObtenidos = false;
-        ApiUtils.getAPIService().getTema(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        String docente;
+        if(cursoActivity != null /*es alumno*/){
+            docente = CursoActivity.getCursoSeleccionado().getDocente();
+        }else{
+            docente = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        }
+        ApiUtils.getAPIService().getTema(docente)
                 .enqueue(new Callback<List<TemaPersistible>>() {
                     @Override
                     public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
@@ -304,16 +309,24 @@ public class TemasActivity extends AppCompatActivity {
                                 temasDisponibles.add(tema.getTema());
                             }
                             if(lista.size() == 0){
-                                ((EjercicioAddActivity) context).disableTema();
+                                if(cursoActivity != null){
+                                    cursoActivity.disableTema();
+                                }else{
+                                    ejercicioAddActivity.disableTema();
+                                }
                             }else{
-                                ((EjercicioAddActivity) context).enableTema();
+                                if(cursoActivity != null){
+                                    cursoActivity.enableTema();
+                                }else{
+                                    ejercicioAddActivity.enableTema();
+                                }
                             }
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<TemaPersistible>> call, Throwable t) {
-                        Toast.makeText(context, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(cursoActivity != null ? cursoActivity : ejercicioAddActivity, "Ha ocurrido un error buscando los temas. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                         temasObtenidos = false;
                     }
                 });

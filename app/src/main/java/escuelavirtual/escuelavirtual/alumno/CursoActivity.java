@@ -1,47 +1,42 @@
 package escuelavirtual.escuelavirtual.alumno;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Base64;
-import android.view.MenuItem;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.ImageView;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
-import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
+import escuelavirtual.escuelavirtual.docente.TemasActivity;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 
 public class CursoActivity extends AppCompatActivity {
 
     static final List<Ejercicio> ejercicios = new ArrayList<>();
     private static Curso cursoSeleccionado;
+    private static AutoCompleteTextView temaEjercicioTextView;
 
     public static Curso getCursoSeleccionado() {
         return cursoSeleccionado;
@@ -67,6 +62,61 @@ public class CursoActivity extends AppCompatActivity {
         } else {
             refreshEjercicios();
         }
+
+        temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
+        this.disableTema();
+        TemasActivity.getTemasAvailable(this, null);
+
+        cargarEjercicios();
+    }
+
+    public void disableTema(){
+        temaEjercicioTextView.setEnabled(false);
+        temaEjercicioTextView.setBackgroundResource(R.drawable.rounded_text_comment_box_gray);
+        temaEjercicioTextView.setTextColor(Color.GRAY);
+    }
+
+    public void enableTema(){
+        temaEjercicioTextView.setEnabled(true);
+        temaEjercicioTextView.setBackgroundResource(R.drawable.rounded_text_comment_box);
+        temaEjercicioTextView.setTextColor(Color.BLACK);
+        temaEjercicioTextView.setOnEditorActionListener(new EventoTeclado());
+
+        if(TemasActivity.getTemasObtenidos()){
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, TemasActivity.getTemasDisponibles());
+            temaEjercicioTextView.setAdapter(adapter);
+            Toast.makeText(this, "Temas cargados con éxito", Toast.LENGTH_SHORT).show();
+        }else{
+            this.disableTema();
+            Toast.makeText(this, "No se pudieron cargar los temas. Por favor, esperá unos segundos hasta que se carguen, y volvé a intentar", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(temaEjercicioTextView.getWindowToken(), 0);
+                temaEjercicioTextView.clearFocus();
+                aplicarFiltro();
+            }
+            return false;
+        }
+    }
+
+    private void aplicarFiltro(){
+        final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+
+        List<Ejercicio> ejerciciosFiltrados = new ArrayList<>();
+        for(Ejercicio ejercicio : ejercicios){
+            if(ejercicio.getTema().equals(temaEjercicioTextView.getText().toString())){
+                ejerciciosFiltrados.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));
+            }
+        }
+
+        recyclerView.setAdapter(new ModelAdapterEjercicio(ejerciciosFiltrados).setFromAlumno());
     }
 
     @Override
@@ -105,7 +155,7 @@ public class CursoActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
-                        Toast.makeText(escuelavirtual.escuelavirtual.alumno.CursoActivity.this, "Ha ocurrido un error. Intente nuevamente.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(escuelavirtual.escuelavirtual.alumno.CursoActivity.this, "Ha ocurrido un error cargando los ejercicios. Intente nuevamente.", Toast.LENGTH_SHORT).show();
                         Loading.terminar(progress);
                     }
                 });

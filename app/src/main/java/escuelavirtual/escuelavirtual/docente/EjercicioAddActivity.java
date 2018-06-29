@@ -87,10 +87,8 @@ public class EjercicioAddActivity extends AppCompatActivity {
 
         codigoEjercicio.setOnEditorActionListener(new EventoTeclado());
         temaEjercicioTextView.setOnEditorActionListener(new EventoTeclado());
-        temaEjercicioTextView.setEnabled(false);
-
         this.disableTema();
-        TemasActivity.getTemasAvailable(this);
+        TemasActivity.getTemasAvailable(null,this);
     }
 
     public void disableTema(){

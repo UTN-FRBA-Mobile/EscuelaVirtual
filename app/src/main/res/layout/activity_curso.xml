@@ -27,16 +27,4 @@
 
     </LinearLayout>
 
-<!--    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fAButtonAddEjercicio"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:clickable="true"
-        android:longClickable="false"
-        app:backgroundTint="@color/colorGreen3"
-        app:elevation="0dp"
-        app:srcCompat="@android:drawable/ic_input_add" />-->
-
 </FrameLayout>
