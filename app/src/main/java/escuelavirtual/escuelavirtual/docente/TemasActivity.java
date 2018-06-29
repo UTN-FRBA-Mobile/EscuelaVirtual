@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,6 +66,8 @@ public class TemasActivity extends AppCompatActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((TextView) findViewById(R.id.main_title_id)).setText("Mis temas");
 
         mEditTema = findViewById(R.id.edit_tema_id);
         mEditTemaText = (EditText) findViewById(R.id.edit_tema_text);
