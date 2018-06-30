@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.Map;
 
+import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
 import retrofit2.Call;
@@ -216,7 +217,9 @@ public class ViewsController{
             public void onClick(View button) {
                 ViewsController.turnOffCommentBox();
                 TagView tagRemovido = tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
-                apiService.deleteTag(tagRemovido.getTag())
+                Respuesta respuestaSeleccionada = CommentsOnPhotoActivity.getRespuestaSeleccionada();
+                String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta();
+                apiService.deleteTag(ruta, tagRemovido.getTag())
                         .enqueue(new Callback<Tag>() {
                             @Override
                             public void onResponse(Call<Tag> call, Response<Tag> response) {

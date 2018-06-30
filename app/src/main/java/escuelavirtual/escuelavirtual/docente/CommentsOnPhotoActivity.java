@@ -63,6 +63,10 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         CommentsOnPhotoActivity.cursoSeleccionado = cursoSeleccionado;
     }
 
+    public static Respuesta getRespuestaSeleccionada() {
+        return respuestaSeleccionada;
+    }
+
     /** Called when the activity is first created. */
     @SuppressLint("ClickableViewAccessibility")
     @Override

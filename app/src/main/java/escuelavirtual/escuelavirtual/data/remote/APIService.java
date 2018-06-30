@@ -37,8 +37,9 @@ public interface APIService {
                            @Query("foto") String foto);
 
 
-    @HTTP(method = "DELETE", path = "/delete_tag", hasBody = true)
-    Call<Tag> deleteTag(@Body Tag tag);
+    @HTTP(method = "DELETE", path = "/delete_tag/{ruta}", hasBody = true)
+    Call<Tag> deleteTag(@Path("ruta") String ruta,
+                        @Body Tag tag);
 
     @POST("/guardar_cursos")
     @FormUrlEncoded
