@@ -1,5 +1,6 @@
 package escuelavirtual.escuelavirtual.docente;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +26,8 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
+import escuelavirtual.escuelavirtual.alumno.MainActivity;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -90,6 +93,11 @@ public class EjercicioActivity extends AppCompatActivity {
 
     private void cargarRespuestas(){
         respuestas.removeAll(respuestas);
+        final ProgressDialog progress = new ProgressDialog(EjercicioActivity.this);
+        progress.setMessage("Cargando Respuestas....");
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle("Aguarde un instante....");
+        Loading.ejecutar(progress);
         ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override
@@ -98,12 +106,14 @@ public class EjercicioActivity extends AppCompatActivity {
                             List<RespuestaPersistible> lista = response.body();
                             persistiblesToList(lista);
                             refreshRespuestas();
+                            Loading.terminar(progress);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<RespuestaPersistible>> call, Throwable t) {
                         Toast.makeText(EjercicioActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
                     }
                 });
     }
