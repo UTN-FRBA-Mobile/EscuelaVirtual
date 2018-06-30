@@ -126,7 +126,7 @@ public class CursoActivity extends AppCompatActivity {
     public void gotoEjercicio(View button) {
         EjercicioActivity.setEjercicioSeleccionado(this.findExerciseSelected(button));
         EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
-        Intent intent = new Intent(button.getContext(), EjercicioActivity.class);
+        Intent intent = new Intent(this, EjercicioActivity.class);
         startActivity(intent);
     }
 
