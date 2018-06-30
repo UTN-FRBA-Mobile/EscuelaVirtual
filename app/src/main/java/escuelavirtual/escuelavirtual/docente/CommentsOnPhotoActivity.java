@@ -83,7 +83,8 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                         for (Integer key : tagsAdded.keySet()) {
                             _final--;
                             TagView tag = tagsAdded.get(key);
-                            sendTag(key, tag, respuestaSeleccionada.getImagenRespuestaBase64(), 0 == _final);
+                            String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta();
+                            sendTag(key, tag, respuestaSeleccionada.getImagenRespuestaBase64(), 0 == _final, ruta);
                         }
 
                 } else {
@@ -219,13 +220,13 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     }
 
     //Eric
-    public void sendTag(final Integer key, final TagView tag, String foto, final boolean _final) {
+    public void sendTag(final Integer key, final TagView tag, String foto, final boolean _final, final String ruta) {
         final ProgressDialog progress = new ProgressDialog(CommentsOnPhotoActivity.this);
         progress.setMessage("Guardando...");
         progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Aguarde un instante...");
         Loading.ejecutar(progress);
-        mAPIService.saveTag(tag.getCentralPositionOfTag(), tag.getLeftMargin(), tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),foto)
+        mAPIService.saveTag(ruta,tag.getCentralPositionOfTag(), tag.getLeftMargin(), tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),foto)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {

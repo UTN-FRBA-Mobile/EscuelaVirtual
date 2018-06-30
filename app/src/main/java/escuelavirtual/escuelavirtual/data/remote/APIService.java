@@ -17,13 +17,15 @@ import retrofit2.http.GET;
 import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface APIService {
 
-    @POST("/post_items")
+    @POST("/post_items/{ruta}")
     @FormUrlEncoded
-    Call<String> saveTag(@Field("centralPositionOfTag") int centralPositionOfTag,
+    Call<String> saveTag(@Path("ruta") String ruta,
+                        @Field("centralPositionOfTag") int centralPositionOfTag,
                       @Field("leftMargin") int leftMargin,
                       @Field("topMargin") int topMargin,
                       @Field("numberOfTag") int numberOfTag,
