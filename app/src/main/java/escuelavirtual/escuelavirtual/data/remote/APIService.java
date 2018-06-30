@@ -32,8 +32,9 @@ public interface APIService {
                       @Field("comment") String comment,
                       @Field("foto") String foto);
 
-    @GET("/get_tag")
-    Call<List<Tag>> getTag(@Query("foto") String foto);
+    @GET("/get_tag/{ruta}")
+    Call<List<Tag>> getTag(@Path("ruta") String ruta,
+                           @Query("foto") String foto);
 
 
     @HTTP(method = "DELETE", path = "/delete_tag", hasBody = true)
