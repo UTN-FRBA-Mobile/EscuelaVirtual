@@ -130,6 +130,7 @@ public class RespuestaAddActivity extends AppCompatActivity {
     private void agregarRespuesta() {
         final ProgressDialog progress = new ProgressDialog(RespuestaAddActivity.this);
         progress.setMessage("Guardando....");
+        progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Guardando la respuesta");
         Loading.ejecutar(progress);
         respuesta.setDescripcionRespuesta(RespuestaAddActivity.mDescripcionRespuesta.getText().toString());

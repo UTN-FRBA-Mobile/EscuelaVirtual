@@ -136,6 +136,7 @@ public class CursoEditActivity extends AppCompatActivity{
         final ProgressDialog progress = new ProgressDialog(CursoEditActivity.this);
         progress.setMessage("Guardando....");
         progress.setTitle("Actualizando el curso:  " + course.getDescripcion());
+        progress.setCanceledOnTouchOutside(false);
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().updateCursos(course.getCodigo(),etCursoCode.getText().toString(),course.getDescripcion(), etCursoDescripcion.getText().toString(),FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {

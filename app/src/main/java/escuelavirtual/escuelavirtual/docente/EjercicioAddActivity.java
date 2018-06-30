@@ -244,6 +244,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(EjercicioAddActivity.this);
         progress.setMessage("Actualizando....");
         progress.setTitle("Actualizando el ejercicio:  " + ejercicioSeleccionado.getCodigoEjercicio());
+        progress.setCanceledOnTouchOutside(false);
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().actualizarEjercicio(CursoActivity.getCursoSeleccionado().getCodigo(), ejercicioSeleccionado.getCodigoEjercicio() , codigoEjercicio.getText().toString(), bitmapToBase64(photoBitmap), temaEjercicioTextView.getText().toString() , FirebaseAuth.getInstance().getCurrentUser().getUid())
                 .enqueue(new Callback<String>() {
@@ -293,6 +294,7 @@ public class EjercicioAddActivity extends AppCompatActivity {
     private void addEjercicioConfirm() {
         final ProgressDialog progress = new ProgressDialog(EjercicioAddActivity.this);
         progress.setMessage("Guardando....");
+        progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Guardando el ejercicio:  " + codigoEjercicio.getText().toString());
         Loading.ejecutar(progress);
         final String image = this.bitmapToBase64(photoBitmap);
