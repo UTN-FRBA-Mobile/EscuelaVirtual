@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.common.LogoutableActivity;
+import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -36,30 +38,34 @@ import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout
 public class MainActivity extends LogoutableActivity {
 
     static List<Curso> cursos = new ArrayList<>();
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        setSwipeRefresher();
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar();
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Mis Cursos");
-        if (cursos.isEmpty()) {
-            cargarCursos();
-        } else {
-            updateCursos();
-        }
+        cursos.clear();
+        cargarCursos();
+    }
+
+    private void setSwipeRefresher() {
+        swipeRefreshLayout = new SwipeRefresher().set(this, R.id.main_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarCursos();
+            }
+        });
     }
 
     private void cargarCursos() {
-        final ProgressDialog progress = new ProgressDialog(MainActivity.this);
-        progress.setMessage("Cargando sus cursos...");
-        progress.setCanceledOnTouchOutside(false);
-        progress.setTitle("Por favor, espere...");
-        Loading.ejecutar(progress);
+        swipeRefreshLayout.setRefreshing(true);
         ApiUtils.getAPIService().getCursoSuscripto(FirebaseAuth.getInstance().getCurrentUser().getUid())
             .enqueue(new Callback<List<CursoPersistible>>() {
                 @Override
@@ -68,17 +74,17 @@ public class MainActivity extends LogoutableActivity {
                         List<CursoPersistible> lista = response.body();
                         cursos.clear();
                         for (CursoPersistible cursoP : lista) {
-                            cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
+                            cursos.add(new Curso(cursoP.getCurso(), cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                         }
                         updateCursos();
-                        Loading.terminar(progress);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 }
 
                 @Override
                 public void onFailure(Call<List<CursoPersistible>> call, Throwable t) {
                     Toast.makeText(MainActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                    Loading.terminar(progress);
+                    swipeRefreshLayout.setRefreshing(false);
                 }
             });
 
@@ -99,6 +105,7 @@ public class MainActivity extends LogoutableActivity {
             startActivity(intent);
         }
     }
+
 
     @Override
     protected void onResume() {
