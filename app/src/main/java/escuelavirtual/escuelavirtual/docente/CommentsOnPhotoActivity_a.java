@@ -121,8 +121,9 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
         ViewsController.setBaseImageLayout(baseImageLayout);
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
+        String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta();
 
-        mAPIService.getTag(foto)
+        mAPIService.getTag(ruta,foto)
                 .enqueue(new Callback<List<Tag>>() {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
