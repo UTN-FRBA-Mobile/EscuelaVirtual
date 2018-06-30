@@ -28,6 +28,7 @@ import java.io.ByteArrayOutputStream;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.common.LogoutableActivity;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.UsuarioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
@@ -35,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class RespuestaAddActivity extends AppCompatActivity {
+public class RespuestaAddActivity extends LogoutableActivity {
 
     private static ImageView rtaPhoto;
     private static Bitmap rtaPhotoBitmap;
