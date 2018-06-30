@@ -114,6 +114,7 @@ public class EjercicioActivity extends AppCompatActivity {
                     public void onFailure(Call<List<RespuestaPersistible>> call, Throwable t) {
                         Toast.makeText(EjercicioActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                         Loading.terminar(progress);
+
                     }
                 });
     }
