@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -25,6 +26,7 @@ import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.common.LogoutableActivity;
+import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import escuelavirtual.escuelavirtual.docente.TemasActivity;
@@ -37,7 +39,7 @@ public class CursoActivity extends LogoutableActivity {
     static final List<Ejercicio> ejercicios = new ArrayList<>();
     private static Curso cursoSeleccionado;
     private static AutoCompleteTextView temaEjercicioTextView;
-
+    private SwipeRefreshLayout swipeRefreshLayout;
 
 
     public static Curso getCursoSeleccionado() {
@@ -58,19 +60,32 @@ public class CursoActivity extends LogoutableActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ((TextView)findViewById(R.id.main_title_id)).setText("Curso: " + cursoSeleccionado.getCodigo() + " - Ejercicios");
-
+        /*
         if (ejercicios.isEmpty()) {
             cargarEjercicios();
         } else {
             refreshEjercicios();
         }
+        */
 
         temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
         this.disableTema();
 
         TemasActivity.getTemasAvailable(this, null);
 
+        setSwipeRefresher();
+        ejercicios.clear();
         cargarEjercicios();
+    }
+
+    private void setSwipeRefresher() {
+        swipeRefreshLayout = new SwipeRefresher().set(this, R.id.main_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarEjercicios();
+            }
+        });
     }
 
     public void disableTema(){
@@ -140,12 +155,7 @@ public class CursoActivity extends LogoutableActivity {
     }
 
     private void cargarEjercicios() {
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setMessage("Cargando ejercicios...");
-        progress.setTitle("Por favor, espere...");
-        progress.setCanceledOnTouchOutside(false);
-        Loading.ejecutar(progress);
-
+        swipeRefreshLayout.setRefreshing(true);
         ApiUtils.getAPIService().getEjercicios(cursoSeleccionado.getDocente(), cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
@@ -158,13 +168,14 @@ public class CursoActivity extends LogoutableActivity {
                             }
                             refreshEjercicios();
                         }
-                        Loading.terminar(progress);
+                        swipeRefreshLayout.setRefreshing(false);
+
                     }
 
                     @Override
                     public void onFailure(Call<List<EjercicioPersistible>> call, Throwable t) {
                         Toast.makeText(escuelavirtual.escuelavirtual.alumno.CursoActivity.this, "Ha ocurrido un error cargando los ejercicios. Intente nuevamente.", Toast.LENGTH_SHORT).show();
-                        Loading.terminar(progress);
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }

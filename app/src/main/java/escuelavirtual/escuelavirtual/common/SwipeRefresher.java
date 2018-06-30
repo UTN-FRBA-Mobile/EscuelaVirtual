@@ -10,7 +10,7 @@ public class SwipeRefresher {
 
     public SwipeRefreshLayout set(AppCompatActivity activity, int layout) {
         swipeRefreshLayout = (SwipeRefreshLayout) activity.findViewById(layout);
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorGreen3);
         return swipeRefreshLayout;
     }
 }

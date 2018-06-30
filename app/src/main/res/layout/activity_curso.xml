@@ -28,13 +28,18 @@
             android:textColor="@color/colorWhite"
             android:textSize="20dp"
             />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvEjercicios"
+        <android.support.v4.widget.SwipeRefreshLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/main_swipe_refresh"
             android:layout_width="match_parent"
-            android:layout_height="340dp"
-            android:layout_weight="1" />
-
+            android:layout_height="match_parent"
+            >
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvEjercicios"
+                android:layout_width="match_parent"
+                android:layout_height="340dp"
+                android:layout_weight="1" />
+        </android.support.v4.widget.SwipeRefreshLayout>
     </LinearLayout>
 
 </FrameLayout>
