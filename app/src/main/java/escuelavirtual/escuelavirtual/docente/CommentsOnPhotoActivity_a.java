@@ -100,7 +100,8 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
             }
         });
 
-        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
+        if(tagsAdded.isEmpty()) getCommentsTag();
+
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -116,14 +117,14 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
         return true;
     }
 
-    private void getCommentsTag(String foto) {
+    private void getCommentsTag() {
         RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
         ViewsController.setBaseImageLayout(baseImageLayout);
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
         String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta();
 
-        mAPIService.getTag(ruta,foto)
+        mAPIService.getTag(ruta)
                 .enqueue(new Callback<List<Tag>>() {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {

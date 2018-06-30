@@ -207,7 +207,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         });
 
         ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
-        getCommentsTag(respuestaSeleccionada.getImagenRespuestaBase64());
+        if (tagsAdded.isEmpty())getCommentsTag();
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -256,7 +256,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                 });
     }
 
-    private void getCommentsTag(String foto) {
+    private void getCommentsTag() {
         final ProgressDialog progress = new ProgressDialog(CommentsOnPhotoActivity.this);
         progress.setMessage("Buscando...");
         progress.setCanceledOnTouchOutside(false);
@@ -267,7 +267,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
         String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta();
-        mAPIService.getTag(ruta,foto)
+        mAPIService.getTag(ruta)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
