@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorGreen1"
     tools:context="escuelavirtual.escuelavirtual.docente.EjercicioActivity">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGreen1"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="start|left"
         android:orientation="vertical">
 
@@ -19,43 +19,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="horizontal"
             android:weightSum="100">
 
             <ImageView
                 android:id="@+id/image_id"
                 android:layout_width="0dp"
-                android:layout_weight="50"
                 android:layout_height="249dp"
                 android:layout_margin="10dp"
+                android:layout_weight="50"
                 android:padding="5dp"
-                android:src="@drawable/example_image"/>
+                android:src="@drawable/example_image" />
 
             <LinearLayout
                 android:layout_width="0dp"
-                android:layout_weight="50"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="vertical"
-                android:gravity="center">
+                android:layout_weight="50"
+                android:gravity="center"
+                android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/textView2"
+                    android:id="@+id/cantidad_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Respuestas"
                     android:height="40dp"
-                    android:textSize="20dp"
-                    android:textColor="@color/colorWhite"
+                    android:background="@color/colorGreen3"
                     android:gravity="center"
-                    android:background="@color/colorGreen3"/>
+                    android:textColor="@color/colorWhite"
+                    android:textSize="20dp" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rvRespuestas"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" />
+                    android:layout_weight="1"
+                    android:background="@color/colorGreen1Trans" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

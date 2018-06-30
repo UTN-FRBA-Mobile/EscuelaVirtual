@@ -3,6 +3,7 @@ package escuelavirtual.escuelavirtual.data;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import escuelavirtual.escuelavirtual.Ejercicio;
@@ -23,7 +24,7 @@ public class CursoPersistible {
 
     public CursoPersistible(String codigo, String descripcion, List<Ejercicio> ejecicioList, String docente) {
         this.curso = codigo;
-        this.ejecicioList = ejecicioList;
+        this.ejecicioList = ejecicioList == null ? new ArrayList<Ejercicio>() : ejecicioList;
         this.descripcion = descripcion;
         this.docente = docente;
     }

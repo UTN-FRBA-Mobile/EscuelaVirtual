@@ -12,9 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +55,8 @@ public class RespuestaAddActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        ((TextView) findViewById(R.id.main_title_id)).setText("Subir nueva respuesta");
+
         mDescripcionRespuesta = (EditText) findViewById(R.id.descripcion_respuesta_id);
         rtaPhoto = (ImageView) findViewById(R.id.rta_photo_id);
         rtaPhoto.setOnClickListener(new View.OnClickListener() {
@@ -61,6 +67,20 @@ public class RespuestaAddActivity extends AppCompatActivity {
             }
         });
 
+        mDescripcionRespuesta.setOnEditorActionListener(new EventoTeclado());
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                keyboard.hideSoftInputFromWindow(mDescripcionRespuesta.getWindowToken(), 0);
+                mDescripcionRespuesta.clearFocus();
+                confirmarFotoRespuesta(null);
+            }
+            return false;
+        }
     }
 
     @Override
@@ -112,16 +132,19 @@ public class RespuestaAddActivity extends AppCompatActivity {
         progress.setMessage("Guardando....");
         progress.setTitle("Guardando la respuesta");
         Loading.ejecutar(progress);
-       //- respuesta.setDescripcionRespuesta(RespuestaAddActivity.mDescripcionRespuesta.getText().toString());
-       //- respuesta.setImagenRespuestaBase64(bitmapToBase64(RespuestaAddActivity.rtaPhotoBitmap));
+        respuesta.setDescripcionRespuesta(RespuestaAddActivity.mDescripcionRespuesta.getText().toString());
+        respuesta.setImagenRespuestaBase64(bitmapToBase64(RespuestaAddActivity.rtaPhotoBitmap));
         String alumnoId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        RespuestaPersistible r2 = new RespuestaPersistible("CODCURSO","CODEJERCICIO","CODRTA","ALUMNO","A","A","A");
-        //- RespuestaPersistible respuestaPersistible = new RespuestaPersistible(respuesta.getCodigoCurso(),respuesta.getCodigoEjercicio(),alumnoId,alumnoNombre,respuesta.getImagenRespuestaBase64(),respuesta.getDescripcionRespuesta());
+        RespuestaPersistible respuestaPersistible = new RespuestaPersistible(
+                respuesta.getCodigoCurso(),
+                respuesta.getCodigoEjercicio(),
+                respuesta.getCodigoRespuesta(),
+                alumnoId, "",
+                respuesta.getImagenRespuestaBase64(),
+                respuesta.getDescripcionRespuesta());
 
-        servicioGetUserNameAndSA(progress, alumnoId, r2);
-
-
+        servicioGetUserNameAndSA(progress, alumnoId, respuestaPersistible);
     }
 
     private void servicioGetUserNameAndSA(final ProgressDialog progress, final String alumnoId, final RespuestaPersistible respuestaP) {
@@ -148,17 +171,15 @@ public class RespuestaAddActivity extends AppCompatActivity {
 
 
     private void servicioGuardarRespuesta(final ProgressDialog progress, RespuestaPersistible respuestaP){
-
         ApiUtils.getAPIService().postRespuesta(respuestaP)
                 .enqueue(new Callback<RespuestaPersistible>() {
                     @Override
                     public void onResponse(Call<RespuestaPersistible> call, Response<RespuestaPersistible> response) {
                         if(response.isSuccessful()) {
                             Toast.makeText(RespuestaAddActivity.this, "La respuesta se guardó con éxito",Toast.LENGTH_SHORT).show();
-                            //Una vez que guarde el servicio, llamar a cargarRespuestas() para refrescar respuestas
-                          //-  EjercicioActivity.agregarRespuesta(respuesta);
-                          //-  Intent intent = new Intent(RespuestaAddActivity.this, EjercicioActivity.class);
-                          //-  startActivity(intent);
+                            EjercicioActivity.agregarRespuesta(respuesta);
+                            Intent intent = new Intent(RespuestaAddActivity.this, EjercicioActivity.class);
+                            startActivity(intent);
                         }
                         Loading.terminar(progress);
                     }

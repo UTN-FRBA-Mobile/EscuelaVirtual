@@ -1,54 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-android:layout_width="match_parent"
-android:layout_height="wrap_content"
-android:orientation="horizontal">
-
-<TextView
-    android:id="@+id/tv_ejercicio_id"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:layout_marginBottom="@dimen/activity_vertical_margin"
-    android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:background="@color/colorGreen2"
-    android:clickable="true"
-    android:fontFamily="sans-serif"
-    android:gravity="center|start"
-    android:includeFontPadding="false"
-    android:onClick="gotoEjercicio"
-    android:paddingLeft="16dp"
-    android:text="@+id/tv_ejercicio_id"
-    android:textSize="18sp" />
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="112dp"
-    android:gravity="center|end">
-    
     <ImageView
-        android:id="@+id/preview_id"
-        android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:id="@+id/iv_head"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:srcCompat="@drawable/btn_pencil_head" />
 
-    <ImageButton
-        android:id="@+id/edit_ejercicio_id"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="@color/colorGreen2"
-        android:layout_marginLeft="10dp"
-        android:onClick="trytoEditEjercicio"
-        app:srcCompat="@android:drawable/ic_menu_edit" />
+    <TextView
+        android:id="@+id/tv_ejercicio_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_toLeftOf="@+id/iv_tail"
+        android:layout_toRightOf="@+id/iv_head"
+        android:background="@drawable/btn_pencil_body"
+        android:clickable="true"
+        android:fontFamily="monospace"
+        android:gravity="center|start"
+        android:includeFontPadding="false"
+        android:onClick="gotoEjercicio"
+        android:paddingEnd="110dp"
+        android:text="@+id/tv_ejercicio_id"
+        android:textColor="@color/colorWhite"
+        android:textSize="18sp" />
 
-    <ImageButton
-        android:id="@+id/delete_ejercicio_id"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@color/colorGreen2"
-        android:onClick="trytoDeleteEjercicio"
-        app:srcCompat="@android:drawable/ic_menu_delete" />
-</LinearLayout>
+    <ImageView
+        android:id="@+id/iv_tail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:srcCompat="@drawable/btn_pencil_tail" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="center|end">
+
+        <ImageView
+            android:id="@+id/preview_id"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <ImageButton
+            android:id="@+id/edit_ejercicio_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@android:color/transparent"
+            android:onClick="trytoEditEjercicio"
+            app:srcCompat="@android:drawable/ic_menu_edit" />
+
+        <ImageButton
+            android:id="@+id/delete_ejercicio_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="5dp"
+            android:background="@android:color/transparent"
+            android:onClick="trytoDeleteEjercicio"
+            app:srcCompat="@android:drawable/ic_menu_delete" />
+    </LinearLayout>
 
 </RelativeLayout>

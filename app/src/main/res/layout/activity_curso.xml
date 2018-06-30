@@ -8,16 +8,26 @@
     tools:context="escuelavirtual.escuelavirtual.docente.CursoActivity"
     android:background="@color/colorGreen1">
 
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:background="@drawable/wall_main_mosaic"
         android:gravity="center|top"
-        android:background="@color/colorGreen1">
+        android:orientation="vertical">
 
         <include layout="@layout/toolbar_global" />
+
+        <TextView
+            android:id="@+id/cantidad_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="40dp"
+            android:background="@color/colorGreen3"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvEjercicios"
@@ -26,17 +36,5 @@
             android:layout_weight="1" />
 
     </LinearLayout>
-
-<!--    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fAButtonAddEjercicio"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/activity_vertical_margin"
-        android:clickable="true"
-        android:longClickable="false"
-        app:backgroundTint="@color/colorGreen3"
-        app:elevation="0dp"
-        app:srcCompat="@android:drawable/ic_input_add" />-->
 
 </FrameLayout>

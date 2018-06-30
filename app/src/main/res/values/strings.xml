@@ -36,9 +36,9 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="temas">Temas</string>
-    <string name="title_activity_temas">Temas</string>
+    <string name="title_activity_temas"></string>
     <string name="title_activity_ejercicio"></string>
     <string name="title_activity_curso"></string>
-    <string name="title_activity_respuesta_add">Agregar Respuesta</string>
+    <string name="title_activity_respuesta_add"></string>
 
 </resources>

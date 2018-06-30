@@ -5,42 +5,41 @@
     android:layout_height="match_parent"
     tools:context="escuelavirtual.escuelavirtual.docente.EjercicioActivity">
 
-        <LinearLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/wall_main_mosaic"
+        android:gravity="start|left"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar_global" />
+
+        <ImageView
+            android:id="@+id/image_id"
+            android:layout_width="match_parent"
+            android:layout_height="249dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="5dp" />
+
+        <TextView
+            android:id="@+id/cantidad_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:height="40dp"
+            android:background="@color/colorGreen3"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rvRespuestas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorGreen1"
-            android:gravity="start|left"
-            android:orientation="vertical">
-
-            <include layout="@layout/toolbar_global" />
-
-            <ImageView
-                android:id="@+id/image_id"
-                android:layout_width="match_parent"
-                android:layout_height="249dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                android:padding="5dp"/>
-
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Respuestas"
-                android:height="40dp"
-                android:textSize="20dp"
-                android:textColor="@color/colorWhite"
-                android:gravity="center"
-                android:background="@color/colorGreen3"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvRespuestas"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@color/colorGreen1Trans" />
 
 
-        </LinearLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>
