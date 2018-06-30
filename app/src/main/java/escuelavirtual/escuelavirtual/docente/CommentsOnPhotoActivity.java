@@ -83,7 +83,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                         for (Integer key : tagsAdded.keySet()) {
                             _final--;
                             TagView tag = tagsAdded.get(key);
-                            sendTag(key, tag, "foto_test", 0 == _final);
+                            sendTag(key, tag, respuestaSeleccionada.getImagenRespuestaBase64(), 0 == _final);
                         }
 
                 } else {
