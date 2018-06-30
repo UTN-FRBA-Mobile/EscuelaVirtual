@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -110,28 +111,53 @@ public class CursoAddActivity extends AppCompatActivity {
     }
 
     public void confirm_AddCurso(View view) {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-        alertDialogBuilder.setMessage(String.format(
-                "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
-                nombreCurso.getText()));
-        alertDialogBuilder.setPositiveButton("Sí",
-                  new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        addCursoConfirm();
-                    }
-                });
+        if(validarForm()) {
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+            alertDialogBuilder.setMessage(String.format(
+                    "Esta a punto de crear el curso:%n%s%n%n¿Confirma su creación?",
+                    nombreCurso.getText()));
+            alertDialogBuilder.setPositiveButton("Sí",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface arg0, int arg1) {
+                            addCursoConfirm();
+                        }
+                    });
 
-        alertDialogBuilder.setNegativeButton("No",
-                new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
+            alertDialogBuilder.setNegativeButton("No",
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
 
-        AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.show();
+            AlertDialog alertDialog = alertDialogBuilder.create();
+            alertDialog.show();
+        }
+    }
+
+    private boolean validarForm() {
+        String error = "error";
+        boolean validado = true;
+
+        if(nombreCurso.getText().toString() == null || nombreCurso.getText().toString().isEmpty()){
+            error = "Ingrese el nombre del curso";
+            validado = false;
+        }
+
+        if(codigoCurso.getText().toString() == null || codigoCurso.getText().toString().isEmpty()){
+            error = "Ingrese el código del curso";
+            validado = false;
+        }
+
+        if(!validado) {
+            Toast toast = Toast.makeText(this, error, Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+
+        return validado;
 
     }
 
