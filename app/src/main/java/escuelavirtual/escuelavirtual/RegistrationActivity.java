@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.iid.FirebaseInstanceId;
 
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -65,14 +67,23 @@ public class RegistrationActivity extends AppCompatActivity {
 
     public void registrar(View view) {
         if(validarRegistro()){
+
+            final ProgressDialog progress = new ProgressDialog(this);
+            progress.setMessage("Registrando sus datos...");
+            progress.setTitle("Por favor, espere...");
+            progress.setCanceledOnTouchOutside(false);
+            Loading.ejecutar(progress);
+
             email = mEmailView.getText().toString();
             String password = mPasswordView.getText().toString();
+
             //String uid =
                     mAuth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
 
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
+                            Loading.terminar(progress);
                             if (task.isSuccessful()) {
                                 updateUI(true);
                             } else {
