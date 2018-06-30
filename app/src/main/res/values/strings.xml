@@ -29,7 +29,7 @@
     <string name="title_activity_login">Escuela Virtual</string>
     <string name="bar_main_title"></string>
     <string name="bar_curso_title"></string>
-    <string name="bar_curso_add_title">EV - Agregar curso</string>
+    <string name="bar_curso_add_title"></string>
     <string name="bar_curso_edit_title">EV - Editar curso</string>
     <string name="bar_ejercicio_add_title"></string>
 

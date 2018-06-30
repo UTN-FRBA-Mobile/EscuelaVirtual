@@ -7,7 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,7 +29,8 @@ import retrofit2.Response;
 public class CursoAddActivity extends LogoutableActivity {
 
     private EditText etCursoCode;
-    private TextView tvCursoDetail;
+    private TextView codigoCursoEncontrado;
+    private TextView descripcionCursoEncontrado;
     private CursoPersistible cursoASuscribir;
     private FloatingActionButton fabFindCurso;
     private FloatingActionButton fabConfirmAddCurso;
@@ -39,7 +42,8 @@ public class CursoAddActivity extends LogoutableActivity {
         setContentView(R.layout.activity_curso_add_a);
 
         etCursoCode = (EditText) findViewById(R.id.et_curso_code_id);
-        tvCursoDetail = (TextView) findViewById(R.id.tv_curso_detail_id);
+        codigoCursoEncontrado = (TextView) findViewById(R.id.codigo_curso_found_id);
+        descripcionCursoEncontrado = (TextView) findViewById(R.id.desc_curso_found_id);
         fabFindCurso = (FloatingActionButton) findViewById(R.id.fabFindCurso_id);
         fabConfirmAddCurso = (FloatingActionButton) findViewById(R.id.fabConfirmCurso_id);
         fabCancelAddCurso = (FloatingActionButton) findViewById(R.id.fabCancelCurso_id);
@@ -49,6 +53,21 @@ public class CursoAddActivity extends LogoutableActivity {
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_global_id);
         setSupportActionBar(myToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        ((TextView) findViewById(R.id.main_title_id)).setText("Suscribirse a un curso");
+
+        EventoTeclado keyboard = new EventoTeclado();
+        etCursoCode.setOnEditorActionListener(keyboard);
+    }
+
+    class EventoTeclado implements TextView.OnEditorActionListener{
+        @Override
+        public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+            if(actionId == EditorInfo.IME_ACTION_DONE){
+                find_Curso(null);
+            }
+            return false;
+        }
     }
 
 
@@ -71,7 +90,8 @@ public class CursoAddActivity extends LogoutableActivity {
                         Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             cursoASuscribir = response.body();
-                            tvCursoDetail.setText(response.body().getDescripcion());
+                            codigoCursoEncontrado.setText(response.body().getCurso());
+                            descripcionCursoEncontrado.setText(response.body().getDescripcion());
                             showFind(false);
                         } else {
                             Toast.makeText(CursoAddActivity.this, "No se encontró ningún curso que coincida con su búsqueda.", Toast.LENGTH_SHORT).show();
@@ -171,7 +191,11 @@ public class CursoAddActivity extends LogoutableActivity {
     }
 
     private void showFind(boolean mostrar){
-        tvCursoDetail.setVisibility(mostrar?View.GONE:View.VISIBLE);
+        (findViewById(R.id.codigo_curso_found_label_id)).setVisibility(mostrar?View.GONE:View.VISIBLE);
+        codigoCursoEncontrado.setVisibility(mostrar?View.GONE:View.VISIBLE);
+        (findViewById(R.id.desc_curso_found_label_id)).setVisibility(mostrar?View.GONE:View.VISIBLE);
+        descripcionCursoEncontrado.setVisibility(mostrar?View.GONE:View.VISIBLE);
+
         fabFindCurso.setVisibility(mostrar?View.VISIBLE:View.GONE);
         fabConfirmAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);
         fabCancelAddCurso.setVisibility(mostrar?View.GONE:View.VISIBLE);

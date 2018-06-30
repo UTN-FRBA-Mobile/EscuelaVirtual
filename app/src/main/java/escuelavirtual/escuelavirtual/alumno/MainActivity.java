@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -89,6 +88,7 @@ public class MainActivity extends LogoutableActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvCursos);
         recyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterCurso(cursos, MainActivity.this));
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de cursos: " + cursos.size());
     }
 
     @Override
