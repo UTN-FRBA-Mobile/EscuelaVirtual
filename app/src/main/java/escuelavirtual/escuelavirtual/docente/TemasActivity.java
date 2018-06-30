@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.ModelAdapterTema;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.alumno.CursoActivity;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -221,6 +223,15 @@ public class TemasActivity extends AppCompatActivity {
         mEditTemaText.setText("");
     }
 
+    private ProgressDialog iniciarProgress(String mensaje){
+        final ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage(mensaje);
+        progress.setTitle("Por favor, espere...");
+        progress.setCanceledOnTouchOutside(false);
+        Loading.ejecutar(progress);
+
+        return progress;
+    }
 
     /**
      * FUNCIONES DE PERSISTENCIA (SERVICIO)
@@ -228,10 +239,13 @@ public class TemasActivity extends AppCompatActivity {
 
     private void persistirDeleteTema(String uid,final String tema) {
 
+        final ProgressDialog progress = iniciarProgress("Eliminando tema...");
+
         ApiUtils.getAPIService().deleteTema(new TemaPersistible(tema,uid))
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             //Toast.makeText(TemasActivity.this, "El tema ha sido eliminado.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(TemasActivity.this, "Tema eliminado: " + tema, Toast.LENGTH_SHORT).show();
@@ -251,10 +265,12 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void persistirUpdateTema(String uid,final String viejo,final String nuevo) {
+        final ProgressDialog progress = iniciarProgress("Guardando tema...");
         ApiUtils.getAPIService().updateTemas(viejo,nuevo,uid)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             Toast.makeText(TemasActivity.this, "Tema actualizado: " + nuevo, Toast.LENGTH_SHORT).show();
                             Integer temaEditado = temas.indexOf(viejo);
@@ -272,10 +288,12 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void persistirAddTema(String uid,final String tema) {
+        final ProgressDialog progress = iniciarProgress("Guardando tema...");
         ApiUtils.getAPIService().guardarTemas(tema,uid)
                 .enqueue(new Callback<String>() {
                     @Override
                     public void onResponse(Call<String> call, Response<String> response) {
+                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             //Toast.makeText(TemasActivity.this, "Se ha guardado el tema exitosamente.",Toast.LENGTH_SHORT).show();
                             Toast.makeText(TemasActivity.this, "Tema agregado: " + tema, Toast.LENGTH_SHORT).show();
@@ -336,10 +354,12 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void getTemasFromService(String uid) {
+        final ProgressDialog progress = iniciarProgress("Cargando temas...");
         ApiUtils.getAPIService().getTema(uid)
                 .enqueue(new Callback<List<TemaPersistible>>() {
                     @Override
                     public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
+                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             List<TemaPersistible> lista = response.body();
                             for (TemaPersistible tema : lista) {
