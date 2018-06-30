@@ -202,7 +202,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         });
 
         ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
-        getCommentsTag(respuestaSeleccionada.getCodigoRespuesta());
+        getCommentsTag(respuestaSeleccionada.getImagenRespuestaBase64());
     }
 
     private Bitmap base64ToBitMap(String base64){
@@ -252,6 +252,11 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
     }
 
     private void getCommentsTag(String foto) {
+        final ProgressDialog progress = new ProgressDialog(CommentsOnPhotoActivity.this);
+        progress.setMessage("Buscando...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle("Aguarde un instante...");
+        Loading.ejecutar(progress);
         RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
         ViewsController.setBaseImageLayout(baseImageLayout);
         ViewsController.turnOffCommentBox();
@@ -262,6 +267,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<List<Tag>> call, Response<List<Tag>> response) {
                         if(response.isSuccessful()) {
+                            Loading.terminar(progress);
                             List<Tag> lista = response.body();
                             for (Tag tag : lista) {
                                 TagView tagView = new TagView(ViewsController.getBaseImage().getContext(), tag);
@@ -283,6 +289,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<List<Tag>> call, Throwable t) {
+                        Loading.terminar(progress);
                         //Toast.makeText(CommentsOnPhotoActivity.this, t.getMessage(),Toast.LENGTH_LONG).show();
                     }
                 });
