@@ -15,8 +15,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/wall_main_mosaic"
         android:gravity="top"
-        android:orientation="vertical"
-        android:weightSum="100">
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
@@ -24,7 +23,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Código del ejercicio"
-            android:textSize="18dp" />
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
 
         <EditText
             android:id="@+id/codigo_ejercicio_id"
@@ -61,7 +62,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Ingresá el tema que aborda el ejercicio"
-            android:textSize="18dp" />
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"/>
 
         <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/tema_id"
