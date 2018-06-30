@@ -58,7 +58,7 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
         super.onOptionsItemSelected(item);
         switch (item.getItemId()){
             case R.id.menu_add_respuesta_id:
-                {crearRespuesta(this);}
+                {crearRespuesta(this); return false;}
             case R.id.action_logout:
             {confirm_logout(this); return false;}
             default:
