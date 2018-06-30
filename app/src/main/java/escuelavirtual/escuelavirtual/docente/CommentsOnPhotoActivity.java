@@ -1,6 +1,7 @@
 package escuelavirtual.escuelavirtual.docente;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -32,6 +33,8 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
+import escuelavirtual.escuelavirtual.alumno.CursoAddActivity;
+import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
@@ -217,6 +220,11 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
 
     //Eric
     public void sendTag(final Integer key, final TagView tag, String foto, final boolean _final) {
+        final ProgressDialog progress = new ProgressDialog(CommentsOnPhotoActivity.this);
+        progress.setMessage("Guardando...");
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle("Aguarde un instante...");
+        Loading.ejecutar(progress);
         mAPIService.saveTag(tag.getCentralPositionOfTag(), tag.getLeftMargin(), tag.getTopMargin(),tag.getNumberOfTag(),tag.getComment(),foto)
                 .enqueue(new Callback<String>() {
                     @Override
@@ -228,12 +236,17 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                             }else{
                                 if(_final) Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
                             }
+
+                            Loading.terminar(progress);
+
                         }
                     }
 
                     @Override
                     public void onFailure(Call<String> call, Throwable t) {
                         Toast.makeText(CommentsOnPhotoActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
+                        Loading.terminar(progress);
+
                     }
                 });
     }

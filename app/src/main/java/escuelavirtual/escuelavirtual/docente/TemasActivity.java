@@ -24,6 +24,7 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.ModelAdapterTema;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.alumno.CursoActivity;
+import escuelavirtual.escuelavirtual.alumno.CursoAddActivity;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
@@ -94,7 +95,7 @@ public class TemasActivity extends AppCompatActivity {
                 }
         });
 
-        getTemas();
+        if (temas.isEmpty()) getTemas();
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTemas);
         recyclerView.setLayoutManager(new LinearLayoutManager(TemasActivity.this, LinearLayoutManager.VERTICAL, false));
@@ -319,6 +320,7 @@ public class TemasActivity extends AppCompatActivity {
         }else{
             docente = FirebaseAuth.getInstance().getCurrentUser().getUid();
         }
+
         ApiUtils.getAPIService().getTema(docente)
                 .enqueue(new Callback<List<TemaPersistible>>() {
                     @Override
@@ -368,6 +370,7 @@ public class TemasActivity extends AppCompatActivity {
                             ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
                             updateListaTemas();
                         }
+
                     }
 
                     @Override

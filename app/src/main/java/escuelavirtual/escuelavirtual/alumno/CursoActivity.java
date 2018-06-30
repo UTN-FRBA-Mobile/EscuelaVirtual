@@ -38,6 +38,8 @@ public class CursoActivity extends LogoutableActivity {
     private static Curso cursoSeleccionado;
     private static AutoCompleteTextView temaEjercicioTextView;
 
+
+
     public static Curso getCursoSeleccionado() {
         return cursoSeleccionado;
     }
@@ -65,6 +67,7 @@ public class CursoActivity extends LogoutableActivity {
 
         temaEjercicioTextView = (AutoCompleteTextView) findViewById(R.id.tema_id);
         this.disableTema();
+
         TemasActivity.getTemasAvailable(this, null);
 
         cargarEjercicios();
