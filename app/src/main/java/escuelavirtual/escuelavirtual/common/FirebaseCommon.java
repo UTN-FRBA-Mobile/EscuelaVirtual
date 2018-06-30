@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 
 import com.google.firebase.auth.FirebaseAuth;
 
 import escuelavirtual.escuelavirtual.LoginActivity;
+import escuelavirtual.escuelavirtual.R;
 
 /**
  * Funciones comunes a la aplicación completa

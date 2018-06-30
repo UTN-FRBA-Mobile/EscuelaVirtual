@@ -62,7 +62,8 @@ public class CursoActivity extends AppCompatActivity {
         if(ejercicios.isEmpty()){
             final ProgressDialog progress = new ProgressDialog(CursoActivity.this);
             progress.setMessage("Cargando sus ejercicios....");
-            progress.setTitle("Por favor Espere");
+            progress.setCanceledOnTouchOutside(false);
+            progress.setTitle("Por favor, espere");
             Loading.ejecutar(progress);
             cargarEjercicios(progress);
         }else{
@@ -195,6 +196,7 @@ public class CursoActivity extends AppCompatActivity {
     private void eliminarEjercicio(final EjercicioPersistible ejercicioPersistible) {
         final ProgressDialog progress = new ProgressDialog(CursoActivity.this);
         progress.setMessage("Eliminando....");
+        progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Eliminando el ejercicio:  " + ejercicioPersistible.getCodigoEjercicio());
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().deleteEjercicio(ejercicioPersistible)

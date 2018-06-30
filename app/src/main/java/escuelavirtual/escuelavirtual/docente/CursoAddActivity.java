@@ -164,6 +164,7 @@ public class CursoAddActivity extends AppCompatActivity {
     private void addCursoConfirm() {
         final ProgressDialog progress = new ProgressDialog(CursoAddActivity.this);
         progress.setMessage("Guardando....");
+        progress.setCanceledOnTouchOutside(false);
         progress.setTitle("Guardando el curso:  " + nombreCurso.getText().toString());
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().guardarCurso(codigoCurso.getText().toString(), nombreCurso.getText().toString(),null,FirebaseAuth.getInstance().getCurrentUser().getUid())

@@ -25,6 +25,7 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.common.LogoutableActivity;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import escuelavirtual.escuelavirtual.docente.TemasActivity;
@@ -32,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CursoActivity extends AppCompatActivity {
+public class CursoActivity extends LogoutableActivity {
 
     static final List<Ejercicio> ejercicios = new ArrayList<>();
     private static Curso cursoSeleccionado;
@@ -181,7 +182,7 @@ public class CursoActivity extends AppCompatActivity {
     public void gotoEjercicio(View button) {
         EjercicioActivity.setEjercicioSeleccionado(this.findExerciseSelected(button));
         EjercicioActivity.setCursoSeleccionado(cursoSeleccionado);
-        Intent intent = new Intent(button.getContext(), EjercicioActivity.class);
+        Intent intent = new Intent(this, EjercicioActivity.class);
         startActivity(intent);
     }
 

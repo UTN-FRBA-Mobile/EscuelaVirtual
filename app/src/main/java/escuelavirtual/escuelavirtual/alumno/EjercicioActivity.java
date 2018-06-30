@@ -19,6 +19,8 @@ import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.docente.CommentsOnPhotoActivity_a;
 
+import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
+
 public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.EjercicioActivity {
 
     @Override
@@ -57,6 +59,8 @@ public class EjercicioActivity extends escuelavirtual.escuelavirtual.docente.Eje
         switch (item.getItemId()){
             case R.id.menu_add_respuesta_id:
                 {crearRespuesta(this);}
+            case R.id.action_logout:
+            {confirm_logout(this); return false;}
             default:
                 return false;
         }

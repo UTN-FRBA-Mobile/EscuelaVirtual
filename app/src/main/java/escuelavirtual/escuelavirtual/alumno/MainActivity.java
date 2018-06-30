@@ -25,6 +25,7 @@ import escuelavirtual.escuelavirtual.LoginActivity;
 import escuelavirtual.escuelavirtual.ModelAdapterCurso;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.common.LogoutableActivity;
 import escuelavirtual.escuelavirtual.data.CursoPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -33,7 +34,7 @@ import retrofit2.Response;
 
 import static escuelavirtual.escuelavirtual.common.FirebaseCommon.confirm_logout;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends LogoutableActivity {
 
     static List<Curso> cursos = new ArrayList<>();
 

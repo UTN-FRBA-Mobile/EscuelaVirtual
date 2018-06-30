@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(cursos.isEmpty()){
             final ProgressDialog progress = new ProgressDialog(MainActivity.this);
-            progress.setMessage("Cargando sus cursos....");
-            progress.setTitle("Por favor Espere");
+            progress.setMessage("Cargando sus cursos...");
+            progress.setCanceledOnTouchOutside(false);
+            progress.setTitle("Por favor, espere");
             Loading.ejecutar(progress);
             cargarCursos(progress);
         }else{
@@ -192,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         final ProgressDialog progress = new ProgressDialog(MainActivity.this);
         progress.setMessage("Eliminando....");
         progress.setTitle("Eliminando el curso:  " + cursoPersistible.getDescripcion());
+        progress.setCanceledOnTouchOutside(false);
         Loading.ejecutar(progress);
         ApiUtils.getAPIService().deleteCurso(cursoPersistible)
                 .enqueue(new Callback<String>() {
