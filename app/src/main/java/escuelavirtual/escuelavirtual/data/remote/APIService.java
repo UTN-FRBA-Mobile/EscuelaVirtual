@@ -62,14 +62,7 @@ public interface APIService {
             @Query("codCurso") String codigoCurso,
             @Query("codEjercicio") String codigoEjercicio
     );
-
-    @GET("/get_respuestas_alumno")
-    Call<List<RespuestaPersistible>> getRespuestasAlu(
-            @Query("codCurso") String codigoCurso,
-            @Query("codEjercicio") String codigoEjercicio,
-            @Query("nomAlumno") String nomAlumno
-            );
-
+    
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
     Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);
