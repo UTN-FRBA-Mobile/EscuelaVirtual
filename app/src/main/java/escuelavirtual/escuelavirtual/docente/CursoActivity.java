@@ -81,13 +81,13 @@ public class CursoActivity extends AppCompatActivity {
     }
 
     private void cargarEjercicios() {
-        ejercicios.removeAll(ejercicios);
         swipeRefreshLayout.setRefreshing(true);
         ApiUtils.getAPIService().getEjercicios(FirebaseAuth.getInstance().getCurrentUser().getUid(),cursoSeleccionado.getCodigo())
                 .enqueue(new Callback<List<EjercicioPersistible>>() {
                     @Override
                     public void onResponse(Call<List<EjercicioPersistible>> call, Response<List<EjercicioPersistible>> response) {
                         if(response.isSuccessful()) {
+                            ejercicios.clear();
                             List<EjercicioPersistible> lista = response.body();
                             for (EjercicioPersistible ejercicio : lista) {
                                 ejercicios.add(new Ejercicio(ejercicio.getCodigoEjercicio(), ejercicio.getImagenBase64(), ejercicio.getTema()));

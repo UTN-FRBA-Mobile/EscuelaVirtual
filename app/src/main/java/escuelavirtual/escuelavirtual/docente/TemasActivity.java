@@ -212,6 +212,7 @@ public class TemasActivity extends AppCompatActivity {
      * Actualiza lista de temas. Generica para todas las acciones que involucren servicios
      */
     private void updateListaTemas() {
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
         mAdapter.notifyDataSetChanged();
         closeTema();
     }
@@ -378,10 +379,10 @@ public class TemasActivity extends AppCompatActivity {
                     public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
                         if(response.isSuccessful()) {
                             List<TemaPersistible> lista = response.body();
+                            temas.clear();
                             for (TemaPersistible tema : lista) {
                                 temas.add(tema.getTema());
                             }
-                            ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
                             updateListaTemas();
                         }
                         swipeRefreshLayout.setRefreshing(false);

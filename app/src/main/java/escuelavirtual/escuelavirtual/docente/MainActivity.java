@@ -75,12 +75,12 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<List<CursoPersistible>> call, Response<List<CursoPersistible>> response) {
                         if(response.isSuccessful()) {
                             List<CursoPersistible> lista = response.body();
+                            cursos.clear();
                             for (CursoPersistible cursoP : lista) {
                                 cursos.add(new Curso(cursoP.getCurso(),cursoP.getDescripcion(), cursoP.getDocente(), cursoP.getEjecicioList()));
                             }
                             updateCursos();
                             swipeRefreshLayout.setRefreshing(false);
-
                         }
                     }
 
