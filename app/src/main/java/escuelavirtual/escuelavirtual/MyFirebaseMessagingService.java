@@ -12,8 +12,6 @@ import android.util.Log;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import escuelavirtual.escuelavirtual.docente.MainActivity;
-
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     private static final String TAG = "FirebaseMessagingServce";

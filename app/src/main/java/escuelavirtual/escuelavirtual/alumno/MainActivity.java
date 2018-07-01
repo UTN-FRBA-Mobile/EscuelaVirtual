@@ -100,6 +100,7 @@ public class MainActivity extends LogoutableActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        cargarCursos();
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

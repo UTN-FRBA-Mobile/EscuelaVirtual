@@ -1,6 +1,5 @@
 package escuelavirtual.escuelavirtual.alumno;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -24,7 +23,6 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterEjercicio;
 import escuelavirtual.escuelavirtual.R;
-import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.common.LogoutableActivity;
 import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.EjercicioPersistible;
@@ -128,6 +126,7 @@ public class CursoActivity extends LogoutableActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 
         if("".equals(temaEjercicioTextView.getText().toString())){
+            ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de ejercicios: " + ejercicios.size());
             recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
         }else{
             List<Ejercicio> ejerciciosFiltrados = new ArrayList<>();
@@ -137,6 +136,7 @@ public class CursoActivity extends LogoutableActivity {
                 }
             }
 
+            ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de ejercicios: " + ejerciciosFiltrados.size());
             recyclerView.setAdapter(new ModelAdapterEjercicio(ejerciciosFiltrados).setFromAlumno());
         }
 
@@ -184,6 +184,7 @@ public class CursoActivity extends LogoutableActivity {
         final RecyclerView recyclerView = (RecyclerView) findViewById(R.id.rvEjercicios);
         recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(new ModelAdapterEjercicio(ejercicios).setFromAlumno());
+        ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de ejercicios: " + ejercicios.size());
     }
 
     @Override

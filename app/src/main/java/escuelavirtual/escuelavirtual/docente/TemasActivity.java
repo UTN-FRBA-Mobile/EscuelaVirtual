@@ -25,7 +25,6 @@ import java.util.List;
 import escuelavirtual.escuelavirtual.ModelAdapterTema;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.alumno.CursoActivity;
-import escuelavirtual.escuelavirtual.alumno.CursoAddActivity;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;

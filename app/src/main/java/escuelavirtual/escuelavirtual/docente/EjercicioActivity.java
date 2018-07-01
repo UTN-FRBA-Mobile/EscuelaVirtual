@@ -1,6 +1,5 @@
 package escuelavirtual.escuelavirtual.docente;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,8 +26,6 @@ import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.ModelAdapterRespuesta;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
-import escuelavirtual.escuelavirtual.alumno.MainActivity;
-import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;

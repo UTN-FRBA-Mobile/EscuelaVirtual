@@ -15,52 +15,75 @@
         android:orientation="vertical">
 
         <include layout="@layout/toolbar_global" />
-        <android.support.v4.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/main_swipe_refresh"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/rvEjercicios"
-                android:layout_width="match_parent"
-                android:layout_height="340dp"
-                android:layout_weight="1" />
-        </android.support.v4.widget.SwipeRefreshLayout>
-        <LinearLayout
+
+        <TextView
+            android:id="@+id/cantidad_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:height="40dp"
+            android:background="@color/colorGreen3"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="20dp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             android:gravity="start"
-            android:orientation="horizontal">
+            android:weightSum="100">
 
-            <TextView
+            <android.support.v4.widget.SwipeRefreshLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/main_swipe_refresh"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Filtrar por tema"
-                android:textColor="@color/colorBlack"
-                android:textSize="20dp"
-                android:textStyle="bold"/>
+                android:layout_height="0dp"
+                android:layout_weight="70">
 
-            <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/tema_id"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvEjercicios"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@drawable/rounded_text_comment_box"
-                android:gravity="top|start"
-                android:hint="Ingresá el tema"
-                android:imeOptions="actionDone"
-                android:maxLength="48"
-                android:maxLines="1"
-                android:paddingBottom="10dp"
-                android:paddingEnd="10dp"
-                android:paddingStart="10dp"
-                android:paddingTop="15dp"
-                android:singleLine="true"
-                android:textColorHint="@color/colorGreyCommentSection"
-                android:textSize="20dp" />
+                android:layout_height="0dp"
+                android:layout_weight="40"
+                android:gravity="start"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Filtrar por tema"
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20dp"
+                    android:textStyle="bold"/>
+
+                <AutoCompleteTextView xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/tema_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_text_comment_box"
+                    android:gravity="top|start"
+                    android:hint="Ingresá el tema"
+                    android:imeOptions="actionDone"
+                    android:maxLength="48"
+                    android:maxLines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="15dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/colorGreyCommentSection"
+                    android:textSize="20dp" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>

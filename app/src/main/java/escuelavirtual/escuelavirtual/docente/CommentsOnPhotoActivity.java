@@ -33,7 +33,6 @@ import escuelavirtual.escuelavirtual.Curso;
 import escuelavirtual.escuelavirtual.Ejercicio;
 import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
-import escuelavirtual.escuelavirtual.alumno.CursoAddActivity;
 import escuelavirtual.escuelavirtual.common.Loading;
 import escuelavirtual.escuelavirtual.data.Tag;
 import escuelavirtual.escuelavirtual.data.remote.APIService;
