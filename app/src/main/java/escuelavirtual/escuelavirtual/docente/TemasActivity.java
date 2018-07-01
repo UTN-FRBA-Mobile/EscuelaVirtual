@@ -98,6 +98,7 @@ public class TemasActivity extends AppCompatActivity {
                 }
         });
 
+        setSwipeRefresher();
         if (temas.isEmpty()) getTemas();
 
         recyclerView = (RecyclerView) findViewById(R.id.rvTemas);
@@ -119,7 +120,7 @@ public class TemasActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(mAdapter);
-        setSwipeRefresher();
+
     }
 
     private void setSwipeRefresher() {
