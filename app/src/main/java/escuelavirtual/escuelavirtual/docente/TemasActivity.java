@@ -152,7 +152,13 @@ public class TemasActivity extends AppCompatActivity {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getTemas();
+                //Si no hay temas, recupero de servicio.
+                //Si ya hay temas, no recupero de servicio para notener problemas de delay en la actualizacion del listado
+                if(temas.size()==0){
+                    getTemas();
+                }else{
+                    swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
     }
