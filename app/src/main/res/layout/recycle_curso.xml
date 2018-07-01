@@ -31,6 +31,7 @@
         android:includeFontPadding="false"
         android:onClick="gotoCurso"
         android:paddingEnd="50dp"
+        android:paddingStart="5dp"
         android:text="@+id/tv_curso_id"
         android:textColor="@color/colorWhite"
         android:textSize="18sp" />

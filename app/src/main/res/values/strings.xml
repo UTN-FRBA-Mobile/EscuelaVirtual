@@ -33,6 +33,7 @@
     <string name="bar_curso_edit_title">EV - Editar curso</string>
     <string name="bar_ejercicio_add_title"></string>
 
+    <string name="orientation">Portrait</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="temas">Temas</string>

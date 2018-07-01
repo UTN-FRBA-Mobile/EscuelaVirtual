@@ -31,7 +31,7 @@
         </activity>
         <activity
             android:name=".RegistrationActivity"
-            android:label="Registración"
+            android:label=" "
             android:parentActivityName=".LoginActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->

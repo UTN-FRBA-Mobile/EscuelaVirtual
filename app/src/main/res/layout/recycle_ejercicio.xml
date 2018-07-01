@@ -31,6 +31,7 @@
         android:includeFontPadding="false"
         android:onClick="gotoEjercicio"
         android:paddingEnd="110dp"
+        android:paddingStart="5dp"
         android:text="@+id/tv_ejercicio_id"
         android:textColor="@color/colorWhite"
         android:textSize="18sp" />

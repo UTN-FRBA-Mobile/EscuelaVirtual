@@ -26,11 +26,11 @@
         android:layout_toRightOf="@+id/iv_head"
         android:background="@drawable/btn_pencil_body"
         android:clickable="true"
-        android:fontFamily="sans-serif-smallcaps"
+        android:fontFamily="sans-serif-condensed"
         android:gravity="center|start"
         android:includeFontPadding="false"
         android:onClick="goToRespuesta"
-        android:paddingLeft="16dp"
+        android:paddingStart="5dp"
         android:text="@+id/tv_curso_id"
         android:textColor="@color/colorWhite"
         android:textSize="18sp" />
