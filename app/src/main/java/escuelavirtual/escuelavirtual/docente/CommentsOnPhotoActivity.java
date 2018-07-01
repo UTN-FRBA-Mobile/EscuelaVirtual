@@ -127,7 +127,9 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         ViewsController.getInfoDetailButton().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast toast = Toast.makeText(view.getContext(), "Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio() + "\nRespuesta: " + respuestaSeleccionada.getCodigoRespuesta() + "\nAlumno: " + respuestaSeleccionada.getNombreAlumno(), Toast.LENGTH_LONG);
+                String comentarios = "";
+                if(!respuestaSeleccionada.getDescripcionRespuesta().isEmpty() && respuestaSeleccionada != null) comentarios = respuestaSeleccionada.getDescripcionRespuesta();
+                Toast toast = Toast.makeText(view.getContext(), "Ejercicio: " + ejercicioSeleccionado.getCodigoEjercicio() + "\nRespuesta: " + respuestaSeleccionada.getCodigoRespuesta() + "\nAlumno: " + respuestaSeleccionada.getNombreAlumno() + "\nComentarios: " + comentarios, Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
