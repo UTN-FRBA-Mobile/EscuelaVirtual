@@ -78,19 +78,63 @@
 
         </RelativeLayout>
 
-        <android.support.v4.widget.SwipeRefreshLayout
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/main_swipe_refresh"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            >
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/rvTemas"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
-        </android.support.v4.widget.SwipeRefreshLayout>
+            android:orientation="vertical">
 
+            <android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/main_swipe_refresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="70">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/rvTemas"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+            </android.support.v4.widget.SwipeRefreshLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="107dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="40"
+                android:gravity="start"
+                android:orientation="horizontal"
+                android:id="@+id/busq_tema_layout">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:text="Filtrar: "
+                    android:textColor="@color/colorBlack"
+                    android:textSize="20dp"
+                    android:textStyle="bold" />
+
+                <EditText xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/busq_tema_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/rounded_text_comment_box"
+                    android:gravity="top|start"
+                    android:hint="Buscar tema..."
+                    android:imeOptions="actionDone"
+                    android:maxLength="48"
+                    android:maxLines="1"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="10dp"
+                    android:paddingStart="10dp"
+                    android:paddingTop="8dp"
+                    android:singleLine="true"
+                    android:textColorHint="@color/colorGreyCommentSection"
+                    android:textSize="20dp" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 
 

@@ -8,9 +8,4 @@
         android:title="Agregar Tema"
         app:showAsAction="ifRoom"/>
 
-    <item
-        android:id="@+id/menu_filtrar_tema_id"
-        android:icon="@android:drawable/ic_menu_search"
-        android:title="Filtrar Tema"
-        app:showAsAction="ifRoom"/>
 </menu>

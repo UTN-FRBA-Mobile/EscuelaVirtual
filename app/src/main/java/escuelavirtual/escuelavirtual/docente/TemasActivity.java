@@ -9,11 +9,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,14 +47,17 @@ public class TemasActivity extends AppCompatActivity {
     ModelAdapterTema mAdapter;
     View mEditTema;
     ImageButton mSaveTema;
+    private EditText mBusqTema;
 
     EditText mEditTemaText;
     List<String> temas;
+    List<String> temasFiltrados;
     private static List<String> temasDisponibles;
     private static Boolean temasObtenidos = false;
 
     String selectedTema;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private LinearLayout mBusqTemaLayout;
 
     public static List<String> getTemasDisponibles() {
         return temasDisponibles;
@@ -64,6 +71,8 @@ public class TemasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         temas = new ArrayList<String>();
+        temasFiltrados = new ArrayList<String>();
+
         selectedTema = "";
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_temas);
@@ -103,13 +112,13 @@ public class TemasActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.rvTemas);
         recyclerView.setLayoutManager(new LinearLayoutManager(TemasActivity.this, LinearLayoutManager.VERTICAL, false));
 
-        mAdapter = new ModelAdapterTema(temas,new ModelAdapterTema.ClickListener() {
+        mAdapter = new ModelAdapterTema(temasFiltrados,new ModelAdapterTema.ClickListener() {
             @Override public void onPositionClicked(View v,int position) {
                 if(v.getId() == R.id.ibtn_edit_tema_id){
-                    openTema(temas.get(position));
+                    openTema(temasFiltrados.get(position));
                 }
                 if(v.getId() == R.id.ibtn_delete_tema_id) {
-                    delete_tema(temas.get(position));
+                    delete_tema(temasFiltrados.get(position));
                 }
             }
 
@@ -119,6 +128,22 @@ public class TemasActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(mAdapter);
+
+        mBusqTemaLayout = (LinearLayout) findViewById(R.id.busq_tema_layout);
+        mBusqTema = (EditText) findViewById(R.id.busq_tema_id);
+        mBusqTema.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {            }
+            @Override
+            public void afterTextChanged(Editable editable) {            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                filtrarTemas(charSequence);
+                mAdapter.notifyDataSetChanged();
+            }
+
+        });
 
     }
 
@@ -165,7 +190,28 @@ public class TemasActivity extends AppCompatActivity {
      * @param tema nuevo tema
      */
     private void add_tema(String tema) {
-        persistirAddTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
+        if(validarTemasRepetidos(tema)){
+            persistirAddTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),tema);
+        }
+
+
+    }
+
+
+    private boolean validarTemasRepetidos(String temaModificado, String tema) {
+        if(temas.contains(tema) && !tema.equals(temaModificado)){
+            Toast.makeText(this, "El tema ya existe", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if(tema.isEmpty() || tema == null){
+            Toast.makeText(this, "El tema no puede ser vacío", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean validarTemasRepetidos(String tema) {
+        return validarTemasRepetidos("",tema);
     }
 
     /**
@@ -174,7 +220,9 @@ public class TemasActivity extends AppCompatActivity {
      * @param nuevo nombre del nuevo tema
      */
     private void update_tema(String viejo, String nuevo){
-        persistirUpdateTema(FirebaseAuth.getInstance().getCurrentUser().getUid(),viejo,nuevo);
+        if(validarTemasRepetidos(viejo,nuevo)) {
+            persistirUpdateTema(FirebaseAuth.getInstance().getCurrentUser().getUid(), viejo, nuevo);
+        }
     }
 
     /**
@@ -211,6 +259,8 @@ public class TemasActivity extends AppCompatActivity {
      * Actualiza lista de temas. Generica para todas las acciones que involucren servicios
      */
     private void updateListaTemas() {
+        mBusqTema.setText("");
+        filtrarTemas(mBusqTema.getText().toString());
         ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
         mAdapter.notifyDataSetChanged();
         closeTema();
@@ -225,6 +275,9 @@ public class TemasActivity extends AppCompatActivity {
      * @param t Si es vacío se trata de un new, si contiene valor se trata de un update
      */
     private void openTema(String t) {
+        mBusqTema.setText("");
+        updateListaTemas();
+        mBusqTemaLayout.setVisibility(GONE);
         selectedTema = t;
         mEditTemaText.setText(selectedTema);
         mEditTema.setVisibility(VISIBLE);
@@ -232,11 +285,14 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     /**
-     * Oculta el editor de tema
+     * Oculta el editor de tema y keyboard
      */
     public void closeTema() {
         mEditTema.setVisibility(GONE);
         mEditTemaText.setText("");
+        InputMethodManager keyboard = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        keyboard.hideSoftInputFromWindow(mEditTemaText.getWindowToken(), 0);
+        mBusqTemaLayout.setVisibility(VISIBLE);
     }
 
     private ProgressDialog iniciarProgress(String mensaje){
@@ -247,6 +303,15 @@ public class TemasActivity extends AppCompatActivity {
         Loading.ejecutar(progress);
 
         return progress;
+    }
+
+    private void filtrarTemas(CharSequence charSequence) {
+        temasFiltrados.clear();
+        for (String tema : temas) {
+            if(tema.toLowerCase().contains(charSequence.toString().toLowerCase())){
+                temasFiltrados.add(tema);
+            }
+        }
     }
 
     /**
