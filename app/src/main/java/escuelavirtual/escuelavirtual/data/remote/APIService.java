@@ -32,7 +32,7 @@ public interface APIService {
                       @Field("comment") String comment,
                       @Field("foto") String foto);
 
-    @GET("/get_tag")
+    @GET("/get_tag2")
     Call<List<Tag>> getTag(@Query("ruta") String ruta);
 
 
@@ -62,7 +62,7 @@ public interface APIService {
             @Query("codCurso") String codigoCurso,
             @Query("codEjercicio") String codigoEjercicio
     );
-    
+
 
     @HTTP(method = "DELETE", path = "/delete_cursos", hasBody = true)
     Call<String> deleteCurso(@Body CursoPersistible cursoPersistible);

@@ -86,7 +86,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
                         for (Integer key : tagsAdded.keySet()) {
                             _final--;
                             TagView tag = tagsAdded.get(key);
-                            String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getNombreAlumno();
+                            String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getIdAlumno();
                             sendTag(key, tag, respuestaSeleccionada.getImagenRespuestaBase64(), 0 == _final, ruta);
                         }
 
@@ -267,7 +267,7 @@ public class CommentsOnPhotoActivity extends AppCompatActivity {
         ViewsController.setBaseImageLayout(baseImageLayout);
         ViewsController.turnOffCommentBox();
         tagsAdded = new HashMap<>();
-        String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getNombreAlumno();
+        String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getIdAlumno();
         mAPIService.getTag(ruta)
                .enqueue(new Callback<List<Tag>>() {
                     @Override
