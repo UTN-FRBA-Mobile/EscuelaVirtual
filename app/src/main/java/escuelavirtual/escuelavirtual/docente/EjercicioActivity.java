@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -28,6 +29,7 @@ import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.Respuesta;
 import escuelavirtual.escuelavirtual.alumno.MainActivity;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.RespuestaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -43,6 +45,7 @@ public class EjercicioActivity extends AppCompatActivity {
     protected static List<Respuesta> respuestas = new ArrayList<>();
     protected static Curso cursoSeleccionado;
     protected static Ejercicio ejercicioSeleccionado;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static Curso getCursoSeleccionado() {
         return cursoSeleccionado;
@@ -76,7 +79,18 @@ public class EjercicioActivity extends AppCompatActivity {
             ((ImageView) findViewById(R.id.image_id)).setImageBitmap(base64ToBitMap(ejercicioSeleccionado.getImagenBase64()));
         }
 
+        setSwipeRefresher();
         cargarRespuestas();
+    }
+
+    private void setSwipeRefresher() {
+        swipeRefreshLayout = new SwipeRefresher().set(this, R.id.main_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarRespuestas();
+            }
+        });
     }
 
     @Override
@@ -93,11 +107,7 @@ public class EjercicioActivity extends AppCompatActivity {
 
     private void cargarRespuestas(){
         respuestas.removeAll(respuestas);
-        final ProgressDialog progress = new ProgressDialog(EjercicioActivity.this);
-        progress.setMessage("Cargando Respuestas....");
-        progress.setCanceledOnTouchOutside(false);
-        progress.setTitle("Aguarde un instante....");
-        Loading.ejecutar(progress);
+        swipeRefreshLayout.setRefreshing(true);
         ApiUtils.getAPIService().getRespuestas(cursoSeleccionado.getCodigo(), ejercicioSeleccionado.getCodigoEjercicio())
                 .enqueue(new Callback<List<RespuestaPersistible>>() {
                     @Override
@@ -106,15 +116,14 @@ public class EjercicioActivity extends AppCompatActivity {
                             List<RespuestaPersistible> lista = response.body();
                             persistiblesToList(lista);
                             refreshRespuestas();
-                            Loading.terminar(progress);
+                            swipeRefreshLayout.setRefreshing(false);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<RespuestaPersistible>> call, Throwable t) {
                         Toast.makeText(EjercicioActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-                        Loading.terminar(progress);
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }

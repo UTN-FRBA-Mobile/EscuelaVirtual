@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import escuelavirtual.escuelavirtual.R;
 import escuelavirtual.escuelavirtual.alumno.CursoActivity;
 import escuelavirtual.escuelavirtual.alumno.CursoAddActivity;
 import escuelavirtual.escuelavirtual.common.Loading;
+import escuelavirtual.escuelavirtual.common.SwipeRefresher;
 import escuelavirtual.escuelavirtual.data.TemaPersistible;
 import escuelavirtual.escuelavirtual.data.remote.ApiUtils;
 import retrofit2.Call;
@@ -49,6 +51,7 @@ public class TemasActivity extends AppCompatActivity {
     private static Boolean temasObtenidos = false;
 
     String selectedTema;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     public static List<String> getTemasDisponibles() {
         return temasDisponibles;
@@ -116,6 +119,17 @@ public class TemasActivity extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(mAdapter);
+        setSwipeRefresher();
+    }
+
+    private void setSwipeRefresher() {
+        swipeRefreshLayout = new SwipeRefresher().set(this, R.id.main_swipe_refresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getTemas();
+            }
+        });
     }
 
     @Override
@@ -356,12 +370,11 @@ public class TemasActivity extends AppCompatActivity {
     }
 
     private void getTemasFromService(String uid) {
-        final ProgressDialog progress = iniciarProgress("Cargando temas...");
+        swipeRefreshLayout.setRefreshing(true);
         ApiUtils.getAPIService().getTema(uid)
                 .enqueue(new Callback<List<TemaPersistible>>() {
                     @Override
                     public void onResponse(Call<List<TemaPersistible>> call, Response<List<TemaPersistible>> response) {
-                        Loading.terminar(progress);
                         if(response.isSuccessful()) {
                             List<TemaPersistible> lista = response.body();
                             for (TemaPersistible tema : lista) {
@@ -370,13 +383,13 @@ public class TemasActivity extends AppCompatActivity {
                             ((TextView)findViewById(R.id.cantidad_id)).setText("Cantidad de temas: " + temas.size());
                             updateListaTemas();
                         }
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onFailure(Call<List<TemaPersistible>> call, Throwable t) {
                         Toast.makeText(TemasActivity.this, "Ha ocurrido un error. Intente nuevamente.",Toast.LENGTH_SHORT).show();
-
+                        swipeRefreshLayout.setRefreshing(false);
                     }
                 });
     }
