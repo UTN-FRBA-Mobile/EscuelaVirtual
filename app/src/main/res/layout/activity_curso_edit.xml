@@ -48,7 +48,9 @@
             android:paddingTop="15dp"
             android:singleLine="true"
             android:textColorHint="@color/colorGreyCommentSection"
-            android:textSize="18dp" />
+            android:textSize="18dp"
+            android:focusable="false"
+            />
 
         <TextView
             android:id="@+id/tv_curso_name_id"
