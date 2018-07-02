@@ -6,7 +6,9 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "https://us-central1-escuelavirtual-bd.cloudfunctions.net/";
+    //public static final String BASE_URL = "https://us-central1-escuelavirtual-bd.cloudfunctions.net/";
+    public static final String BASE_URL = "https://us-central1-escuelavirtual-8f556.cloudfunctions.net/";
+
 
     public static APIService getAPIService() {
         if (apiService == null) {
