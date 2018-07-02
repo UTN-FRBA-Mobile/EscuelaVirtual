@@ -146,12 +146,17 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                                 {intent = new Intent(LoginActivity.this,
                                         escuelavirtual.escuelavirtual.alumno.MainActivity.class);}
                             startActivity(intent);
+                        }else{
+                            //La respuesta del servidor no es válida. "Capturamos" error para que desaparezca el loading
+                            Toast.makeText(LoginActivity.this, "Falló el Login.",Toast.LENGTH_SHORT).show();
+                            showProgress(false);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<UsuarioPersistible> call, Throwable t) {
-                        Toast.makeText(LoginActivity.this, "Falló el Login del usuario.",Toast.LENGTH_SHORT).show();
+                        //Error de servidor. No hay respuesta o falla
+                        Toast.makeText(LoginActivity.this, "Falló el Login del usuario. Intente nuevamente más tarde",Toast.LENGTH_SHORT).show();
                         showProgress(false);
                     }
                 });
