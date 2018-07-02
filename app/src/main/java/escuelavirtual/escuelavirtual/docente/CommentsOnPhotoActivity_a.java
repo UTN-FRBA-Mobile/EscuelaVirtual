@@ -144,9 +144,6 @@ public class CommentsOnPhotoActivity_a extends AppCompatActivity {
 
                             ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
 
-                            ViewsController.setAddButtonClickListener(tagsAdded);
-                            ViewsController.setEditButtonClickListener(tagsAdded);
-                            ViewsController.setDeleteButtonClickListener(tagsAdded, mAPIService);
                         }
                     }
 
