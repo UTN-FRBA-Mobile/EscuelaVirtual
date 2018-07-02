@@ -218,7 +218,7 @@ public class ViewsController{
                 ViewsController.turnOffCommentBox();
                 TagView tagRemovido = tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
                 Respuesta respuestaSeleccionada = CommentsOnPhotoActivity.getRespuestaSeleccionada();
-                String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getNombreAlumno();
+                String ruta = respuestaSeleccionada.getCodigoCurso() + respuestaSeleccionada.getCodigoEjercicio() + respuestaSeleccionada.getCodigoRespuesta() + respuestaSeleccionada.getIdAlumno();
                 apiService.deleteTag(ruta, tagRemovido.getTag())
                         .enqueue(new Callback<Tag>() {
                             @Override
