@@ -24,7 +24,9 @@ Por una parte, el profesor creara los cursos mediante un nombre y codigo, y en e
 </p>
 <p>
 Por otra parte, los alumnos deberan subscribirse al curso que les interese mediante el codigo del mismo. Una vez subscripto, podran acceder y responder a los ejercicios que este contenga. Las respuestas, al igual que el ejercicio en si, se realiza a travez de la toma de una foto de las mismas.
-Estas respuestas seran notificadas al profesor que podra marcar sobre las respuestas del alumno, correcciones/observaciones de la prespuesta. A su vez, estas correcciones seran notificadas al alumno para corregirlas
+</p>
+<p>
+Estas respuestas seran notificadas al profesor, quien podra marcar sobre las respuestas del alumno correcciones/observaciones de la respuesta. A su vez, estas correcciones seran notificadas al alumno para corregirlas.
 </p>
 <p align="center">
   <img src="https://github.com/UTN-FRBA-Mobile/EscuelaVirtual/blob/master/Readme%20pics/ss-Respuesta.png" alt="QR Emergencias" width="200">
